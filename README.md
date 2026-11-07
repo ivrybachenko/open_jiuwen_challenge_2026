@@ -10,11 +10,18 @@ challenge_info/       # постановка задачи, предоставл�
 harness/              # исходный код харнесса
 ```
 
-Зависимости управляются через `uv`: `harness/pyproject.toml` + `harness/uv.lock`,
-установка идёт в `/app/.venv` (не глобально). В образ копируется
-`harness/main` в `/app`, поэтому жюри запускает
-`python /app/run_agent.py --tasks-dir /data/tasks`, а `python` в PATH указывает
-на `venv`.
+Это обычный src-layout: `uv sync` ставит пакет `harness` в `.venv`
+(editable), поэтому импорты работают без ручного `sys.path`:
+
+```python
+from harness.application.config import Settings
+from harness.application.llm import token_cost
+```
+
+В образ копируется `harness/src` в `/app/src`, а `run_agent.py` дополнительно —
+в `/app/run_agent.py`, потому что жюри запускает именно
+`python /app/run_agent.py --tasks-dir /data/tasks`. Пакет `harness` при сборке
+ставится в `/app/.venv`.
 
 ## Как устроено решение
 
@@ -63,10 +70,18 @@ cd harness
 uv sync
 export LLM_BASE_URL=... LLM_API_KEY=...
 cp -R ../challenge_info/task-examples /tmp/tasks
-uv run python main/run_agent.py --tasks-dir /tmp/tasks --out /tmp/out/solutions.json
+uv run python -m harness.run_agent \
+  --tasks-dir /tmp/tasks --out /tmp/out/solutions.json
 
 # unit-тесты
 uv run python -m unittest discover -s test
+```
+
+Из корня репозитория то же самое:
+
+```bash
+uv run --project harness python -m harness.run_agent \
+  --tasks-dir /tmp/tasks --out /tmp/out/solutions.json
 ```
 
 ## Переменные окружения
@@ -99,7 +114,7 @@ uv run python -m unittest discover -s test
 - `Runner.start()` вызывается один раз на весь прогон, `Runner.stop()` — в
   `finally`; на задачу создаётся уникальный `conversation_id`, после задачи
   сессия освобождается.
-- В образ копируется только `harness/main`; `harness/test` и локальный
-  `harness/.venv` в сборку не попадают.
+- В образ копируются `harness/src` и `harness/src/harness/run_agent.py`;
+  `harness/test` и локальный `harness/.venv` в сборку не попадают.
 - В образе нет `rg` и `git`: `GrepTool` работает через Python-fallback,
   worktree-инструменты не используются.

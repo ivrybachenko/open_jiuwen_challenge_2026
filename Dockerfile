@@ -9,7 +9,6 @@ COPY --from=ghcr.io/astral-sh/uv:0.13.7 /uv /uvx /bin/
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    PYTHONPATH=/app \
     VIRTUAL_ENV=/app/.venv \
     PATH="/app/.venv/bin:${PATH}" \
     UV_COMPILE_BYTECODE=1 \
@@ -23,16 +22,16 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# Dependencies first so source-only changes reuse this layer. The venv lives at
-# /app/.venv and is the first entry in PATH, so the jury's `--entrypoint python`
-# resolves to the venv interpreter with all dependencies available.
+# Dependencies first so source-only changes reuse this layer.
 COPY harness/pyproject.toml harness/uv.lock ./
 RUN uv sync --frozen --no-dev --no-install-project \
         --python /usr/local/bin/python3.12
 
-# harness/main becomes /app, so the jury's hardcoded `python /app/run_agent.py`
-# keeps working while the repository stays organised under harness/.
-COPY harness/main ./
+# The src-layout package is installed into /app/.venv by the second sync.
+# /app/run_agent.py is the path hardcoded by the jury.
+COPY harness/src ./src
+COPY harness/src/harness/run_agent.py ./run_agent.py
+RUN uv sync --frozen --no-dev --python /usr/local/bin/python3.12
 
 # The harness is started read-only (`--read-only --tmpfs /tmp`), so all runtime
 # state must live under /tmp. Tasks are mounted rw at /data/tasks.

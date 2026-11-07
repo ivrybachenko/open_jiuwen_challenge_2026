@@ -12,10 +12,10 @@ import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
-from .config import Settings
-from .llm import MODELS, TokenLedger
-from .ojw import configure_logging
-from .tasks import Task
+from harness.application.config import Settings
+from harness.application.llm import MODELS, TokenLedger
+from harness.application.ojw import configure_logging
+from harness.application.tasks import Task
 
 log = logging.getLogger(__name__)
 

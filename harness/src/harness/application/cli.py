@@ -8,11 +8,11 @@ import logging
 from datetime import datetime, timezone
 from pathlib import Path
 
-from .config import Settings
-from .llm import BudgetExceeded, token_cost
-from .solutions import Solution, SolutionsStore
-from .solver import SolveResult, build_solver
-from .tasks import load_tasks
+from harness.application.config import Settings
+from harness.application.llm import BudgetExceeded, token_cost
+from harness.application.solutions import Solution, SolutionsStore
+from harness.application.solver import SolveResult, build_solver
+from harness.application.tasks import load_tasks
 
 log = logging.getLogger("harness")
 
