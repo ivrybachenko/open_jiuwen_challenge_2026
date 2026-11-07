@@ -1,0 +1,5 @@
+dataset:
+  random_seed: 42
+  tasks:
+    - coding/easy/0001
+    - data_analysis/easy/0001

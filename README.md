@@ -1,27 +1,29 @@
 # OpenJiuwen Challenge 2026
 
-Харнесс кодового агента для соревнования OpenJiuwen Challenge 2026.
+Харнесс кодового агента для соревнования OpenJiuwen Challenge 2026.  
+https://techarena2026.ru/open-jiuwen-challenge
 
 ## Структура проекта
 
 ```
-Dockerfile            # образ харнесса
-challenge_info/       # постановка задачи, предоставленная организаторами
-harness/              # исходный код харнесса
+Dockerfile                           # образ для запуска харнесса в тестовой системе
+challenge_info/                      # постановка задачи, предоставленная организаторами
+complexity_estimator/                # исходный код оценщика стоимости решения задачи
+data/                                # датасеты для обучения и проверки моделей машинного обучения
+evaluation/answer_evaluator/         # проверяет корректно ли агент решил задачу
+evaluation/dockerfile_checker/       # проверяет корректность образа докер
+evaluation/harness_task_checker/     # проверяет справляется ли харнесс с решением отдельных задач
+evaluation/harness_task_set_checker/ # проверяет справляется ли харнесс с решением набора задач
+harness/                             # исходный код харнесса
 ```
 
-Это обычный src-layout: `uv sync` ставит пакет `harness` в `.venv`
-(editable), поэтому импорты работают без ручного `sys.path`:
+## Политика управления ветками Git
 
-```python
-from harness.application.config import Settings
-from harness.application.llm import token_cost
-```
+main - основная ветка  
+harness_vXXX - тег версионирования харнесса
 
-В образ копируется `harness/src` в `/app/src`, а `run_agent.py` дополнительно —
-в `/app/run_agent.py`, потому что жюри запускает именно
-`python /app/run_agent.py --tasks-dir /data/tasks`. Пакет `harness` при сборке
-ставится в `/app/.venv`.
+Харнесс версионируется инкрементально без использования SemVer. Если изменения не влияют на результат работы харнесса, то версия не меняется.  
+Версия харнесса фиксируется в pyproject.toml, отмечается тегом в Git и записывается в `data/harness/harness_info.tsv`.
 
 ## Как устроено решение
 
