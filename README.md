@@ -8,8 +8,11 @@ https://techarena2026.ru/open-jiuwen-challenge
 ```
 Dockerfile                           # образ для запуска харнесса в тестовой системе
 challenge_info/                      # постановка задачи, предоставленная организаторами
-complexity_estimator/                # исходный код оценщика стоимости решения задачи
-data/                                # датасеты для обучения и проверки моделей машинного обучения
+data/harness_info/                   # версии харнесса и их описания
+data/harness_task_score/             # стоимость решения отдельных задач по версиям харнесса
+data/harness_task_set_score/         # баллы и стоимость наборов задач по версиям харнесса
+data/task/                           # датасет задач для обучения и проверки
+data/task_set/                       # наборы задач (YAML)
 evaluation/answer_evaluator/         # проверяет корректно ли агент решил задачу
 evaluation/dockerfile_checker/       # проверяет корректность образа докер
 evaluation/harness_task_checker/     # проверяет справляется ли харнесс с решением отдельных задач
@@ -19,8 +22,8 @@ harness/                             # исходный код харнесса
 
 ## Политика управления ветками Git
 
-main - основная ветка  
-harness_vXXX - тег версионирования харнесса
+main - основная ветка, указывает на лучшую версию харнесса  
+harness_vXXX - тег для версионирования харнесса
 
 Харнесс версионируется инкрементально без использования SemVer. Если изменения не влияют на результат работы харнесса, то версия не меняется.  
 Версия харнесса фиксируется в pyproject.toml, отмечается тегом в Git и записывается в `data/harness/harness_info.tsv`.
@@ -101,6 +104,46 @@ uv run --project harness python -m harness.run_agent \
 
 Те же значения можно передать флагами `--model`, `--budget`, `--max-iterations`
 и `--agent-workspace`.
+
+## Проверка решения
+
+Инструменты оценки лежат в `evaluation/` и не требуют дополнительных
+зависимостей (только стандартная библиотека Python):
+
+```bash
+# ключ подставляет bash; Python не читает и не печатает NEURAL_DEEP_API_KEY
+export LLM_API_KEY="$NEURAL_DEEP_API_KEY"
+
+# одна задача: решено/нет, токены, время + запись в data/harness_task_score
+python -m evaluation.harness_task_checker \
+    --task coding/easy/0001 --model qwen3.6-35b-a3b \
+    --harness-version 0001 --record
+
+# набор задач: баллы, токены, время + запись в data/harness_task_set_score
+python -m evaluation.harness_task_set_checker \
+    --task-set data/task_set/example.yaml \
+    --model qwen3.6-35b-a3b --harness-version 0001 --record
+
+# полный замер версии: 5 прогонов каждой задачи и 5 прогонов example
+python -m evaluation.commit_harness_version --harness-version 0001
+
+# докер-образ: сборка, размер, прогон minimal.yaml
+# (на Docker Desktop с 6 CPU добавьте --cpus 6)
+python -m evaluation.dockerfile_checker --harness-version 0001 --record
+
+# только вердикт по уже готовому answer.txt
+python -m evaluation.answer_evaluator --task data_analysis/easy/0001
+
+# unit-тесты инструментов оценки (без LLM и Docker)
+python -m unittest discover -s evaluation/test -t .
+```
+
+Оценщики сами подставляют `LLM_BASE_URL=https://api.neuraldeep.ru/v1`; в
+харнессе этого URL нет. Чекеры копируют задачи во временный каталог,
+проверяют ответы (`unittest`, `exact_int`, `exact_str`), перезапускают тесты и
+следят, чтобы агент не менял `test*.py`. Флаги `--record` обновляют датасеты в
+`data/`; описание полей — в README соответствующих каталогов. Подробности и
+формат отчётов — в `evaluation/README.md`.
 
 ## Неочевидные детали
 
