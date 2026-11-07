@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "Budget-aware harness for the OpenJiuwen Challenge 2026"
 requires-python = ">=3.11,<3.14"
 dependencies = [
+    "filelock>=3.25.0,<4",
     "openjiuwen==0.1.19",
 ]
 
