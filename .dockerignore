@@ -2,11 +2,13 @@
 .gitignore
 .DS_Store
 __pycache__/
+**/__pycache__/
 *.py[cod]
 *.egg-info/
 .venv/
 **/.venv/
 venv/
 challenge_info/
+harness/test/
 out/
 solutions.json

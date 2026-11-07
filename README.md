@@ -6,25 +6,15 @@
 
 ```
 Dockerfile            # образ харнесса
-pyproject.toml        # зависимости проекта
-uv.lock               # зафиксированное дерево зависимостей
 challenge_info/       # постановка задачи, предоставленная организаторами
-src/
-  run_agent.py        # точка входа
-  harness/
-    cli.py            # цикл по задачам, сохранение результата после каждой
-    config.py         # аргументы и переменные окружения
-    tasks.py          # чтение task.json, запись answer.txt
-    solutions.py      # атомарный файл решений (JSON)
-    solver.py         # DeepAgent-решатель на openJiuwen
-    ojw.py            # настройка логов SDK под read-only rootfs
-    llm.py            # учёт токенов в терминах бюджета конкурса
+harness/              # исходный код харнесса
 ```
 
-Зависимости управляются через `uv`: `pyproject.toml` + `uv.lock`, установка
-идёт в `/app/.venv` (не глобально). Всё содержимое `src/` копируется в образ
-в `/app`, поэтому жюри запускает `python /app/run_agent.py --tasks-dir /data/tasks`,
-а `python` в PATH указывает на `venv`.
+Зависимости управляются через `uv`: `harness/pyproject.toml` + `harness/uv.lock`,
+установка идёт в `/app/.venv` (не глобально). В образ копируется
+`harness/main` в `/app`, поэтому жюри запускает
+`python /app/run_agent.py --tasks-dir /data/tasks`, а `python` в PATH указывает
+на `venv`.
 
 ## Как устроено решение
 
@@ -66,13 +56,17 @@ timeout -k 1000s 1h docker run --rm --name "run-${TEAM}" \
   /app/run_agent.py --tasks-dir /data/tasks
 ```
 
-Локальная проверка на примерах (зависимости — в локальный `.venv`):
+Локальная проверка на примерах (зависимости — в локальный `harness/.venv`):
 
 ```bash
+cd harness
 uv sync
 export LLM_BASE_URL=... LLM_API_KEY=...
-cp -R challenge_info/task-examples /tmp/tasks
-uv run python src/run_agent.py --tasks-dir /tmp/tasks --out /tmp/out/solutions.json
+cp -R ../challenge_info/task-examples /tmp/tasks
+uv run python main/run_agent.py --tasks-dir /tmp/tasks --out /tmp/out/solutions.json
+
+# unit-тесты
+uv run python -m unittest discover -s test
 ```
 
 ## Переменные окружения
@@ -105,12 +99,7 @@ uv run python src/run_agent.py --tasks-dir /tmp/tasks --out /tmp/out/solutions.j
 - `Runner.start()` вызывается один раз на весь прогон, `Runner.stop()` — в
   `finally`; на задачу создаётся уникальный `conversation_id`, после задачи
   сессия освобождается.
+- В образ копируется только `harness/main`; `harness/test` и локальный
+  `harness/.venv` в сборку не попадают.
 - В образе нет `rg` и `git`: `GrepTool` работает через Python-fallback,
   worktree-инструменты не используются.
-
-## Ограничения
-
-- В репозитории нет ключей API.
-- Ничего не скачивается при запуске: всё, что нужно, ставится на сборке.
-- Бюджеты: образ < 4 ГБ, репозиторий < 100 МБ без `.git`, сборка < 1000 с,
-  работа < 1 ч, до 5 параллельных сессий агента.

@@ -26,13 +26,13 @@ WORKDIR /app
 # Dependencies first so source-only changes reuse this layer. The venv lives at
 # /app/.venv and is the first entry in PATH, so the jury's `--entrypoint python`
 # resolves to the venv interpreter with all dependencies available.
-COPY pyproject.toml uv.lock ./
+COPY harness/pyproject.toml harness/uv.lock ./
 RUN uv sync --frozen --no-dev --no-install-project \
         --python /usr/local/bin/python3.12
 
-# The whole src/ tree becomes /app, so the jury's hardcoded
-# `python /app/run_agent.py` keeps working.
-COPY src ./
+# harness/main becomes /app, so the jury's hardcoded `python /app/run_agent.py`
+# keeps working while the repository stays organised under harness/.
+COPY harness/main ./
 
 # The harness is started read-only (`--read-only --tmpfs /tmp`), so all runtime
 # state must live under /tmp. Tasks are mounted rw at /data/tasks.
