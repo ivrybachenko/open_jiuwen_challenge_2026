@@ -3,7 +3,7 @@
 - Статус: planned | running | done | rejected
 - Дата: YYYY-MM-DD
 - Автор: …
-- Связанная спецификация: `specification/features/NNNN-slug/spec.md` (если есть)
+- Связанная спецификация: `specification/changes/NNNN-slug/spec.md` (если есть)
 
 ## Гипотеза
 

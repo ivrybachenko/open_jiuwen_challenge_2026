@@ -3,6 +3,12 @@
 Харнесс кодового агента для соревнования OpenJiuwen Challenge 2026.  
 https://techarena2026.ru/open-jiuwen-challenge
 
+Текущее поведение решения описано в
+[`specification/behavior/`](specification/behavior/README.md), история
+изменений — в [`specification/changes/`](specification/changes/README.md),
+инварианты разработки — в
+[`specification/constitution/`](specification/constitution/README.md).
+
 ## Структура проекта
 
 ```
@@ -18,6 +24,10 @@ evaluation/dockerfile_checker/       # проверяет корректност
 evaluation/harness_task_checker/     # проверяет справляется ли харнесс с решением отдельных задач
 evaluation/harness_task_set_checker/ # проверяет справляется ли харнесс с решением набора задач
 harness/                             # исходный код харнесса
+specification/behavior/              # текущее поведение решения
+specification/changes/               # история изменений поведения
+specification/constitution/          # инварианты разработки
+specification/experiments/           # журнал экспериментов
 ```
 
 ## Политика управления ветками Git
