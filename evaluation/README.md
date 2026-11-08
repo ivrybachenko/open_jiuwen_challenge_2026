@@ -13,6 +13,7 @@
 | `python -m evaluation.harness_task_checker` | запускает харнесс на одной задаче и печатает «решено / нет, токены, время» |
 | `python -m evaluation.harness_task_set_checker` | запускает харнесс на наборе задач и печатает «баллы, токены, время» |
 | `python -m evaluation.dockerfile_checker` | собирает Docker-образ, проверяет размер/время сборки и прогоняет минимальный набор задач в контейнере |
+| `python -m evaluation.repo_size_checker` | измеряет размер репозитория и сверяет его с лимитом 100 МБ без `.git` |
 | `python -m evaluation.commit_harness_version` | полный замер версии: 5 прогонов каждой задачи и 5 прогонов набора `example`, очистка и заполнение датасетов |
 
 Все команды пишут JSON-отчёт в `out/reports/` (каталог можно переопределить
