@@ -5,3 +5,5 @@ venv/
 .DS_Store
 out/
 solutions.json
+# Полные тексты статей хранятся вне репозитория (см. research/literature_review/README.md)
+research/literature_review/**/*.pdf

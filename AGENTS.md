@@ -15,7 +15,8 @@
 | Уровни спецификации и куда что писать | `specification/README.md` |
 | Текущее поведение решения | `specification/behavior/README.md` |
 | Оформить изменение поведения | `specification/changes/README.md`, `specification/changes/_template/spec.md`, `specification/changes/_template/tasks.md` |
-| Оформить проверку гипотезы | `specification/experiments/README.md`, `specification/experiments/_template.md` |
+| Оформить проверку гипотезы | `research/experiments/README.md`, `research/experiments/_template.md` |
+| Оформить обзор литературы | `research/literature_review/README.md`, `research/literature_review/_template/protocol.md` |
 | Проверить решение и прочитать отчёт | `evaluation/README.md` |
 
 Регламент и конституция обязательны; остальные документы открывай по
@@ -36,7 +37,8 @@
 1. Определи тип задачи:
    - правило проекта → `specification/constitution/` и строка в таблице состава;
    - поведение или контракт → `specification/changes/NNNN-slug/`;
-   - гипотеза → `specification/experiments/NNNN-slug.md`;
+   - гипотеза → `research/experiments/NNNN-slug.md`;
+   - обзор литературы → `research/literature_review/NNNN-slug/`;
    - рефакторинг, документация, вопрос или исследование → спецификация не
      нужна.
 2. Для гипотезы запиши гипотезу, условия и план замера в журнал до запуска.

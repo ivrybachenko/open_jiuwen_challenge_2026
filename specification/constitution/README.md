@@ -17,7 +17,9 @@
 - конкретных изменений поведения — они в
   [`../changes/`](../changes/README.md);
 - гипотез, замеров и их результатов — они в
-  [`../experiments/`](../experiments/README.md);
+  [`../../research/experiments/`](../../research/experiments/README.md);
+- обзоров литературы — они в
+  [`../../research/literature_review/`](../../research/literature_review/README.md);
 - пересказа регламента соревнования — он в
   [`../../challenge_info/problem_statement.md`](../../challenge_info/problem_statement.md).
 
@@ -29,6 +31,7 @@
 | C-02 | [02_single_responsibility.md](02_single_responsibility.md) | У каждого объекта кода одна причина для изменения |
 | C-03 | [03_documentation.md](03_documentation.md) | Документация адресована конкретному читателю и дёшева в поддержке |
 | C-04 | [04_challenge_rules.md](04_challenge_rules.md) | Решение не нарушает регламент соревнования |
+| C-05 | [05_literature_review.md](05_literature_review.md) | Обзор литературы воспроизводим: протокол, критерии отбора, источники и вывод зафиксированы |
 
 ## Как добавить или изменить правило
 

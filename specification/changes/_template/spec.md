@@ -5,7 +5,9 @@
 - Заменяет (Supersedes): NNNN или —
 - Заменено (Superseded by): NNNN или —
 - Меняет поведение: `specification/behavior/NN_name.md` или «новое поведение»
-- Связанные эксперименты: `specification/experiments/NNNN-slug.md` (если есть)
+- Связанные эксперименты: `research/experiments/NNNN-slug.md` (если есть)
+- Связанные обзоры литературы: `research/literature_review/NNNN-slug/`
+  (если есть)
 - Затрагиваемые инварианты: `specification/constitution/NN_name.md`
 
 ## Зачем
