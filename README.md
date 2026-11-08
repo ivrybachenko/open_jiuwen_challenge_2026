@@ -1,70 +1,35 @@
-# OpenJiuwen Challenge 2026
+# OpenJiuwen Challenge 2026: харнесс кодового агента
 
-Харнесс кодового агента для соревнования OpenJiuwen Challenge 2026.  
-https://techarena2026.ru/open-jiuwen-challenge
+Решение для соревнования
+[OpenJiuwen Challenge 2026](https://techarena2026.ru/open-jiuwen-challenge).
+Харнесс получает каталог задач и бюджет токенов, решает задачи агентом на
+openJiuwen и сохраняет ответы и расход.
 
-Текущее поведение решения описано в
-[`specification/behavior/`](specification/behavior/README.md), история
-изменений — в [`specification/changes/`](specification/changes/README.md),
-инварианты разработки — в
-[`specification/constitution/`](specification/constitution/README.md).
+**Кому читать.** README адресован организаторам и проверяющим: здесь сборка,
+запуск, учёт расхода, обработка невыполнимых задач, траектории и неочевидные
+детали. Точное текущее поведение и проверки — в
+[specification/behavior/](specification/behavior/README.md).
 
-## Структура проекта
+## Коротко
 
-```
-AGENTS.md                            # инструкции для coding-агентов
-Dockerfile                           # образ для запуска харнесса в тестовой системе
-challenge_info/                      # постановка задачи, предоставленная организаторами
-data/harness_info/                   # версии харнесса и их описания
-data/harness_task_score/             # стоимость решения отдельных задач по версиям харнесса
-data/harness_task_set_score/         # баллы и стоимость наборов задач по версиям харнесса
-data/task/                           # датасет задач для обучения и проверки
-data/task_set/                       # наборы задач (YAML)
-evaluation/answer_evaluator/         # проверяет корректно ли агент решил задачу
-evaluation/dockerfile_checker/       # проверяет корректность образа докер
-evaluation/harness_task_checker/     # проверяет справляется ли харнесс с решением отдельных задач
-evaluation/harness_task_set_checker/ # проверяет справляется ли харнесс с решением набора задач
-harness/                             # исходный код харнесса
-specification/behavior/              # текущее поведение решения
-specification/changes/               # история изменений поведения
-specification/constitution/          # инварианты разработки
-specification/experiments/           # журнал экспериментов
-```
-
-## Политика управления ветками Git
-
-main - основная ветка, указывает на лучшую версию харнесса  
-harness_vXXX - тег для версионирования харнесса
-
-Харнесс версионируется инкрементально без использования SemVer. Если изменения не влияют на результат работы харнесса, то версия не меняется.  
-Версия харнесса фиксируется в pyproject.toml, отмечается тегом в Git и записывается в `data/harness/harness_info.tsv`.
-
-## Как устроено решение
-
-Каждая задача решается отдельным `DeepAgent` из `openjiuwen.harness`:
-
-- `SysOperationRail` даёт агенту `bash`, `read_file`, `write_file`, `edit_file`,
-  `glob`, `grep`, `list_dir`;
-- `cwd` агента — `workspace/` задачи (или корень задачи, если `workspace/` нет),
-  артефакты агента складываются в `/tmp/agent-workspaces/<task_id>`;
-- финальный ответ агент отдаёт через инструмент `write_answer`, который пишет
-  `answer.txt` и в `workspace/`, и в корень задачи; после вызова инструмента
-  ReAct-цикл принудительно завершается, чтобы не тратить лишний вызов модели;
-- расход токенов собирает `TokenTrackingRail`; бюджет считается как
-  `output + ceil(input / 10)`, рассуждения входят в output, кеш не учитывается;
-- `solutions.json` перезаписывается атомарно после каждой задачи; поле `solved`
-  в нём означает «ответ сдан», а корректность проверяют скрытые тесты.
-
-Ограничения на агента: `max_iterations` (по умолчанию 12), `max_tokens=8192`
-на один вызов, `restrict_to_work_dir=True`, shell-песочница `SysOperation`
-(best-effort: блокирует абсолютные пути вне каталога задачи и workspace агента,
-но не ловит относительный выход через `..`).
+| Вопрос | Ответ |
+| --- | --- |
+| Собрать образ | `docker build -t hack:latest .` |
+| Запустить | команда регламента, см. [Сборка и запуск](#сборка-и-запуск) |
+| Куда пишутся ответы | `answer.txt` в каталоге задачи; сводка — в `solutions.json` |
+| Как учитывается расход | `output + ceil(input / 10)` выходных токенов |
+| Невыполнимые задачи | автоматически не распознаются |
+| Траектории | полные траектории не сохраняются; есть логи и отчёты оценщика |
 
 ## Сборка и запуск
 
 ```bash
 docker build -t hack:latest .
+```
 
+Запуск — команда регламента:
+
+```bash
 mkdir -p "$OUT" && chmod 777 "$OUT"
 
 timeout -k 1000s 1h docker run --rm --name "run-${TEAM}" \
@@ -79,7 +44,84 @@ timeout -k 1000s 1h docker run --rm --name "run-${TEAM}" \
   /app/run_agent.py --tasks-dir /data/tasks
 ```
 
-Локальная проверка на примерах (зависимости — в локальный `harness/.venv`):
+`TASKS`, `OUT`, `LLM_BASE_URL` и `LLM_API_KEY` передаёт проверяющая система.
+Ключ живёт только в окружении и в образ не попадает. Если `OUT` не задан,
+`solutions.json` пишется в каталог задач.
+
+## Что происходит при запуске
+
+1. Харнесс читает непосредственные подкаталоги `--tasks-dir`, в которых есть
+   `task.json`. Порядок — лексикографический; баллы и сложность на порядок не
+   влияют.
+2. Каждую задачу решает отдельный `DeepAgent` из openJiuwen. Он работает в
+   `workspace/` задачи (или в корне задачи, если `workspace/` нет) и вызывает
+   инструмент `write_answer`.
+3. `write_answer` пишет `answer.txt` в рабочий каталог и в корень задачи,
+   после чего ReAct-цикл сразу завершается.
+4. После каждой задачи `solutions.json` перезаписывается атомарно. Поле
+   `solved` означает «ответ сдан»; корректность проверяют скрытые тесты.
+5. Ошибка в одной задаче не останавливает прогон: она записывается с пометкой,
+   и обработка продолжается.
+
+Задачи решаются последовательно; параллельные сессии не используются, хотя
+регламент допускает до пяти. Модель фиксируется на весь прогон.
+
+Подробности — в
+[02_task_flow.md](specification/behavior/02_task_flow.md),
+[03_solver.md](specification/behavior/03_solver.md) и
+[05_answers_and_solutions.md](specification/behavior/05_answers_and_solutions.md).
+
+## Учёт расхода
+
+Стоимость вызова в выходных токенах:
+
+```
+cost = output_tokens + ceil(input_tokens / 10)
+```
+
+- Рассуждения входят в output; кеш провайдера не учитывается — все входные токены считаются полностью.
+- Бюджет задаётся флагом `--budget` или переменными окружения; без бюджета лимита нет.
+- Бюджет проверяется перед задачей. Последняя задача может превысить лимит на свою стоимость, но её результат уже сохраняется, после чего прогон останавливается.
+
+**Предварительной оценки стоимости нет.** Харнесс не оценивает задачу до
+решения, не выбирает задачи по `reward` и идёт в порядке каталогов.
+Подробности — в
+[04_budget_and_selection.md](specification/behavior/04_budget_and_selection.md).
+
+## Невыполнимые задачи
+
+Автоматического распознавания нет: поля `solvable` и `impossible` из
+`task.json` харнесс не читает и пытается решить все задачи. Оценщик не
+начисляет баллы за задачи, помеченные как невыполнимые. Это главный разрыв с
+целями соревнования; изменения оформляются отдельными спецификациями.
+
+Подробности — в
+[04_budget_and_selection.md](specification/behavior/04_budget_and_selection.md).
+
+## Траектории
+
+Полные траектории сообщений и вызовов инструментов не сохраняются.
+
+- Логи харнесса идут в stdout/stderr.
+- В `solutions.json` в поле `note` фиксируется, как получен ответ и была ли ошибка.
+- Оценщик сохраняет отчёты в `out/reports/*.json`.
+- Артефакты агента живут в `/tmp/agent-workspaces/<task_id>` и в контейнере исчезают вместе с ним.
+
+Подробности — в
+[06_trajectories.md](specification/behavior/06_trajectories.md).
+
+## Неочевидные детали
+
+- **Read-only корень.** Контейнер запускается с `--read-only`, поэтому всё изменяемое лежит в `/tmp` и в смонтированном каталоге задач. openJiuwen переводится в console-only режим до первого импорта SDK: иначе он пытается писать в `./logs` и падает.
+- **Два `answer.txt`.** Регламент требует файл в каталоге задачи, а инструкции агенту — в текущем каталоге. Харнесс пишет оба, чтобы не зависеть от трактовки.
+- **Остановка после ответа.** `write_answer` принудительно завершает ReAct-цикл, чтобы не тратить лишний вызов модели.
+- **`filelock` ниже 4.** openJiuwen не ограничивает `filelock` сверху, а с версией 4.x файловые инструменты падают. Ограничение зафиксировано в `harness/pyproject.toml`.
+- **Без лишнего вызова модели.** Мультимодальное чтение изображений отключено: иначе агент тратит бюджет на фоновую проверку поддержки картинок.
+- **Песочница агента — best-effort.** `SysOperation` блокирует абсолютные пути вне каталога задачи и workspace агента, но относительный выход через `..` не отлавливает. Контейнер дополнительно изолирован: read-only корень, `--cap-drop ALL`, `no-new-privileges`.
+- **В образе нет `rg` и `git`.** `GrepTool` использует Python-fallback, worktree-инструменты не используются.
+- **Всё скачивается при сборке.** Базовый образ закреплён по digest, `uv` и зависимости — по версиям; при запуске сеть нужна только для прокси LLM. Локальных нейросетевых моделей, ключей и абсолютных путей разработчика в репозитории нет.
+
+## Локальный запуск
 
 ```bash
 cd harness
@@ -88,89 +130,19 @@ export LLM_BASE_URL=... LLM_API_KEY=...
 cp -R ../challenge_info/task-examples /tmp/tasks
 uv run python -m harness.run_agent \
   --tasks-dir /tmp/tasks --out /tmp/out/solutions.json
-
-# unit-тесты
 uv run python -m unittest discover -s test
 ```
 
-Из корня репозитория то же самое:
+Сборку образа, размеры и прогон минимального набора задач проверяет
+`python -m evaluation.dockerfile_checker`. Полное описание оценки, отчётов и
+датасетов — в [evaluation/README.md](evaluation/README.md).
 
-```bash
-uv run --project harness python -m harness.run_agent \
-  --tasks-dir /tmp/tasks --out /tmp/out/solutions.json
-```
+## Где искать детали
 
-## Переменные окружения
-
-| Переменная | Назначение |
+| Что нужно | Где смотреть |
 | --- | --- |
-| `TASKS` | каталог с задачами (перекрывается `--tasks-dir`) |
-| `OUT` | файл или каталог для `solutions.json`; по умолчанию `<tasks-dir>/solutions.json` |
-| `LLM_BASE_URL` | адрес LLM-прокси организаторов |
-| `LLM_API_KEY` | ключ прокси, в образ не попадает |
-| `LLM_MODEL` | одна из четырёх моделей; по умолчанию `qwen3.6-35b-a3b` |
-| `TOKEN_BUDGET` | необязательный лимит выхода в выходных токенах |
-| `MAX_ITERATIONS` | лимит итераций ReAct на задачу (по умолчанию 12) |
-| `AGENT_WORKSPACE` | каталог артефактов агента (по умолчанию `/tmp/agent-workspaces`) |
-
-Те же значения можно передать флагами `--model`, `--budget`, `--max-iterations`
-и `--agent-workspace`.
-
-## Проверка решения
-
-Инструменты оценки лежат в `evaluation/` и не требуют дополнительных
-зависимостей (только стандартная библиотека Python):
-
-```bash
-# ключ подставляет bash; Python не читает и не печатает NEURAL_DEEP_API_KEY
-export LLM_API_KEY="$NEURAL_DEEP_API_KEY"
-
-# одна задача: решено/нет, токены, время + запись в data/harness_task_score
-python -m evaluation.harness_task_checker \
-    --task coding/easy/0001 --model qwen3.6-35b-a3b \
-    --harness-version 0001 --record
-
-# набор задач: баллы, токены, время + запись в data/harness_task_set_score
-python -m evaluation.harness_task_set_checker \
-    --task-set data/task_set/example.yaml \
-    --model qwen3.6-35b-a3b --harness-version 0001 --record
-
-# полный замер версии: 5 прогонов каждой задачи и 5 прогонов example
-python -m evaluation.commit_harness_version --harness-version 0001
-
-# докер-образ: сборка, размер, прогон minimal.yaml
-# (на Docker Desktop с 6 CPU добавьте --cpus 6)
-python -m evaluation.dockerfile_checker --harness-version 0001 --record
-
-# только вердикт по уже готовому answer.txt
-python -m evaluation.answer_evaluator --task data_analysis/easy/0001
-
-# unit-тесты инструментов оценки (без LLM и Docker)
-python -m unittest discover -s evaluation/test -t .
-```
-
-Оценщики сами подставляют `LLM_BASE_URL=https://api.neuraldeep.ru/v1`; в
-харнессе этого URL нет. Чекеры копируют задачи во временный каталог,
-проверяют ответы (`unittest`, `exact_int`, `exact_str`), перезапускают тесты и
-следят, чтобы агент не менял `test*.py`. Флаги `--record` обновляют датасеты в
-`data/`; описание полей — в README соответствующих каталогов. Подробности и
-формат отчётов — в `evaluation/README.md`.
-
-## Неочевидные детали
-
-- В контейнере `--read-only` и `WORKDIR /app`. По умолчанию openJiuwen пишет
-  логи в `./logs` и падает при импорте с `Read-only file system`. `ojw.py`
-  переводит логгер на console-only с уровнем WARNING до первого импорта SDK.
-- `openjiuwen==0.1.19` в PyPI-метаданных не ограничивает `filelock` сверху,
-  хотя сам проект требует `filelock<4`. С `filelock 4.x` файловые инструменты
-  падают с ошибкой `Cannot release a lock ... not held by this task`. Поэтому
-  в `pyproject.toml` явно зафиксирован `filelock>=3.25.0,<4`.
-- `enable_read_image_multimodal=False` отключает фоновый LLM-вызов, которым
-  DeepAgent проверяет поддержку картинок; иначе он тратит бюджет впустую.
-- `Runner.start()` вызывается один раз на весь прогон, `Runner.stop()` — в
-  `finally`; на задачу создаётся уникальный `conversation_id`, после задачи
-  сессия освобождается.
-- В образ копируются `harness/src` и `harness/src/harness/run_agent.py`;
-  `harness/test` и локальный `harness/.venv` в сборку не попадают.
-- В образе нет `rg` и `git`: `GrepTool` работает через Python-fallback,
-  worktree-инструменты не используются.
+| Требования организаторов и примеры задач | [challenge_info/](challenge_info/) |
+| Текущее поведение и ограничения | [specification/behavior/](specification/behavior/README.md) |
+| Версии харнесса и результаты замеров | [data/](data/) |
+| Инструменты оценки и отчёты | [evaluation/README.md](evaluation/README.md) |
+| Правила разработки | [specification/constitution/](specification/constitution/README.md) |
