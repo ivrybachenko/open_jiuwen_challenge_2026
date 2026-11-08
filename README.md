@@ -12,6 +12,7 @@ https://techarena2026.ru/open-jiuwen-challenge
 ## Структура проекта
 
 ```
+AGENTS.md                            # инструкции для coding-агентов
 Dockerfile                           # образ для запуска харнесса в тестовой системе
 challenge_info/                      # постановка задачи, предоставленная организаторами
 data/harness_info/                   # версии харнесса и их описания
