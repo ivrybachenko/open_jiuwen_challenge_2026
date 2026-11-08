@@ -17,6 +17,10 @@
 | Поиск невыполнимых задач | [04_budget_and_selection.md](04_budget_and_selection.md) |
 | Собранные траектории | [06_trajectories.md](06_trajectories.md) |
 
+Отдельно зафиксирован контракт инструкций для coding-агента:
+[08_agents_md.md](08_agents_md.md). Это внутренний процесс работы с
+репозиторием, а не поведение решения для проверяющего.
+
 ## Правила
 
 - Это источник истины о текущем поведении. Если документ и код расходятся,
@@ -43,6 +47,7 @@
 | [05_answers_and_solutions.md](05_answers_and_solutions.md) | `answer.txt` и `solutions.json` | реализовано |
 | [06_trajectories.md](06_trajectories.md) | Логи и траектории | частично |
 | [07_evaluation.md](07_evaluation.md) | Как измеряется решение | реализовано |
+| [08_agents_md.md](08_agents_md.md) | Инструкции для coding-агента: вопросы и антипаттерны `AGENTS.md` | реализовано |
 
 ## Как обновлять
 
