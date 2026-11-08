@@ -1,7 +1,8 @@
 # Логи и траектории
 
 - Состояние: частично
-- Проверка: `python -m evaluation.harness_task_set_checker --task-set data/task_set/example.yaml --keep`
+- Читатель: разработчик и coding-агент; организатор читает `README.md`
+- Проверки: [таблица проверок](#как-проверить)
 
 ## Что сохраняется сейчас
 
@@ -34,10 +35,12 @@ rail, который пишет сообщения и вызовы инстру�
 
 ## Как проверить
 
-```bash
-python -m evaluation.harness_task_set_checker \
-    --task-set data/task_set/example.yaml --keep
-```
+Общие команды и флаги — в [`evaluation/README.md`](../../evaluation/README.md).
+Все команды запускаются из корня репозитория.
 
-В отчёте смотрите `harness.stdout_tail` и `harness.stderr_tail`. Флаг
+| ID | Уровень | Что подтверждает | Проверка | Ожидаемо |
+| --- | --- | --- | --- | --- |
+| V-1 | интеграционная | логи и отчёт сохраняются | `python -m evaluation.harness_task_set_checker --task-set data/task_set/example.yaml --keep` | в отчёте есть `harness.stdout_tail` и `harness.stderr_tail`; временный каталог сохранён |
+| V-2 | ручная | полной траектории нет | открыть отчёт и `solutions.json` | нет последовательности сообщений, вызовов инструментов и наблюдений |
+
 `--keep` сохраняет временный каталог прогона, чтобы разобрать артефакты.

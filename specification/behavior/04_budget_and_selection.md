@@ -1,7 +1,8 @@
 # Бюджет и выбор задач
 
 - Состояние: частично
-- Проверка: `python -m evaluation.harness_task_set_checker --task-set data/task_set/example.yaml --budget <N>`
+- Читатель: разработчик и coding-агент; организатор читает `README.md`
+- Проверки: [таблица проверок](#как-проверить)
 
 ## Учёт токенов
 
@@ -50,11 +51,15 @@ cost = output_tokens + ceil(input_tokens / 10)
 
 ## Как проверить
 
-```bash
-python -m evaluation.harness_task_set_checker \
-    --task-set data/task_set/example.yaml \
-    --budget 50000 --model qwen3.6-35b-a3b
-```
+Общие команды и флаги — в [`evaluation/README.md`](../../evaluation/README.md).
+Все команды запускаются из корня репозитория, кроме harness-тестов, где нужен
+`cd harness`.
 
-Отчёт покажет баллы, расход токенов, стоимость и время. Стоимость в отчёте
-сверяется с `solutions.json`; если поля `cost` нет, применяется та же формула.
+| ID | Уровень | Что подтверждает | Проверка | Ожидаемо |
+| --- | --- | --- | --- | --- |
+| V-1 | быстрая | формула стоимости | `cd harness && uv run python -m unittest discover -s test` | все тесты OK |
+| V-2 | интеграционная | остановка после превышения бюджета | `python -m evaluation.harness_task_set_checker --task-set data/task_set/example.yaml --budget <N>` | задача, превысившая бюджет, записана; следующая не запускается |
+
+`<N>` — заведомо малый бюджет. Отчёт покажет баллы, расход токенов, стоимость
+и время. Стоимость в отчёте сверяется с `solutions.json`; если поля `cost`
+нет, применяется та же формула.

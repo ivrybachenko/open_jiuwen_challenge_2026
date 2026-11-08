@@ -1,7 +1,8 @@
 # Оценка решения
 
 - Состояние: реализовано
-- Проверка: `python -m unittest discover -s evaluation/test -t .`
+- Читатель: разработчик и coding-агент; организатор читает `README.md`
+- Проверки: [таблица проверок](#как-проверить)
 
 ## Назначение
 
@@ -57,10 +58,15 @@
 
 ## Как проверить
 
-```bash
-LLM_API_KEY="$NEURAL_DEEP_API_KEY" \
-python -m evaluation.harness_task_set_checker \
-    --task-set data/task_set/example.yaml --model qwen3.6-35b-a3b
-```
+Общие команды и флаги — в [`evaluation/README.md`](../../evaluation/README.md).
+Все команды запускаются из корня репозитория.
 
-Подробности формата отчётов — в [`evaluation/README.md`](../../evaluation/README.md).
+| ID | Уровень | Что подтверждает | Проверка | Ожидаемо |
+| --- | --- | --- | --- | --- |
+| V-1 | быстрая | сам пакет оценки работает | `python -m unittest discover -s evaluation/test -t .` | все тесты OK |
+| V-2 | интеграционная | харнесс и оценщик проходят набор | `LLM_API_KEY="$NEURAL_DEEP_API_KEY" python -m evaluation.harness_task_set_checker --task-set data/task_set/example.yaml` | в отчёте есть `score`, `cost`, `time_seconds` |
+| V-3 | интеграционная | Docker-образ и минимальный прогон | `python -m evaluation.dockerfile_checker` | сборка, размеры и прогон без ошибок |
+| V-4 | быстрая | размер репозитория в лимите | `python -m evaluation.repo_size_checker` | `OK`, отчёт в `out/reports/repo_size_check.json` |
+
+Отчёты пишутся в `out/reports/`. Формат отчётов и полный список флагов — в
+[`evaluation/README.md`](../../evaluation/README.md).

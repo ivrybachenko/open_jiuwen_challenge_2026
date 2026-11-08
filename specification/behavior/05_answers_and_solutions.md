@@ -1,7 +1,8 @@
 # Ответы и файл решений
 
 - Состояние: реализовано
-- Проверка: `python -m evaluation.answer_evaluator --task math/easy/0001`
+- Читатель: разработчик и coding-агент; организатор читает `README.md`
+- Проверки: [таблица проверок](#как-проверить)
 
 ## `answer.txt`
 
@@ -64,7 +65,14 @@
 
 ## Как проверить
 
-- Сдать задачу: `python -m evaluation.harness_task_checker --task ...`
-- Проверить только готовый `answer.txt`:
-  `python -m evaluation.answer_evaluator --task ...`
-- Посмотреть структуру: открыть `solutions.json` после прогона.
+Общие команды и флаги — в [`evaluation/README.md`](../../evaluation/README.md).
+Все команды запускаются из корня репозитория.
+
+| ID | Уровень | Что подтверждает | Проверка | Ожидаемо |
+| --- | --- | --- | --- | --- |
+| V-1 | интеграционная | `answer.txt` появляется в рабочем каталоге и корне задачи | `python -m evaluation.harness_task_checker --task coding/easy/0001 --keep` | оба файла существуют и непусты |
+| V-2 | быстрая | готовый ответ оценивается без запуска агента | `python -m evaluation.answer_evaluator --task math/easy/0001 --answer <answer.txt>` | `solved=yes`, код возврата 0 |
+| V-3 | ручная | структура `solutions.json` | открыть файл после прогона | есть `updated_at`, `total_score`, `total_cost`, `solutions`; у задачи есть `cost` и `note` |
+
+`<answer.txt>` — файл с ответом для проверки; `answer_evaluator` не запускает
+агент и не требует `LLM_API_KEY`.
