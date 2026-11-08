@@ -4,7 +4,7 @@
 
 Решение — код, зависимости, Docker-образ, данные и документация — не нарушает
 правила, заданные в
-[`challenge_info/problem_statement.md`](../challenge_info/problem_statement.md).
+[`challenge_info/problem_statement.md`](../../challenge_info/problem_statement.md).
 
 ## Зачем
 
