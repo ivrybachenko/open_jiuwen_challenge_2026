@@ -1,0 +1,8 @@
+{
+  "task_id": "data_analysis_0101",
+  "task_type": "data_analysis",
+  "instruction": "The directory contains customers.csv (customer_id,name,city) and orders.csv (order_id,customer_id,units,price). Revenue for an order is units multiplied by price. What is the total revenue of all orders placed by customers from Leeds? Use bash with python3 to compute it. Work only inside the current directory. When you are done, write ONLY the final answer to the file answer.txt in the current directory (for example with bash: echo 42 > answer.txt).",
+  "reward": 4,
+  "expected": "118",
+  "check": "exact_int"
+}

@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0104",
+  "task_type": "coding",
+  "instruction": "The function first_repeat_index(values) in dedupe.py is correct but too slow: the tests require a list of 15000 distinct values to be processed in under one second. Rewrite it so it meets the time limit while keeping the same behaviour: return the index of the first value that repeats a value seen earlier, or -1 when there is no repeat. Do not edit the tests. Work only inside the current directory. When you are done, write ONLY the final answer to the file answer.txt in the current directory (for example with bash: echo 42 > answer.txt).",
+  "reward": 7,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

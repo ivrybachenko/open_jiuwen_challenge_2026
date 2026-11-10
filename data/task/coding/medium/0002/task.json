@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0102",
+  "task_type": "coding",
+  "instruction": "The module inventory.py behaves differently depending on how many times it has been called: separate calls that do not pass a bucket end up sharing state. Fix inventory.py so that every call without an explicit bucket starts with its own empty list, while a bucket passed by the caller is still used and returned unchanged. Run `python3 test_inventory.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the final answer to the file answer.txt in the current directory (for example with bash: echo 42 > answer.txt).",
+  "reward": 5,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

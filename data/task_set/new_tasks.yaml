@@ -1,0 +1,27 @@
+dataset:
+  random_seed: 42
+  tasks:
+    - coding/medium/0001
+    - coding/medium/0002
+    - coding/hard/0001
+    - coding/hard/0002
+    - coding/impossible/0001
+    - coding/impossible/0002
+    - data_analysis/medium/0001
+    - data_analysis/medium/0002
+    - data_analysis/hard/0001
+    - data_analysis/hard/0002
+    - data_analysis/impossible/0001
+    - data_analysis/impossible/0002
+    - math/medium/0001
+    - math/medium/0002
+    - math/hard/0001
+    - math/hard/0002
+    - math/impossible/0001
+    - math/impossible/0002
+    - search/medium/0001
+    - search/medium/0002
+    - search/hard/0001
+    - search/hard/0002
+    - search/impossible/0001
+    - search/impossible/0002

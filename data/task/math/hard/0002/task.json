@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0104",
+  "task_type": "math",
+  "instruction": "Compute (3^2026 + 7^2027) modulo 100000, using non-negative remainders. Do not try to build the full numbers; use modular exponentiation with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to the file answer.txt in the current directory (for example with bash: echo 42 > answer.txt).",
+  "reward": 6,
+  "expected": "27872",
+  "check": "exact_int"
+}

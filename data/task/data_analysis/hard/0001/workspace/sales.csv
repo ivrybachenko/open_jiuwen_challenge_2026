@@ -1,0 +1,12 @@
+order_id,region,units,price
+o1,East,5,10
+o1,East,5,10
+o2,West,3,12
+o3,North,"1,200",2
+o4,East,N/A,5
+o5,South,7,3
+o6,West,,4
+o7,North,12,2
+o8,South,4,1
+o8,South,4,1
+o9,East,9,2

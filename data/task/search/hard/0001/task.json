@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0103",
+  "task_type": "search",
+  "instruction": "The directory kb/ contains a small knowledge base. Let A be the person listed as the Mentor of Chen Wang. What is the absolute difference between the founding years of A's employer and Chen Wang's employer? Use the file tools or bash (ls, grep, cat) to find it. Work only inside the current directory. When you are done, write ONLY the final answer to the file answer.txt in the current directory (for example with bash: echo 42 > answer.txt).",
+  "reward": 8,
+  "expected": "28",
+  "check": "exact_int"
+}

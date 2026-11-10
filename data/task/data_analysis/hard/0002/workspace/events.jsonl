@@ -1,0 +1,10 @@
+{"user": "alice", "action": "view", "ts": 1000}
+{"user": "alice", "action": "click", "ts": 1060}
+{"user": "alice", "action": "purchase", "ts": 1300}
+{"user": "bob", "action": "view", "ts": 500}
+{"user": "bob", "action": "click", "ts": 520}
+{"user": "carol", "action": "view", "ts": 2000}
+{"user": "carol", "action": "view", "ts": 2900}
+{"user": "dave", "action": "purchase", "ts": 100}
+{"user": "dave", "action": "click", "ts": 250}
+{"user": "dave", "action": "click", "ts": 260}

@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0103",
+  "task_type": "math",
+  "instruction": "A robot moves on a 10x10 grid of points with coordinates from (0,0) to (9,9). It starts at (0,0) and needs to reach (9,9) using only steps that increase x by 1 or increase y by 1. The points (2,2), (3,5), (5,3) and (7,7) are blocked and may not be visited. How many different paths are there? Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to the file answer.txt in the current directory (for example with bash: echo 42 > answer.txt).",
+  "reward": 8,
+  "expected": "8828",
+  "check": "exact_int"
+}

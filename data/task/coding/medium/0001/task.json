@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0101",
+  "task_type": "coding",
+  "instruction": "The file duration.py contains a stub. Implement parse_duration(text) so that it converts a duration string into a number of seconds. A duration is one or more <non-negative integer><unit> tokens, where the unit is h, m or s (1h=3600s, 1m=60s, 1s=1s). Tokens may be separated by optional spaces, for example '1h30m', '2h 15m 10s' or '45s'. Any other input, including an empty string or a number without a unit, must raise ValueError. Run `python3 test_duration.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the final answer to the file answer.txt in the current directory (for example with bash: echo 42 > answer.txt).",
+  "reward": 4,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

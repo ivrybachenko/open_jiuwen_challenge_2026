@@ -1,0 +1,8 @@
+{
+  "task_id": "data_analysis_0104",
+  "task_type": "data_analysis",
+  "instruction": "The file events.jsonl contains one JSON object per line with fields user, action and ts (a Unix timestamp in seconds). For every user, consider the time between their first and last event. How many seconds elapsed for the user with the longest such span? Use bash with python3 to compute it. Work only inside the current directory. When you are done, write ONLY the final answer to the file answer.txt in the current directory (for example with bash: echo 42 > answer.txt).",
+  "reward": 6,
+  "expected": "900",
+  "check": "exact_int"
+}

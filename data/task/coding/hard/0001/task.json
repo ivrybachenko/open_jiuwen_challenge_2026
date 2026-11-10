@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0103",
+  "task_type": "coding",
+  "instruction": "Implement the command-line tool wordfreq.py. Usage: `python3 wordfreq.py FILE [--top N] [--min-length L]`. Read UTF-8 text from FILE, or from standard input when FILE is '-'. Split the text into words on every character that is not an ASCII letter, lowercase the words, and ignore words shorter than L characters (default 0). Print the N most frequent words (default 3), one per line, as 'word count', ordered by count descending and then by word ascending. If FILE does not exist, exit with code 1. If an unknown option is given, exit with code 2. Work only inside the current directory. Run `python3 test_wordfreq.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the final answer to the file answer.txt in the current directory (for example with bash: echo 42 > answer.txt).",
+  "reward": 8,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

@@ -1,0 +1,8 @@
+{
+  "task_id": "data_analysis_0102",
+  "task_type": "data_analysis",
+  "instruction": "The file monthly.csv has columns month,revenue. What was the revenue in the month with the highest revenue? Use bash with python3 to compute it. Work only inside the current directory. When you are done, write ONLY the final answer to the file answer.txt in the current directory (for example with bash: echo 42 > answer.txt).",
+  "reward": 3,
+  "expected": "1720",
+  "check": "exact_int"
+}

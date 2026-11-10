@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0102",
+  "task_type": "search",
+  "instruction": "The directory kb/ contains a small knowledge base. Find the person who satisfies all three conditions: born before 1980, employed by a company whose headquarters are in Berlin, and listed as the Mentor of at least one person born after 1990. What is their full name? Use the file tools or bash (ls, grep, cat) to find it. Work only inside the current directory. When you are done, write ONLY the final answer to the file answer.txt in the current directory (for example with bash: echo 42 > answer.txt).",
+  "reward": 6,
+  "expected": "Lena Fischer",
+  "check": "exact_str"
+}

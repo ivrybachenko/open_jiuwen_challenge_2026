@@ -1,0 +1,8 @@
+{
+  "task_id": "data_analysis_0106",
+  "task_type": "data_analysis",
+  "instruction": "The file ledger.csv has columns entry_id,debit,credit and meta.json contains opening_balance and closing_balance. Report closing_balance after verifying that it reconciles with the ledger: closing_balance must equal opening_balance plus the sum of all credits minus the sum of all debits. Use bash with python3 to compute it. Work only inside the current directory. When you are done, write ONLY the final answer to the file answer.txt in the current directory (for example with bash: echo 42 > answer.txt).",
+  "reward": 4,
+  "check": "none",
+  "solvable": false
+}

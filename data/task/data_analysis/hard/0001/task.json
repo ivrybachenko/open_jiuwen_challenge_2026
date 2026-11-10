@@ -1,0 +1,8 @@
+{
+  "task_id": "data_analysis_0103",
+  "task_type": "data_analysis",
+  "instruction": "The file sales.csv has columns order_id,region,units,price and contains dirty rows. Apply these rules in order: (1) if an order_id appears more than once, keep only its first occurrence; (2) drop rows whose units field is empty or 'N/A'; (3) units may contain thousands separators such as \"1,200\" and must be parsed as integers. What is the total number of units across the remaining rows? Use bash with python3 to compute it. Work only inside the current directory. When you are done, write ONLY the final answer to the file answer.txt in the current directory (for example with bash: echo 42 > answer.txt).",
+  "reward": 7,
+  "expected": "1240",
+  "check": "exact_int"
+}

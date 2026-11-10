@@ -1,0 +1,9 @@
+order_id,customer_id,units,price
+o1,c1,2,15
+o2,c2,3,10
+o3,c3,4,7
+o4,c1,1,15
+o5,c4,5,9
+o6,c5,2,12
+o7,c3,3,7
+o8,c2,1,10
