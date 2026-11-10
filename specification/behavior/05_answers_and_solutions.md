@@ -70,8 +70,8 @@
 
 | ID | Уровень | Что подтверждает | Проверка | Ожидаемо |
 | --- | --- | --- | --- | --- |
-| V-1 | интеграционная | `answer.txt` появляется в рабочем каталоге и корне задачи | `python -m evaluation.harness_task_checker --task coding/easy/0001 --keep` | оба файла существуют и непусты |
-| V-2 | быстрая | готовый ответ оценивается без запуска агента | `python -m evaluation.answer_evaluator --task math/easy/0001 --answer <answer.txt>` | `solved=yes`, код возврата 0 |
+| V-1 | интеграционная | `answer.txt` появляется в рабочем каталоге и корне задачи | `python -m evaluation.harness_task_checker --task coding/solvable/0001 --keep` | оба файла существуют и непусты |
+| V-2 | быстрая | готовый ответ оценивается без запуска агента | `python -m evaluation.answer_evaluator --task math/solvable/0001 --answer <answer.txt>` | `solved=yes`, код возврата 0 |
 | V-3 | ручная | структура `solutions.json` | открыть файл после прогона | есть `updated_at`, `total_score`, `total_cost`, `solutions`; у задачи есть `cost` и `note` |
 
 `<answer.txt>` — файл с ответом для проверки; `answer_evaluator` не запускает

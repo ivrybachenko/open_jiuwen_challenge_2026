@@ -75,7 +75,7 @@ class CommitHarnessVersionTest(unittest.TestCase):
             encoding="utf-8",
         )
 
-        task = base / "data" / "task" / "test" / "easy" / "0001"
+        task = base / "data" / "task" / "test" / "solvable" / "0001"
         task.mkdir(parents=True)
         (task / "task.json").write_text(
             json.dumps(
@@ -162,7 +162,7 @@ class CommitHarnessVersionTest(unittest.TestCase):
             fields = lines[1].split("\t")
             self.assertEqual(fields[0], "0001")
             self.assertTrue(fields[1])
-            self.assertEqual(fields[2], "test/easy/0001")
+            self.assertEqual(fields[2], "test/solvable/0001")
             self.assertEqual(fields[3], "true")
             self.assertEqual(fields[4], "30")
 
@@ -178,7 +178,7 @@ class CommitHarnessVersionTest(unittest.TestCase):
             )
             dataset.parent.mkdir(parents=True)
             dataset.write_text(
-                header + "\n0001\told-run\ttest/easy/0001\ttrue\t111\t1.000\n",
+                header + "\n0001\told-run\ttest/solvable/0001\ttrue\t111\t1.000\n",
                 encoding="utf-8",
             )
             with mock.patch.dict(os.environ, {"LLM_API_KEY": "dummy"}, clear=False):
@@ -207,7 +207,7 @@ class CommitHarnessVersionTest(unittest.TestCase):
             self.assertTrue(any("\told-run\t" in row for row in rows))
             self.assertTrue(
                 any(
-                    "\ttest/easy/0001\t" in row and "\told-run\t" not in row
+                    "\ttest/solvable/0001\t" in row and "\told-run\t" not in row
                     for row in rows
                 )
             )
@@ -218,7 +218,7 @@ class CommitHarnessVersionTest(unittest.TestCase):
             self._add_task(
                 base, "test/impossible/0001", "t_impossible", solvable=False
             )
-            self._add_task(base, "test/easy/0002", "t_other")
+            self._add_task(base, "test/solvable/0002", "t_other")
             task_set = base / "data" / "task_set" / "selected.yaml"
             task_set.parent.mkdir(parents=True)
             task_set.write_text(
@@ -262,15 +262,15 @@ class CommitHarnessVersionTest(unittest.TestCase):
     def test_max_tasks_applies_after_selection(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             base = self._make_repo(Path(tmp))
-            self._add_task(base, "test/easy/0002", "t_other")
+            self._add_task(base, "test/solvable/0002", "t_other")
             task_set = base / "data" / "task_set" / "selected.yaml"
             task_set.parent.mkdir(parents=True)
             task_set.write_text(
                 "dataset:\n"
                 "  random_seed: 42\n"
                 "  tasks:\n"
-                "    - test/easy/0001\n"
-                "    - test/easy/0002\n",
+                "    - test/solvable/0001\n"
+                "    - test/solvable/0002\n",
                 encoding="utf-8",
             )
             with mock.patch.dict(os.environ, {"LLM_API_KEY": "dummy"}, clear=False):
@@ -299,7 +299,7 @@ class CommitHarnessVersionTest(unittest.TestCase):
                 base / "data" / "harness_task_score" / "harness_v_0001.tsv"
             )
             rows = dataset.read_text(encoding="utf-8").splitlines()[1:]
-            self.assertEqual([row.split("\t")[2] for row in rows], ["test/easy/0001"])
+            self.assertEqual([row.split("\t")[2] for row in rows], ["test/solvable/0001"])
 
     def test_missing_harness_info_is_an_error(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

@@ -90,7 +90,7 @@ def prepare_suite(tasks: list[EvaluationTask], base_dir: str | Path) -> Prepared
     """Copy tasks into a flat directory that ``load_tasks`` can read.
 
     The harness expects ``<tasks-dir>/<task>/task.json``, while the dataset is
-    nested (``coding/easy/0001``).  Copies also protect the source dataset from
+    nested (``coding/solvable/0001``).  Copies also protect the source dataset from
     edits made by the agent.
     """
     base_dir = Path(base_dir).resolve()

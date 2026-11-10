@@ -7,7 +7,7 @@
 | --- | --- |
 | `harness_version` | Версия харнесса из `harness/pyproject.toml`. |
 | `run_id` | Идентификатор запуска. Каждый запуск чекера получает новый `run_id` (UTC-время с микросекундами), поэтому повторные прогоны не перезаписывают друг друга. |
-| `task_id` | Путь задачи в датасете относительно `data/task`, например `coding/easy/0001`. Это не поле `task_id` из `task.json` (там `coding_0003`), а имя каталога задачи. |
+| `task_id` | Путь задачи в датасете относительно `data/task`, например `coding/solvable/0001`. Это не поле `task_id` из `task.json` (там `coding_0003`), а имя каталога задачи. |
 | `is_solved_correctly` | `true`/`false` — вердикт `answer_evaluator`: ответ сдан и проверка `unittest`/`exact_int`/`exact_str` пройдена, тесты не подменены. Поле `solved` из `solutions.json` не используется. |
 | `cost_tokens` | Стоимость в выходных токенах: `output_tokens + ceil(input_tokens / 10)`. Берётся из поля `cost` в `solutions.json`. |
 | `cost_seconds` | Время работы харнесса на этой задаче, секунды (замер чекера, не время отдельного LLM-вызова). |
@@ -22,7 +22,7 @@
 # значение ключа подставляет bash, Python его не читает и не печатает
 LLM_API_KEY="$NEURAL_DEEP_API_KEY" \
 python -m evaluation.harness_task_checker \
-    --task coding/easy/0001 \
+    --task coding/solvable/0001 \
     --model qwen3.6-35b-a3b \
     --harness-version 0001 \
     --record

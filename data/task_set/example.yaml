@@ -1,11 +1,11 @@
 dataset:
   random_seed: 42
   tasks:
-    - coding/easy/0001
-    - coding/easy/0002
-    - data_analysis/easy/0001
-    - data_analysis/easy/0002
-    - math/easy/0001
-    - math/easy/0002
-    - search/easy/0001
-    - search/easy/0002
+    - coding/solvable/0001
+    - coding/solvable/0002
+    - data_analysis/solvable/0001
+    - data_analysis/solvable/0002
+    - math/solvable/0001
+    - math/solvable/0002
+    - search/solvable/0001
+    - search/solvable/0002

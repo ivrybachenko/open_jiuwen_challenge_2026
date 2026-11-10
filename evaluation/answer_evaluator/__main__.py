@@ -2,8 +2,8 @@
 
 Examples::
 
-    python -m evaluation.answer_evaluator --task data/task/coding/easy/0001
-    python -m evaluation.answer_evaluator --task coding/easy/0001 --answer path/to/answer.txt
+    python -m evaluation.answer_evaluator --task data/task/coding/solvable/0001
+    python -m evaluation.answer_evaluator --task coding/solvable/0001 --answer path/to/answer.txt
 """
 
 from __future__ import annotations

@@ -27,7 +27,7 @@
 
   ```bash
   LLM_API_KEY="$NEURAL_DEEP_API_KEY" \
-  python -m evaluation.harness_task_checker --task coding/easy/0001
+  python -m evaluation.harness_task_checker --task coding/solvable/0001
   ```
 
 - `LLM_BASE_URL` оценщики подставляют сами: `https://api.neuraldeep.ru/v1`
@@ -45,7 +45,7 @@
 
 ```bash
 python -m evaluation.harness_task_checker \
-    --task coding/easy/0001 --harness-version 0001 --record
+    --task coding/solvable/0001 --harness-version 0001 --record
 ```
 
 Каждый запуск получает новый `run_id` (UTC-время с микросекундами). Поэтому

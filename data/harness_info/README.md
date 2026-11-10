@@ -17,7 +17,7 @@
 
 ```bash
 python -m evaluation.harness_task_checker \
-    --task coding/easy/0001 --harness-version 0001 --record
+    --task coding/solvable/0001 --harness-version 0001 --record
 ```
 
 Полный замер версии (`commit_harness_version`) требует, чтобы запись уже

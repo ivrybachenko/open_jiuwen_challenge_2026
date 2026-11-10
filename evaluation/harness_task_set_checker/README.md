@@ -28,8 +28,8 @@ python -m evaluation.harness_task_set_checker \
 dataset:
   random_seed: 42
   tasks:
-    - coding/easy/0001
-    - data_analysis/easy/0001
+    - coding/solvable/0001
+    - data_analysis/solvable/0001
 ```
 
 Пути задач разрешаются относительно `data/task` (переопределяется

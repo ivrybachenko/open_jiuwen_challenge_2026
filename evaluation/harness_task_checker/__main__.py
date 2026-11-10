@@ -2,9 +2,9 @@
 
 Examples::
 
-    python -m evaluation.harness_task_checker --task coding/easy/0001
+    python -m evaluation.harness_task_checker --task coding/solvable/0001
     python -m evaluation.harness_task_checker \
-        --task data/task/coding/easy/0001 --budget 50000 --model qwen3.6-35b-a3b
+        --task data/task/coding/solvable/0001 --budget 50000 --model qwen3.6-35b-a3b
 """
 
 from __future__ import annotations

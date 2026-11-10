@@ -8,11 +8,11 @@
 export LLM_API_KEY="$NEURAL_DEEP_API_KEY"
 
 # путь относительно data/task или task_id
-python -m evaluation.harness_task_checker --task coding/easy/0001
+python -m evaluation.harness_task_checker --task coding/solvable/0001
 
 # явный каталог задачи, ограничения и запись в датасет
 python -m evaluation.harness_task_checker \
-    --task data/task/math/easy/0001 \
+    --task data/task/math/solvable/0001 \
     --model qwen3.6-35b-a3b \
     --budget 50000 \
     --max-iterations 12 \

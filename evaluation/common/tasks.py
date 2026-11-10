@@ -91,7 +91,7 @@ def task_dataset_id(
 ) -> str:
     """Task identifier used by the datasets: its path under ``data/task``.
 
-    Example: ``coding/easy/0001``.  This is different from the ``task_id``
+    Example: ``coding/solvable/0001``.  This is different from the ``task_id``
     inside ``task.json`` (``coding_0003``), which is used by the harness.
     """
     tasks_root = Path(tasks_root) if tasks_root is not None else default_tasks_root()
@@ -130,10 +130,10 @@ def load_task_set(path: str | Path) -> TaskSetSpec:
         dataset:
           random_seed: 42
           tasks:
-            - coding/easy/0001
-            - data_analysis/easy/0001
+            - coding/solvable/0001
+            - data_analysis/solvable/0001
 
-    ``tasks`` may also be an inline list: ``tasks: [coding/easy/0001]``.
+    ``tasks`` may also be an inline list: ``tasks: [coding/solvable/0001]``.
     """
     path = Path(path)
     text = path.read_text(encoding="utf-8")

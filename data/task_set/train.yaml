@@ -1,35 +1,35 @@
 dataset:
   random_seed: 42
   tasks:
-    - coding/easy/0001
-    - coding/easy/0002
-    - coding/medium/0001
-    - coding/medium/0002
-    - coding/hard/0001
-    - coding/hard/0002
+    - coding/solvable/0001
+    - coding/solvable/0002
+    - coding/solvable/0003
+    - coding/solvable/0004
+    - coding/solvable/0005
+    - coding/solvable/0006
     - coding/impossible/0001
     - coding/impossible/0002
-    - data_analysis/easy/0001
-    - data_analysis/easy/0002
-    - data_analysis/medium/0001
-    - data_analysis/medium/0002
-    - data_analysis/hard/0001
-    - data_analysis/hard/0002
+    - data_analysis/solvable/0001
+    - data_analysis/solvable/0002
+    - data_analysis/solvable/0003
+    - data_analysis/solvable/0004
+    - data_analysis/solvable/0005
+    - data_analysis/solvable/0006
     - data_analysis/impossible/0001
     - data_analysis/impossible/0002
-    - math/easy/0001
-    - math/easy/0002
-    - math/medium/0001
-    - math/medium/0002
-    - math/hard/0001
-    - math/hard/0002
+    - math/solvable/0001
+    - math/solvable/0002
+    - math/solvable/0003
+    - math/solvable/0004
+    - math/solvable/0005
+    - math/solvable/0006
     - math/impossible/0001
     - math/impossible/0002
-    - search/easy/0001
-    - search/easy/0002
-    - search/medium/0001
-    - search/medium/0002
-    - search/hard/0001
-    - search/hard/0002
+    - search/solvable/0001
+    - search/solvable/0002
+    - search/solvable/0003
+    - search/solvable/0004
+    - search/solvable/0005
+    - search/solvable/0006
     - search/impossible/0001
     - search/impossible/0002

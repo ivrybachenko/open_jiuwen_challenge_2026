@@ -6,15 +6,15 @@
 
 ```bash
 # задача в формате data/task/...
-python -m evaluation.answer_evaluator --task data/task/coding/easy/0001
+python -m evaluation.answer_evaluator --task data/task/coding/solvable/0001
 
 # краткий путь относительно data/task или task_id
-python -m evaluation.answer_evaluator --task coding/easy/0001
+python -m evaluation.answer_evaluator --task coding/solvable/0001
 python -m evaluation.answer_evaluator --task data_analysis_0002
 
 # можно подставить готовый ответ вместо answer.txt
 python -m evaluation.answer_evaluator \
-    --task data_analysis/easy/0001 --answer /tmp/answer.txt
+    --task data_analysis/solvable/0001 --answer /tmp/answer.txt
 ```
 
 Правила проверок:

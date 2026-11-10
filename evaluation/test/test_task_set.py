@@ -24,11 +24,11 @@ class TaskSetTest(unittest.TestCase):
         self.assertEqual(spec.name, "example")
         self.assertEqual(spec.random_seed, 42)
         self.assertEqual(len(spec.task_paths), 8)
-        self.assertEqual(spec.task_paths[0], "coding/easy/0001")
+        self.assertEqual(spec.task_paths[0], "coding/solvable/0001")
 
     def test_minimal_set(self) -> None:
         spec = load_task_set(repo_root() / "data" / "task_set" / "minimal.yaml")
-        self.assertEqual(spec.task_paths, ("coding/easy/0001", "data_analysis/easy/0001"))
+        self.assertEqual(spec.task_paths, ("coding/solvable/0001", "data_analysis/solvable/0001"))
 
     def test_inline_list(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -71,12 +71,12 @@ class TaskSetTest(unittest.TestCase):
             default_tasks_root(),
         )[0]
         self.assertEqual(task.task_id, "coding_0003")
-        self.assertEqual(task_dataset_id(task), "coding/easy/0001")
+        self.assertEqual(task_dataset_id(task), "coding/solvable/0001")
 
 
 class ResolveTaskDirTest(unittest.TestCase):
     def test_relative_path(self) -> None:
-        path = resolve_task_dir("coding/easy/0001", default_tasks_root())
+        path = resolve_task_dir("coding/solvable/0001", default_tasks_root())
         self.assertTrue((path / "task.json").is_file())
 
     def test_task_id(self) -> None:

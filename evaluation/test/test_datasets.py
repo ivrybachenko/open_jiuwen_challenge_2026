@@ -44,7 +44,7 @@ class DatasetWriterTest(unittest.TestCase):
             repo = self._repo(Path(tmp))
             path = record_task_score(
                 repo,
-                task_id="coding/easy/0001",
+                task_id="coding/solvable/0001",
                 harness_version="0001",
                 run_id="r1",
                 is_solved_correctly=False,
@@ -53,7 +53,7 @@ class DatasetWriterTest(unittest.TestCase):
             )
             record_task_score(
                 repo,
-                task_id="coding/easy/0001",
+                task_id="coding/solvable/0001",
                 harness_version="0001",
                 run_id="r1",
                 is_solved_correctly=True,
@@ -62,7 +62,7 @@ class DatasetWriterTest(unittest.TestCase):
             )
             record_task_score(
                 repo,
-                task_id="math/easy/0001",
+                task_id="math/solvable/0001",
                 harness_version="0001",
                 run_id="r1",
                 is_solved_correctly=True,
@@ -77,11 +77,11 @@ class DatasetWriterTest(unittest.TestCase):
             )
             self.assertEqual(
                 lines[1],
-                "0001\tr1\tcoding/easy/0001\ttrue\t200\t20.000",
+                "0001\tr1\tcoding/solvable/0001\ttrue\t200\t20.000",
             )
             self.assertEqual(
                 lines[2],
-                "0001\tr1\tmath/easy/0001\ttrue\t50\t5.000",
+                "0001\tr1\tmath/solvable/0001\ttrue\t50\t5.000",
             )
             self.assertEqual(len(lines), 3)
 
@@ -90,7 +90,7 @@ class DatasetWriterTest(unittest.TestCase):
             repo = self._repo(Path(tmp))
             path = record_task_score(
                 repo,
-                task_id="coding/easy/0001",
+                task_id="coding/solvable/0001",
                 harness_version="0001",
                 run_id="r1",
                 is_solved_correctly=True,
@@ -99,7 +99,7 @@ class DatasetWriterTest(unittest.TestCase):
             )
             record_task_score(
                 repo,
-                task_id="coding/easy/0001",
+                task_id="coding/solvable/0001",
                 harness_version="0001",
                 run_id="r2",
                 is_solved_correctly=False,
@@ -108,8 +108,8 @@ class DatasetWriterTest(unittest.TestCase):
             )
             lines = path.read_text(encoding="utf-8").splitlines()
             self.assertEqual(len(lines), 3)
-            self.assertIn("0001\tr1\tcoding/easy/0001\ttrue\t100\t1.000", lines)
-            self.assertIn("0001\tr2\tcoding/easy/0001\tfalse\t200\t2.000", lines)
+            self.assertIn("0001\tr1\tcoding/solvable/0001\ttrue\t100\t1.000", lines)
+            self.assertIn("0001\tr2\tcoding/solvable/0001\tfalse\t200\t2.000", lines)
 
     def test_old_task_score_header_is_migrated(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -123,12 +123,12 @@ class DatasetWriterTest(unittest.TestCase):
             path.parent.mkdir(parents=True)
             path.write_text(
                 "task_id\tharness_version\tcost_tokens\tcost_seconds\n"
-                "coding/easy/0001\t0001\t100\t1.000\n",
+                "coding/solvable/0001\t0001\t100\t1.000\n",
                 encoding="utf-8",
             )
             record_task_score(
                 repo,
-                task_id="math/easy/0001",
+                task_id="math/solvable/0001",
                 harness_version="0001",
                 run_id="r1",
                 is_solved_correctly=True,
@@ -143,11 +143,11 @@ class DatasetWriterTest(unittest.TestCase):
             )
             self.assertEqual(
                 lines[1],
-                "0001\t\tcoding/easy/0001\t\t100\t1.000",
+                "0001\t\tcoding/solvable/0001\t\t100\t1.000",
             )
             self.assertEqual(
                 lines[2],
-                "0001\tr1\tmath/easy/0001\ttrue\t50\t5.000",
+                "0001\tr1\tmath/solvable/0001\ttrue\t50\t5.000",
             )
 
     def test_task_set_score_upsert(self) -> None:
@@ -194,7 +194,7 @@ class DatasetWriterTest(unittest.TestCase):
             repo = self._repo(Path(tmp))
             task_path = record_task_score(
                 repo,
-                task_id="coding/easy/0001",
+                task_id="coding/solvable/0001",
                 harness_version="0001",
                 run_id="r1",
                 is_solved_correctly=True,
