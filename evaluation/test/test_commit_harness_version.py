@@ -100,6 +100,29 @@ class CommitHarnessVersionTest(unittest.TestCase):
         )
         return base
 
+    def _add_task(
+        self,
+        base: Path,
+        relative: str,
+        task_id: str,
+        *,
+        solvable: bool = True,
+    ) -> Path:
+        task = base / "data" / "task" / relative
+        task.mkdir(parents=True)
+        payload = {
+            "task_id": task_id,
+            "task_type": "test",
+            "instruction": "test",
+            "reward": 2,
+        }
+        if solvable:
+            payload.update({"expected": "42", "check": "exact_int"})
+        else:
+            payload.update({"solvable": False, "check": "none"})
+        (task / "task.json").write_text(json.dumps(payload), encoding="utf-8")
+        return task
+
     def test_single_run_writes_row_with_run_id(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             base = self._make_repo(Path(tmp))
@@ -142,6 +165,141 @@ class CommitHarnessVersionTest(unittest.TestCase):
             self.assertEqual(fields[2], "test/easy/0001")
             self.assertEqual(fields[3], "true")
             self.assertEqual(fields[4], "30")
+
+    def test_existing_dataset_rows_are_kept(self) -> None:
+        header = (
+            "harness_version\trun_id\ttask_id\tis_solved_correctly\t"
+            "cost_tokens\tcost_seconds"
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            base = self._make_repo(Path(tmp))
+            dataset = (
+                base / "data" / "harness_task_score" / "harness_v_0001.tsv"
+            )
+            dataset.parent.mkdir(parents=True)
+            dataset.write_text(
+                header + "\n0001\told-run\ttest/easy/0001\ttrue\t111\t1.000\n",
+                encoding="utf-8",
+            )
+            with mock.patch.dict(os.environ, {"LLM_API_KEY": "dummy"}, clear=False):
+                with contextlib.redirect_stdout(io.StringIO()):
+                    rc = commit_main(
+                        [
+                            "--harness-version",
+                            "0001",
+                            "--runs",
+                            "1",
+                            "--max-tasks",
+                            "1",
+                            "--skip-set",
+                            "--repo-root",
+                            str(base),
+                            "--tasks-root",
+                            str(base / "data" / "task"),
+                            "--python",
+                            sys.executable,
+                        ]
+                    )
+            self.assertEqual(rc, 0)
+
+            rows = dataset.read_text(encoding="utf-8").splitlines()[1:]
+            self.assertEqual(len(rows), 2)
+            self.assertTrue(any("\told-run\t" in row for row in rows))
+            self.assertTrue(
+                any(
+                    "\ttest/easy/0001\t" in row and "\told-run\t" not in row
+                    for row in rows
+                )
+            )
+
+    def test_tasks_from_selects_tasks_and_keeps_impossible(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            base = self._make_repo(Path(tmp))
+            self._add_task(
+                base, "test/impossible/0001", "t_impossible", solvable=False
+            )
+            self._add_task(base, "test/easy/0002", "t_other")
+            task_set = base / "data" / "task_set" / "selected.yaml"
+            task_set.parent.mkdir(parents=True)
+            task_set.write_text(
+                "dataset:\n"
+                "  random_seed: 42\n"
+                "  tasks:\n"
+                "    - test/impossible/0001\n",
+                encoding="utf-8",
+            )
+            with mock.patch.dict(os.environ, {"LLM_API_KEY": "dummy"}, clear=False):
+                with contextlib.redirect_stdout(io.StringIO()) as stdout:
+                    rc = commit_main(
+                        [
+                            "--harness-version",
+                            "0001",
+                            "--runs",
+                            "1",
+                            "--skip-set",
+                            "--tasks-from",
+                            str(task_set),
+                            "--repo-root",
+                            str(base),
+                            "--tasks-root",
+                            str(base / "data" / "task"),
+                            "--python",
+                            sys.executable,
+                        ]
+                    )
+            self.assertEqual(rc, 0)
+            self.assertIn("tasks from: selected", stdout.getvalue())
+
+            dataset = (
+                base / "data" / "harness_task_score" / "harness_v_0001.tsv"
+            )
+            rows = dataset.read_text(encoding="utf-8").splitlines()[1:]
+            self.assertEqual(len(rows), 1)
+            fields = rows[0].split("\t")
+            self.assertEqual(fields[2], "test/impossible/0001")
+            self.assertEqual(fields[3], "false")
+
+    def test_max_tasks_applies_after_selection(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            base = self._make_repo(Path(tmp))
+            self._add_task(base, "test/easy/0002", "t_other")
+            task_set = base / "data" / "task_set" / "selected.yaml"
+            task_set.parent.mkdir(parents=True)
+            task_set.write_text(
+                "dataset:\n"
+                "  random_seed: 42\n"
+                "  tasks:\n"
+                "    - test/easy/0001\n"
+                "    - test/easy/0002\n",
+                encoding="utf-8",
+            )
+            with mock.patch.dict(os.environ, {"LLM_API_KEY": "dummy"}, clear=False):
+                with contextlib.redirect_stdout(io.StringIO()):
+                    rc = commit_main(
+                        [
+                            "--harness-version",
+                            "0001",
+                            "--runs",
+                            "1",
+                            "--max-tasks",
+                            "1",
+                            "--skip-set",
+                            "--tasks-from",
+                            str(task_set),
+                            "--repo-root",
+                            str(base),
+                            "--tasks-root",
+                            str(base / "data" / "task"),
+                            "--python",
+                            sys.executable,
+                        ]
+                    )
+            self.assertEqual(rc, 0)
+            dataset = (
+                base / "data" / "harness_task_score" / "harness_v_0001.tsv"
+            )
+            rows = dataset.read_text(encoding="utf-8").splitlines()[1:]
+            self.assertEqual([row.split("\t")[2] for row in rows], ["test/easy/0001"])
 
     def test_missing_harness_info_is_an_error(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

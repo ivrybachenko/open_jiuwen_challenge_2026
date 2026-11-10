@@ -8,8 +8,9 @@ Usage::
 The script:
 1. verifies that ``harness/pyproject.toml`` contains the requested version;
 2. verifies that ``data/harness_info/harness_info.tsv`` has a row for it;
-3. clears ``data/harness_task_score/harness_v_<version>.tsv`` and
-   ``data/harness_task_set_score/harness_v_<version>.tsv``;
+3. appends results to ``data/harness_task_score/harness_v_<version>.tsv`` and
+   ``data/harness_task_set_score/harness_v_<version>.tsv`` (existing rows are
+   kept);
 4. runs the harness 5 times on every task and 5 times on the example task set;
 5. records every run under its own ``run_id``.
 """
@@ -24,8 +25,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from evaluation.common.datasets import (
-    clear_task_scores,
-    clear_task_set_scores,
     has_harness_info,
     record_task_score,
     record_task_set_score,
@@ -74,6 +73,14 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--repo-root", type=Path, default=None)
     parser.add_argument("--tasks-root", type=Path, default=None)
     parser.add_argument("--task-set", default="example.yaml")
+    parser.add_argument(
+        "--tasks-from",
+        default=None,
+        help=(
+            "Task-set file that selects the tasks for per-task runs. "
+            "Default: every task under --tasks-root."
+        ),
+    )
     parser.add_argument(
         "--max-tasks",
         type=int,
@@ -135,7 +142,25 @@ def main(argv: list[str] | None = None) -> int:
         print("error: --runs must be positive", file=sys.stderr)
         return 2
 
-    tasks = load_all_tasks(tasks_root)
+    selection_spec = None
+    if args.tasks_from:
+        try:
+            selection_spec = load_task_set(resolve_task_set_path(args.tasks_from))
+            selected = resolve_task_set(selection_spec, tasks_root)
+        except (FileNotFoundError, ValueError) as exc:
+            print(f"error: {exc}", file=sys.stderr)
+            return 2
+        # A set may repeat a task; run it once per benchmark iteration.
+        seen: set[Path] = set()
+        tasks = []
+        for task in selected:
+            root_path = task.root.resolve()
+            if root_path not in seen:
+                seen.add(root_path)
+                tasks.append(task)
+    else:
+        tasks = load_all_tasks(tasks_root)
+
     if args.max_tasks is not None:
         tasks = tasks[: args.max_tasks]
     if not tasks:
@@ -162,13 +187,19 @@ def main(argv: list[str] | None = None) -> int:
     )
     test_python = args.python or resolve_python(config)
 
-    task_score_path = clear_task_scores(root, version)
-    set_score_path = clear_task_set_scores(root, version)
+    task_score_path = (
+        root / "data" / "harness_task_score" / f"harness_v_{version}.tsv"
+    )
+    set_score_path = (
+        root / "data" / "harness_task_set_score" / f"harness_v_{version}.tsv"
+    )
     batch = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ")
 
     print(f"harness_version: {version}")
     print(f"runs: {args.runs}")
     print(f"tasks: {len(tasks)}")
+    if selection_spec is not None:
+        print(f"tasks from: {selection_spec.name}")
     if spec is not None:
         print(f"task_set: {spec.name} ({len(set_tasks)} tasks)")
     print(f"task dataset: {task_score_path}")
