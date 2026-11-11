@@ -1,0 +1,8 @@
+{
+  "task_id": "data_analysis_0313",
+  "task_type": "data_analysis",
+  "instruction": "The file sensors.csv has columns timestamp,sensor,reading. What is the reading of the office sensor at 2025-03-01T10:00:00Z? Use bash with python3 to compute it. Work only inside the current directory. When you are done, write ONLY the final answer to the file answer.txt in the current directory (for example with bash: echo 42 > answer.txt).",
+  "reward": 5,
+  "check": "none",
+  "solvable": false
+}

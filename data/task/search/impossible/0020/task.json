@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0320",
+  "task_type": "search",
+  "instruction": "The directory data/ contains registry.csv and registry.csv.sha256. What is the seat count for project Orion in registry.csv if its SHA-256 digest matches registry.csv.sha256? Use the file tools or bash (ls, grep, cat) to find it. Work only inside the current directory. When you are done, write ONLY the final answer to the file answer.txt in the current directory (for example with bash: echo 42 > answer.txt).",
+  "reward": 6,
+  "check": "none",
+  "solvable": false
+}

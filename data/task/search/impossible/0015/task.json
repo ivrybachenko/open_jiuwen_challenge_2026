@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0315",
+  "task_type": "search",
+  "instruction": "The files logs/node_a.log and logs/node_b.log record service events on two machines. Which machine logged the checkout event first? Use the file tools or bash (ls, grep, cat) to find it. Work only inside the current directory. When you are done, write ONLY the final answer to the file answer.txt in the current directory (for example with bash: echo 42 > answer.txt).",
+  "reward": 5,
+  "check": "none",
+  "solvable": false
+}

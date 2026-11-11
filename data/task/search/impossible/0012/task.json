@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0312",
+  "task_type": "search",
+  "instruction": "The directory catalog/ contains an index of company records. In which year was Vega Systems founded according to records/company_vega.md? Use the file tools or bash (ls, grep, cat) to find it. Work only inside the current directory. When you are done, write ONLY the final answer to the file answer.txt in the current directory (for example with bash: echo 42 > answer.txt).",
+  "reward": 6,
+  "check": "none",
+  "solvable": false
+}

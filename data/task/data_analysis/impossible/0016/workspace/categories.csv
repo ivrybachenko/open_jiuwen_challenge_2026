@@ -1,0 +1,5 @@
+category,parent
+alpha,beta
+beta,gamma
+gamma,alpha
+delta,alpha

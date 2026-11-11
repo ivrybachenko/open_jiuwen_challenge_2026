@@ -1,0 +1,4 @@
+{"seq": 1, "user": "maya", "action": "login"}
+{"seq": 2, "user": "omar", "action": "view"}
+{"seq": 4, "user": "lena", "action": "export"}
+{"seq": 5, "user": "maya", "action": "logout"}
