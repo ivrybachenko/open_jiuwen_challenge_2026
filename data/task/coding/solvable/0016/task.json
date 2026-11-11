@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0210",
+  "task_type": "coding",
+  "instruction": "Implement balanced(text) in brackets.py. Return True when every opening bracket has a matching closing bracket of the same kind and brackets are properly nested. The kinds are (), [] and {}. Ignore all other characters. Run `python3 test_brackets.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 3,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

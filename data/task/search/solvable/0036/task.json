@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0230",
+  "task_type": "search",
+  "instruction": "The directory corpus contains many text files. Exactly one file contains the token MAGENTA-FOX-42. What is its path relative to the current directory? Use file tools or bash (grep -R, find). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 2,
+  "expected": "corpus/deep/level-7/shard-214.txt",
+  "check": "exact_str"
+}

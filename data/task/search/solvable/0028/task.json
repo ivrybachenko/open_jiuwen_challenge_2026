@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0222",
+  "task_type": "search",
+  "instruction": "traceback.txt records a failure. In which source file is the function where the exception was raised defined? Answer with the path exactly as it appears in the traceback. Use file tools or bash (grep, cat). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 4,
+  "expected": "src/handlers.py",
+  "check": "exact_str"
+}

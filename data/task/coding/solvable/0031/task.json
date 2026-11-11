@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0225",
+  "task_type": "coding",
+  "instruction": "Implement parse_events(lines) in events.py. Each non-empty line has the form '<timestamp> <user> <action>'. Return a dict that maps each user to a dict of action counts. Ignore empty lines. Run `python3 test_events.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 6,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

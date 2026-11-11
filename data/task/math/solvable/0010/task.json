@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0204",
+  "task_type": "math",
+  "instruction": "A cyclist rides 120 km at 60 km/h and then another 90 km at 90 km/h. What is the average speed in km/h over the whole trip, rounded to the nearest integer? Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 3,
+  "expected": "70",
+  "check": "exact_int"
+}

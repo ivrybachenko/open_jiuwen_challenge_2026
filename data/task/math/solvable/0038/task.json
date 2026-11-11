@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0232",
+  "task_type": "math",
+  "instruction": "The look-and-say sequence starts with 1. Each next term reads the previous term aloud: 1, 11, 21, 1211, 111221, ... What is the number of digits in the 20th term, counting the starting 1 as term 1? Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 8,
+  "expected": "302",
+  "check": "exact_int"
+}

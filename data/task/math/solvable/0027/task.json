@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0221",
+  "task_type": "math",
+  "instruction": "Non-negative integers x and y satisfy x + 2y <= 9 and 2x + y <= 9. What is the largest possible value of 3x + 2y? Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 2,
+  "expected": "15",
+  "check": "exact_int"
+}

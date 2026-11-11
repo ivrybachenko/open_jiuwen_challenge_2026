@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0205",
+  "task_type": "search",
+  "instruction": "The file src/app.py contains a TODO comment. On which 1-based line number is it? Use file tools or bash (grep -n, cat). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 1,
+  "expected": "31",
+  "check": "exact_int"
+}

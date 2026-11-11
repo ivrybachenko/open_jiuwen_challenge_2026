@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0233",
+  "task_type": "coding",
+  "instruction": "Write program.py. It reads an integer n and prints the number of ways to place n non-attacking queens on an n by n board. For n from 1 to 10 the result fits in a normal integer. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 1,
+  "expected": "tests_pass",
+  "check": "hidden_unittest"
+}

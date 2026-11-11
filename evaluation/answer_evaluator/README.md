@@ -1,8 +1,9 @@
 # answer_evaluator
 
-Библиотека, которая понимает проверки `unittest`, `exact_int` и `exact_str` и
-выдаёт вердикт: правильно ли харнесс решил задачу. Не доверяет полю `solved`
-из `solutions.json` — там оно означает только «ответ сдан».
+Библиотека, которая понимает проверки `unittest`, `hidden_unittest`,
+`exact_int` и `exact_str` и выдаёт вердикт: правильно ли харнесс решил задачу.
+Не доверяет полю `solved` из `solutions.json` — там оно означает только
+«ответ сдан».
 
 ```bash
 # задача в формате data/task/...
@@ -29,6 +30,10 @@ python -m evaluation.answer_evaluator \
 - `unittest` — в `workspace/` ищутся файлы `test*.py`, каждый запускается
   интерпретатором из `--python` (по умолчанию текущим). Задача решена, если
   все тесты завершились с кодом `0` **и** был сдан `answer.txt`.
+- `hidden_unittest` — то же самое, но тесты ищутся в `<task>/tests/**/test*.py`
+  вне рабочего каталога агента. Тесты запускаются с `cwd=workspace` и
+  `workspace` в `PYTHONPATH`, поэтому проверяемый код импортируется как
+  обычный модуль задачи.
 - Невыполнимые задачи (`check` = `none`/`unsolvable`/`impossible`, либо
   `"solvable": false` / `"impossible": true` в `task.json`) баллов не
   приносят: оценщик возвращает `solved=false`.

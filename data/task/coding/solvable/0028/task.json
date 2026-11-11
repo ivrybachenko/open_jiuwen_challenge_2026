@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0222",
+  "task_type": "coding",
+  "instruction": "Implement parse_date(text) in dates.py. Accept three formats: YYYY-MM-DD, DD.MM.YYYY and 'Month D, YYYY' where Month is the English full month name. Return the date in YYYY-MM-DD form. Raise ValueError for any other input. Run `python3 test_dates.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 7,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

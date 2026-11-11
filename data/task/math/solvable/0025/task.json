@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0219",
+  "task_type": "math",
+  "instruction": "Evaluate p(x) = 5x^6 - 3x^4 + 7x^2 - 11x + 13 at x = 7. Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 3,
+  "expected": "581321",
+  "check": "exact_int"
+}

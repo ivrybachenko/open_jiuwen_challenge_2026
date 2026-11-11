@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0231",
+  "task_type": "coding",
+  "instruction": "Write program.py. It reads two lines: a text and a pattern. The pattern may contain '?' for exactly one character and '*' for any sequence of characters, including an empty one. Print YES if the whole text matches the whole pattern, otherwise NO. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 1,
+  "expected": "tests_pass",
+  "check": "hidden_unittest"
+}

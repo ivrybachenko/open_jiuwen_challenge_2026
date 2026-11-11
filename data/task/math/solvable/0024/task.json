@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0218",
+  "task_type": "math",
+  "instruction": "How many integers x with 0 <= x < 2024 satisfy x^2 congruent to 1 modulo 2024? Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 5,
+  "expected": "16",
+  "check": "exact_int"
+}

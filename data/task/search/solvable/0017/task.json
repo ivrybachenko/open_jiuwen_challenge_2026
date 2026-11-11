@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0211",
+  "task_type": "search",
+  "instruction": "The Markdown files under docs contain links. One relative link points to a file that does not exist. What is the missing target path as written in the link? Use file tools or bash (grep, find, cat). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 6,
+  "expected": "guides/missing/page.md",
+  "check": "exact_str"
+}

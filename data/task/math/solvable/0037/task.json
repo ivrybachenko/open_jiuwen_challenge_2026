@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0231",
+  "task_type": "math",
+  "instruction": "People numbered 1 to 100 stand in a circle. Counting starts at person 1, and every third person still in the circle is removed until one person remains. Which number survives? Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 4,
+  "expected": "91",
+  "check": "exact_int"
+}

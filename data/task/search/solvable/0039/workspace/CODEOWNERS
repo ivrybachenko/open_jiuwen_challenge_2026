@@ -1,0 +1,3 @@
+# owners
+services/api/ @backend-team
+services/web/ @frontend-team

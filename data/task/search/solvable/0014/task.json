@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0208",
+  "task_type": "search",
+  "instruction": "old.txt and new.txt each contain one token per line. Which token appears in both files? Answer with the token. Use file tools or bash (sort, comm, grep). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 4,
+  "expected": "tangerine",
+  "check": "exact_str"
+}

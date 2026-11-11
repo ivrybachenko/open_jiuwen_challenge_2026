@@ -1,0 +1,8 @@
+{
+  "task_id": "data_analysis_0204",
+  "task_type": "data_analysis",
+  "instruction": "The file catalog.csv has columns item_id,category,item,units. How many distinct item names occur in the file? Use bash with python3. Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 1,
+  "expected": "5",
+  "check": "exact_int"
+}

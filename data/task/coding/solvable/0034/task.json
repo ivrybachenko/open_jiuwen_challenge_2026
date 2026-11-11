@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0228",
+  "task_type": "coding",
+  "instruction": "Write program.py. The first line contains n and target. The second line contains n positive coin values. Print the number of ordered ways to make exactly target, modulo 1000000007. Every coin value may be used any number of times. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 7,
+  "expected": "tests_pass",
+  "check": "hidden_unittest"
+}

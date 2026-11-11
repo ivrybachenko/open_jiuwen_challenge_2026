@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0201",
+  "task_type": "math",
+  "instruction": "A notebook costs 17 rubles and a pen costs 9 rubles. You pay with a 50-ruble note and receive exact change. How many rubles is the change? Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to the file answer.txt in the current directory.",
+  "reward": 4,
+  "expected": "24",
+  "check": "exact_int"
+}

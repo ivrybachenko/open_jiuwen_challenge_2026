@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0207",
+  "task_type": "math",
+  "instruction": "February 29, 2024 was a Thursday. What day of the week is it 100 days later? Answer with the English day name. Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 8,
+  "expected": "Saturday",
+  "check": "exact_str"
+}

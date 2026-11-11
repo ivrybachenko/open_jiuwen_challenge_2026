@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0215",
+  "task_type": "coding",
+  "instruction": "Implement parse_config(text) in config.py. Every non-empty line is either a comment starting with '#' or a 'key=value' pair. Surrounding spaces around keys and values must be removed. A later duplicate key overrides an earlier one. Return a dict. Run `python3 test_config.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 3,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

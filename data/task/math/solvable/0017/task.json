@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0211",
+  "task_type": "math",
+  "instruction": "There exist integers x and y with 240x + 46y = 2. What is the smallest positive value of x? Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 7,
+  "expected": "14",
+  "check": "exact_int"
+}

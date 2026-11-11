@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0212",
+  "task_type": "search",
+  "instruction": "access.log is in the common log format. Which client IP has the most responses with status 500? Use file tools or bash (grep, sort, uniq, awk). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 6,
+  "expected": "198.51.100.77",
+  "check": "exact_str"
+}

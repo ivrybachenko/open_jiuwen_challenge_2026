@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0220",
+  "task_type": "math",
+  "instruction": "In a normal-play Nim game there are three heaps of 3, 4 and 5 tokens. A move removes any positive number of tokens from one heap. How many distinct first moves leave the position with Nim-sum zero? Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 6,
+  "expected": "1",
+  "check": "exact_int"
+}

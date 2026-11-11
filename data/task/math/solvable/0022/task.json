@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0216",
+  "task_type": "math",
+  "instruction": "Compute the sum of Euler's totient function phi(n) for all integers n from 1 to 1000 inclusive. Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 6,
+  "expected": "304192",
+  "check": "exact_int"
+}

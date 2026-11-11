@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0202",
+  "task_type": "coding",
+  "instruction": "The file run.sh contains a short shell program. Make it executable and run it. Write what it prints, with the trailing newline removed, to answer.txt in the current directory.",
+  "reward": 8,
+  "expected": "HELLO-42",
+  "check": "exact_str"
+}

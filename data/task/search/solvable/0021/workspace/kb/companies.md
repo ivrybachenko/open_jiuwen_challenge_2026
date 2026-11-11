@@ -1,0 +1,2 @@
+- Blue Harbor: city=Riga
+- Northwind Labs: city=Lisbon

@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0214",
+  "task_type": "coding",
+  "instruction": "Implement longest_common_prefix(words) in lcp.py. Return the longest string that is a prefix of every word. Return an empty string when the list is empty or there is no common prefix. Run `python3 test_lcp.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 6,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

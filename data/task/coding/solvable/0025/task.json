@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0219",
+  "task_type": "coding",
+  "instruction": "Implement the command-line program top_products.py. Usage: `python3 top_products.py FILE [--top N]`. The CSV file has columns product,units. Sum units per product and print the N products with the largest total, one per line as `product total`. Break ties by product name in ascending order. Default N is 3. Run `python3 test_top_products.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 3,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

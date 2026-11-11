@@ -1,0 +1,10 @@
+employee_id,name,manager_id,salary
+e1,Root,,200
+e2,Anna,e1,120
+e3,Boris,e1,210
+e4,Chen,e2,90
+e5,Dina,e2,130
+e6,Eli,e3,180
+e7,Fay,e3,220
+e8,Gus,e4,100
+e9,Hana,e4,80

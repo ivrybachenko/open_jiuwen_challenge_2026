@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0209",
+  "task_type": "coding",
+  "instruction": "Implement encode(text) and decode(text) for run-length encoding in rle.py. A run is written as the character followed by its count, for example 'aaabb' becomes 'a3b2'. Counts are always positive and no count is omitted. Run `python3 test_rle.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 6,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

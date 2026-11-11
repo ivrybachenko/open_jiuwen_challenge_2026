@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0201",
+  "task_type": "coding",
+  "instruction": "Create a file named readme.txt in the current directory. Its entire content must be the number 42 followed by one newline. Then write ONLY the final answer to the file answer.txt in the current directory (for example with bash: echo 42 > answer.txt).",
+  "reward": 8,
+  "expected": "tests_pass",
+  "check": "hidden_unittest"
+}

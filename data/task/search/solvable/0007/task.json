@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0201",
+  "task_type": "search",
+  "instruction": "The directory docs contains project notes. What version is documented in docs/README.md? Use file tools or bash (ls, grep, cat) to find it. Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 3,
+  "expected": "3.7.2",
+  "check": "exact_str"
+}

@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0218",
+  "task_type": "search",
+  "instruction": "The default worker count is in config/default.yaml. The deployment override is in deploy/prod.env, and the override wins. What worker count is effective? Use file tools or bash (grep, cat). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 6,
+  "expected": "9",
+  "check": "exact_int"
+}

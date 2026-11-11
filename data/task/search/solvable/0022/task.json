@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0216",
+  "task_type": "search",
+  "instruction": "people_old.csv and people_new.csv list the same people in different formats. Find the id of the person named Alex Morgan. Answer with the id from the files. Use file tools or bash (grep, cat). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 2,
+  "expected": "u-17",
+  "check": "exact_str"
+}

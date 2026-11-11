@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0221",
+  "task_type": "coding",
+  "instruction": "Implement to_roman(number) and from_roman(text) in roman.py. Support numbers from 1 to 3999 inclusive. Use standard subtractive notation. Run `python3 test_roman.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 6,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

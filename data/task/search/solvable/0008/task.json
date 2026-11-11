@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0202",
+  "task_type": "search",
+  "instruction": "The exact text 'ConnectionRefusedError: port 5432' appears in one file under logs. Which file contains it? Answer with the file name only, for example service-01.log. Use file tools or bash (ls, grep, cat). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 5,
+  "expected": "service-07.log",
+  "check": "exact_str"
+}

@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0229",
+  "task_type": "math",
+  "instruction": "Convert 5 miles, 120 yards and 2 feet into inches, using 1 mile = 1760 yards, 1 yard = 3 feet and 1 foot = 12 inches. Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 5,
+  "expected": "321144",
+  "check": "exact_int"
+}

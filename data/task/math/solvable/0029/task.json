@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0223",
+  "task_type": "math",
+  "instruction": "An RSA public key is n = 3233 with exponent e = 17. The primes are p = 61 and q = 53. Decrypt the ciphertext 2790 to the original message m, where 0 <= m < n. What is m? Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 5,
+  "expected": "65",
+  "check": "exact_int"
+}

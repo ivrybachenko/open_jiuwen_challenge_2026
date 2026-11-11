@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0207",
+  "task_type": "coding",
+  "instruction": "Implement the command-line program hello.py. With an argument it must print 'Hello, <argument>!'; without arguments it must print 'Hello, world!'. Run `python3 test_hello.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 3,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

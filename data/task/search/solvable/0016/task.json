@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0210",
+  "task_type": "search",
+  "instruction": "Configuration is merged in this order: config/base.ini, then config/prod.ini, then config/local.ini, with later files overriding earlier ones. What is the effective timeout value? Use file tools or bash (grep, cat). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 8,
+  "expected": "60",
+  "check": "exact_int"
+}

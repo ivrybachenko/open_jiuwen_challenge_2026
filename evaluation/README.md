@@ -9,7 +9,7 @@
 
 | Команда | Что делает |
 | --- | --- |
-| `python -m evaluation.answer_evaluator` | проверяет ответ одной уже решённой задачи (`unittest` / `exact_int` / `exact_str`) |
+| `python -m evaluation.answer_evaluator` | проверяет ответ одной уже решённой задачи (`unittest` / `hidden_unittest` / `exact_int` / `exact_str`) |
 | `python -m evaluation.harness_task_checker` | запускает харнесс на одной задаче и печатает «решено / нет, токены, время» |
 | `python -m evaluation.harness_task_set_checker` | запускает харнесс на наборе задач и печатает «баллы, токены, время» |
 | `python -m evaluation.dockerfile_checker` | собирает Docker-образ, проверяет размер/время сборки и прогоняет минимальный набор задач в контейнере |
@@ -93,8 +93,10 @@ smoke-тест. Флаг `--tasks-from <task-set.yaml>` ограничивает
 
 1. **Ответ.** Харнесс пишет `answer.txt` в `workspace/` и в корень задачи.
    Оценщик читает оба места; для `unittest` дополнительно запускает
-   `test*.py` в `workspace/` и требует код возврата `0`.
-2. **Подмена тестов.** Перед запуском чекеры хешируют `test*.py` и после
+   `test*.py` в `workspace/`, а для `hidden_unittest` — `tests/test*.py`
+   рядом с `workspace/`, и требует код возврата `0` в обоих случаях.
+2. **Подмена тестов.** Перед запуском чекеры хешируют `test*.py` в рабочем
+   каталоге для `unittest` и `tests/**/test*.py` для `hidden_unittest`, после
    прогона проверяют, что тесты не были изменены или удалены. Отключить это
    можно флагом `--allow-test-edits`.
 3. **Стоимость.** Токены и стоимость берутся из `solutions.json`

@@ -1,0 +1,8 @@
+{
+  "task_id": "data_analysis_0233",
+  "task_type": "data_analysis",
+  "instruction": "inventory.csv has columns event,quantity. Start with zero units. A restock event adds quantity; a sale event subtracts quantity. What is the final stock after all events? Use bash with python3. Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 7,
+  "expected": "18",
+  "check": "exact_int"
+}

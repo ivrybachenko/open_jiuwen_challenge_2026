@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0203",
+  "task_type": "math",
+  "instruction": "Three gears have 84, 126 and 210 teeth. A mark on each gear starts at the same position. What is the smallest positive number of teeth that must pass before all three marks line up again? Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 7,
+  "expected": "1260",
+  "check": "exact_int"
+}

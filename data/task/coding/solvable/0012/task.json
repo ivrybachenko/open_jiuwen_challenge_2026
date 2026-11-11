@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0206",
+  "task_type": "coding",
+  "instruction": "Implement mean(values) and median(values) in stats.py. Each function receives a non-empty list of numbers. The median of an even-length list is the average of the two middle values. Run `python3 test_stats.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 1,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

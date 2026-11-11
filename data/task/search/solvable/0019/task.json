@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0213",
+  "task_type": "search",
+  "instruction": "The file CHANGELOG.md lists releases. What is the most recent version number? Answer without a leading v. Use file tools or bash (grep, head, cat). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 2,
+  "expected": "2.4.1",
+  "check": "exact_str"
+}

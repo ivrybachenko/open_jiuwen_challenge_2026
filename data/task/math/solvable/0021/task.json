@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0215",
+  "task_type": "math",
+  "instruction": "How many positive integers not exceeding 1,000,000 have decimal digit sum equal to 7? Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 3,
+  "expected": "792",
+  "check": "exact_int"
+}

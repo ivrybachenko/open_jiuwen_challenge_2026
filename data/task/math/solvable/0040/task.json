@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0234",
+  "task_type": "math",
+  "instruction": "Compute 7^123456789 modulo 1000000007, using the non-negative remainder. Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 7,
+  "expected": "467332791",
+  "check": "exact_int"
+}

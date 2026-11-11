@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0208",
+  "task_type": "math",
+  "instruction": "An analog clock shows 3:40. What is the smaller angle between the hour hand and the minute hand, in degrees? Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 1,
+  "expected": "130",
+  "check": "exact_int"
+}

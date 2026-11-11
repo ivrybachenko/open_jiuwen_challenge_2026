@@ -10,6 +10,7 @@ The evaluator does not trust the harness's ``solved`` field: in
 
 from __future__ import annotations
 
+import os
 import re
 import subprocess
 import sys
@@ -17,6 +18,8 @@ import unicodedata
 from dataclasses import asdict, dataclass
 
 from evaluation.common.tasks import EvaluationTask, iter_test_files
+
+HIDDEN_TESTS_DIR = "tests"
 
 
 @dataclass(frozen=True)
@@ -62,6 +65,13 @@ def evaluate_task(
 
     if check == "unittest":
         return _evaluate_unittest(
+            task,
+            actual=actual,
+            python=python or sys.executable,
+            timeout=timeout,
+        )
+    if check == "hidden_unittest":
+        return _evaluate_hidden_unittest(
             task,
             actual=actual,
             python=python or sys.executable,
@@ -193,8 +203,46 @@ def _evaluate_unittest(
     python: str,
     timeout: float,
 ) -> Verdict:
+    return _run_tests(
+        task,
+        task.workspace,
+        actual=actual,
+        python=python,
+        timeout=timeout,
+        label="test",
+    )
+
+
+def _evaluate_hidden_unittest(
+    task: EvaluationTask,
+    *,
+    actual: str | None,
+    python: str,
+    timeout: float,
+) -> Verdict:
+    return _run_tests(
+        task,
+        task.root / HIDDEN_TESTS_DIR,
+        actual=actual,
+        python=python,
+        timeout=timeout,
+        label="hidden test",
+        extra_pythonpath=task.workspace,
+    )
+
+
+def _run_tests(
+    task: EvaluationTask,
+    test_root,
+    *,
+    actual: str | None,
+    python: str,
+    timeout: float,
+    label: str,
+    extra_pythonpath=None,
+) -> Verdict:
     workspace = task.workspace
-    test_files = iter_test_files(workspace)
+    test_files = iter_test_files(test_root)
     if not test_files:
         return Verdict(
             task_id=task.task_id,
@@ -202,7 +250,17 @@ def _evaluate_unittest(
             solved=False,
             expected=task.expected,
             actual=actual,
-            detail=f"no test*.py files found in {workspace}",
+            detail=f"no {label}*.py files found in {test_root}",
+        )
+
+    env = dict(os.environ)
+    env["PYTHONDONTWRITEBYTECODE"] = "1"
+    if extra_pythonpath is not None:
+        previous = env.get("PYTHONPATH")
+        env["PYTHONPATH"] = (
+            str(extra_pythonpath)
+            if not previous
+            else str(extra_pythonpath) + os.pathsep + previous
         )
 
     failures: list[str] = []
@@ -214,6 +272,7 @@ def _evaluate_unittest(
                 capture_output=True,
                 text=True,
                 timeout=timeout,
+                env=env,
             )
         except subprocess.TimeoutExpired:
             failures.append(f"{test_file.name}: timeout after {timeout}s")
@@ -257,7 +316,7 @@ def _evaluate_unittest(
         solved=True,
         expected=task.expected,
         actual=actual,
-        detail=f"{len(test_files)} test file(s) passed",
+        detail=f"{len(test_files)} {label} file(s) passed",
     )
 
 

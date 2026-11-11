@@ -177,6 +177,100 @@ class UnittestCheckTest(unittest.TestCase):
         self.assertIn("no answer", verdict.detail)
 
 
+class HiddenUnittestCheckTest(unittest.TestCase):
+    PASSING_LIB = "def add(a, b):\n    return a + b\n"
+    FAILING_LIB = "def add(a, b):\n    return a - b\n"
+    TEST = (
+        "import unittest\n"
+        "import mylib\n"
+        "\n"
+        "class T(unittest.TestCase):\n"
+        "    def test_add(self):\n"
+        "        self.assertEqual(mylib.add(1, 2), 3)\n"
+        "\n"
+        "if __name__ == '__main__':\n"
+        "    unittest.main()\n"
+    )
+
+    def test_passing_hidden_tests(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            task = make_task(
+                Path(tmp),
+                check="hidden_unittest",
+                expected="tests_pass",
+                files={
+                    "workspace/mylib.py": self.PASSING_LIB,
+                    "tests/test_hidden.py": self.TEST,
+                },
+            )
+            (task.workspace / "answer.txt").write_text("DONE\n", encoding="utf-8")
+            verdict = evaluate_task(task, python=sys.executable)
+        self.assertTrue(verdict.solved)
+        self.assertIn("hidden test", verdict.detail)
+
+    def test_failing_hidden_tests(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            task = make_task(
+                Path(tmp),
+                check="hidden_unittest",
+                expected="tests_pass",
+                files={
+                    "workspace/mylib.py": self.FAILING_LIB,
+                    "tests/test_hidden.py": self.TEST,
+                },
+            )
+            (task.workspace / "answer.txt").write_text("DONE\n", encoding="utf-8")
+            verdict = evaluate_task(task, python=sys.executable)
+        self.assertFalse(verdict.solved)
+        self.assertIn("test_hidden.py", verdict.detail)
+
+    def test_hidden_tests_are_not_visible_tests(self) -> None:
+        from evaluation.common.tasks import iter_test_files
+
+        with tempfile.TemporaryDirectory() as tmp:
+            task = make_task(
+                Path(tmp),
+                check="hidden_unittest",
+                expected="tests_pass",
+                files={
+                    "workspace/mylib.py": self.PASSING_LIB,
+                    "tests/test_hidden.py": self.TEST,
+                },
+            )
+            self.assertEqual(iter_test_files(task.workspace), [])
+            self.assertEqual(len(iter_test_files(task.root / "tests")), 1)
+
+    def test_no_hidden_tests(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            task = make_task(
+                Path(tmp),
+                check="hidden_unittest",
+                expected="tests_pass",
+                files={
+                    "workspace/mylib.py": self.PASSING_LIB,
+                    "workspace/answer.txt": "DONE\n",
+                },
+            )
+            verdict = evaluate_task(task, python=sys.executable)
+        self.assertFalse(verdict.solved)
+        self.assertIn("no hidden", verdict.detail)
+
+    def test_answer_is_required(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            task = make_task(
+                Path(tmp),
+                check="hidden_unittest",
+                expected="tests_pass",
+                files={
+                    "workspace/mylib.py": self.PASSING_LIB,
+                    "tests/test_hidden.py": self.TEST,
+                },
+            )
+            verdict = evaluate_task(task, python=sys.executable)
+        self.assertFalse(verdict.solved)
+        self.assertIn("no answer", verdict.detail)
+
+
 class UnsupportedCheckTest(unittest.TestCase):
     def test_unknown_check_is_unsolved(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

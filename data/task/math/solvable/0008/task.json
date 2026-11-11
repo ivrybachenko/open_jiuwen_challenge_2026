@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0202",
+  "task_type": "math",
+  "instruction": "A jacket is priced at 80 euros and today it is sold with a 15 percent discount. What is the final price in euros? Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 5,
+  "expected": "68",
+  "check": "exact_int"
+}

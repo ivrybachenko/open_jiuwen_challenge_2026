@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0218",
+  "task_type": "coding",
+  "instruction": "Implement the command-line program csv_group.py. Usage: `python3 csv_group.py FILE KEY_COLUMN VALUE_COLUMN`. The CSV file has a header row. Sum VALUE_COLUMN as integers for each value of KEY_COLUMN and print one line per key, sorted by key, in the form `key total`. Run `python3 test_csv_group.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 8,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

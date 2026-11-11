@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0227",
+  "task_type": "coding",
+  "instruction": "Write program.py. It reads two strings on separate lines and prints the Levenshtein edit distance between them (insertions, deletions and substitutions each cost 1). Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 8,
+  "expected": "tests_pass",
+  "check": "hidden_unittest"
+}

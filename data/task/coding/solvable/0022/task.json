@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0216",
+  "task_type": "coding",
+  "instruction": "Implement flatten(value) in flatten.py. Recursively flatten nested lists and tuples into one list, preserving order. Strings and other values are leaves. Run `python3 test_flatten.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 7,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

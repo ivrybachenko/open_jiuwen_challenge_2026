@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0204",
+  "task_type": "search",
+  "instruction": "Five text files are under data. Which one has the largest size in bytes? Answer with the file name only. Use file tools or bash (ls, wc, find). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 2,
+  "expected": "epsilon.txt",
+  "check": "exact_str"
+}

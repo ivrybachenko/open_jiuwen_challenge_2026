@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0224",
+  "task_type": "math",
+  "instruction": "Write the decimal number 123456789 in base 36 using lowercase digits 0-9 and a-z. What is the resulting string? Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 6,
+  "expected": "21i3v9",
+  "check": "exact_str"
+}

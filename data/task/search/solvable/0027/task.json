@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0221",
+  "task_type": "search",
+  "instruction": "A build artifact is described in three files under build. Each file contains one line starting with key=; the parts form a checksum when concatenated in file-name order. What is the checksum? Use file tools or bash (ls, grep, cat). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 6,
+  "expected": "a7f3c9",
+  "check": "exact_str"
+}

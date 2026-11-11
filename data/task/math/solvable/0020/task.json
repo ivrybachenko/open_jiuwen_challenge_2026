@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0214",
+  "task_type": "math",
+  "instruction": "A robot starts at (0, 0) and must reach (15, 15), moving only one step right or one step up at a time. How many different paths are there? Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 6,
+  "expected": "155117520",
+  "check": "exact_int"
+}

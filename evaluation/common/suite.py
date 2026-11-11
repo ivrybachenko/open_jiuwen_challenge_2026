@@ -10,6 +10,7 @@ from dataclasses import dataclass, replace
 from pathlib import Path
 
 from evaluation.answer_evaluator import Verdict, evaluate_task
+from evaluation.answer_evaluator.evaluator import HIDDEN_TESTS_DIR
 from evaluation.common.cost import token_cost
 from evaluation.common.runner import HarnessConfig, HarnessRun, run_harness
 from evaluation.common.tasks import (
@@ -117,8 +118,13 @@ def prepare_suite(tasks: list[EvaluationTask], base_dir: str | Path) -> Prepared
             copied_task = replace(copied_task, task_id=task.task_id)
         copied[task.task_id] = copied_task
 
-        if (copied_task.check or "").strip().lower() == "unittest":
+        check = (copied_task.check or "").strip().lower()
+        if check == "unittest":
             snapshots[task.task_id] = snapshot_test_files(copied_task.workspace)
+        elif check == "hidden_unittest":
+            snapshots[task.task_id] = snapshot_test_files(
+                copied_task.root / HIDDEN_TESTS_DIR
+            )
 
     return PreparedSuite(
         base_dir=base_dir,
@@ -155,9 +161,15 @@ def evaluate_suite(
         )
 
         modified: list[str] = []
-        if forbid_test_edits and (copied_task.check or "").strip().lower() == "unittest":
+        check = (copied_task.check or "").strip().lower()
+        if forbid_test_edits and check in {"unittest", "hidden_unittest"}:
+            test_root = (
+                copied_task.workspace
+                if check == "unittest"
+                else copied_task.root / HIDDEN_TESTS_DIR
+            )
             modified = modified_test_files(
-                copied_task.workspace,
+                test_root,
                 prepared.test_snapshots.get(task.task_id, {}),
             )
             if modified:

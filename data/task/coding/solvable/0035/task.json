@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0229",
+  "task_type": "coding",
+  "instruction": "Write program.py. It reads n followed by n integers and prints the length of the longest strictly increasing subsequence. The solution must handle n up to 200000. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 2,
+  "expected": "tests_pass",
+  "check": "hidden_unittest"
+}

@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0210",
+  "task_type": "math",
+  "instruction": "A team of 3 people is chosen from a group of 12. In how many of these teams is at least one of the 5 senior members present? Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 2,
+  "expected": "185",
+  "check": "exact_int"
+}

@@ -5,6 +5,40 @@ dataset:
     - coding/solvable/0004
     - coding/solvable/0005
     - coding/solvable/0006
+    - coding/solvable/0007
+    - coding/solvable/0008
+    - coding/solvable/0009
+    - coding/solvable/0010
+    - coding/solvable/0011
+    - coding/solvable/0012
+    - coding/solvable/0013
+    - coding/solvable/0014
+    - coding/solvable/0015
+    - coding/solvable/0016
+    - coding/solvable/0017
+    - coding/solvable/0018
+    - coding/solvable/0019
+    - coding/solvable/0020
+    - coding/solvable/0021
+    - coding/solvable/0022
+    - coding/solvable/0023
+    - coding/solvable/0024
+    - coding/solvable/0025
+    - coding/solvable/0026
+    - coding/solvable/0027
+    - coding/solvable/0028
+    - coding/solvable/0029
+    - coding/solvable/0030
+    - coding/solvable/0031
+    - coding/solvable/0032
+    - coding/solvable/0033
+    - coding/solvable/0034
+    - coding/solvable/0035
+    - coding/solvable/0036
+    - coding/solvable/0037
+    - coding/solvable/0038
+    - coding/solvable/0039
+    - coding/solvable/0040
     - coding/impossible/0001
     - coding/impossible/0002
     - coding/impossible/0003
@@ -19,6 +53,40 @@ dataset:
     - data_analysis/solvable/0004
     - data_analysis/solvable/0005
     - data_analysis/solvable/0006
+    - data_analysis/solvable/0007
+    - data_analysis/solvable/0008
+    - data_analysis/solvable/0009
+    - data_analysis/solvable/0010
+    - data_analysis/solvable/0011
+    - data_analysis/solvable/0012
+    - data_analysis/solvable/0013
+    - data_analysis/solvable/0014
+    - data_analysis/solvable/0015
+    - data_analysis/solvable/0016
+    - data_analysis/solvable/0017
+    - data_analysis/solvable/0018
+    - data_analysis/solvable/0019
+    - data_analysis/solvable/0020
+    - data_analysis/solvable/0021
+    - data_analysis/solvable/0022
+    - data_analysis/solvable/0023
+    - data_analysis/solvable/0024
+    - data_analysis/solvable/0025
+    - data_analysis/solvable/0026
+    - data_analysis/solvable/0027
+    - data_analysis/solvable/0028
+    - data_analysis/solvable/0029
+    - data_analysis/solvable/0030
+    - data_analysis/solvable/0031
+    - data_analysis/solvable/0032
+    - data_analysis/solvable/0033
+    - data_analysis/solvable/0034
+    - data_analysis/solvable/0035
+    - data_analysis/solvable/0036
+    - data_analysis/solvable/0037
+    - data_analysis/solvable/0038
+    - data_analysis/solvable/0039
+    - data_analysis/solvable/0040
     - data_analysis/impossible/0001
     - data_analysis/impossible/0002
     - data_analysis/impossible/0003
@@ -33,6 +101,40 @@ dataset:
     - math/solvable/0004
     - math/solvable/0005
     - math/solvable/0006
+    - math/solvable/0007
+    - math/solvable/0008
+    - math/solvable/0009
+    - math/solvable/0010
+    - math/solvable/0011
+    - math/solvable/0012
+    - math/solvable/0013
+    - math/solvable/0014
+    - math/solvable/0015
+    - math/solvable/0016
+    - math/solvable/0017
+    - math/solvable/0018
+    - math/solvable/0019
+    - math/solvable/0020
+    - math/solvable/0021
+    - math/solvable/0022
+    - math/solvable/0023
+    - math/solvable/0024
+    - math/solvable/0025
+    - math/solvable/0026
+    - math/solvable/0027
+    - math/solvable/0028
+    - math/solvable/0029
+    - math/solvable/0030
+    - math/solvable/0031
+    - math/solvable/0032
+    - math/solvable/0033
+    - math/solvable/0034
+    - math/solvable/0035
+    - math/solvable/0036
+    - math/solvable/0037
+    - math/solvable/0038
+    - math/solvable/0039
+    - math/solvable/0040
     - math/impossible/0001
     - math/impossible/0002
     - math/impossible/0003
@@ -47,6 +149,40 @@ dataset:
     - search/solvable/0004
     - search/solvable/0005
     - search/solvable/0006
+    - search/solvable/0007
+    - search/solvable/0008
+    - search/solvable/0009
+    - search/solvable/0010
+    - search/solvable/0011
+    - search/solvable/0012
+    - search/solvable/0013
+    - search/solvable/0014
+    - search/solvable/0015
+    - search/solvable/0016
+    - search/solvable/0017
+    - search/solvable/0018
+    - search/solvable/0019
+    - search/solvable/0020
+    - search/solvable/0021
+    - search/solvable/0022
+    - search/solvable/0023
+    - search/solvable/0024
+    - search/solvable/0025
+    - search/solvable/0026
+    - search/solvable/0027
+    - search/solvable/0028
+    - search/solvable/0029
+    - search/solvable/0030
+    - search/solvable/0031
+    - search/solvable/0032
+    - search/solvable/0033
+    - search/solvable/0034
+    - search/solvable/0035
+    - search/solvable/0036
+    - search/solvable/0037
+    - search/solvable/0038
+    - search/solvable/0039
+    - search/solvable/0040
     - search/impossible/0001
     - search/impossible/0002
     - search/impossible/0003

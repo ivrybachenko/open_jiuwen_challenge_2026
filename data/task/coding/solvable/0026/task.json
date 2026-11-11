@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0220",
+  "task_type": "coding",
+  "instruction": "Implement the class LRUCache in lru.py. The constructor takes a positive capacity. get(key) returns the stored value or -1. put(key, value) inserts or updates a key and evicts the least recently used entry when the capacity is exceeded. Both get and put count as use. Run `python3 test_lru.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 3,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

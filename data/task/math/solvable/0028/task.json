@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0222",
+  "task_type": "math",
+  "instruction": "You roll a fair six-sided die once. You may keep the result or reroll exactly once and then must keep the second result. What is the optimal expected value? Answer as a reduced fraction in the form numerator/denominator. Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 1,
+  "expected": "17/4",
+  "check": "exact_str"
+}

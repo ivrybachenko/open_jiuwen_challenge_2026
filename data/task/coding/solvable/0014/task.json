@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0208",
+  "task_type": "coding",
+  "instruction": "Implement count_vowels(text) in vowels.py. Count the letters a, e, i, o, u regardless of case; do not count y. Run `python3 test_vowels.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 2,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

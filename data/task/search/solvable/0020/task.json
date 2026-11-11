@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0214",
+  "task_type": "search",
+  "instruction": "The files under mail form one thread, ordered by file name. Who sent the last message in the thread? Answer with the sender name only. Use file tools or bash (ls, cat). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 4,
+  "expected": "Nina",
+  "check": "exact_str"
+}

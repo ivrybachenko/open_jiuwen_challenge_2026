@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0203",
+  "task_type": "coding",
+  "instruction": "Implement is_even(n) in parity.py. It must return True for even integers and False otherwise, including negative numbers. Run `python3 test_parity.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the word DONE to the file answer.txt in the current directory.",
+  "reward": 7,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

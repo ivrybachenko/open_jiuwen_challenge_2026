@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "src/main.py", line 9, in <module>
+    main()
+  File "src/handlers.py", line 42, in handle
+    raise ValueError("bad input")
+ValueError: bad input

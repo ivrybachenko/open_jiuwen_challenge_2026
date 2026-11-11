@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0227",
+  "task_type": "search",
+  "instruction": "The tests under tests use several fixture files from tests/fixtures. One fixture is never referenced by any test. Answer with its file name. Use file tools or bash (grep, cat). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 7,
+  "expected": "legacy.json",
+  "check": "exact_str"
+}

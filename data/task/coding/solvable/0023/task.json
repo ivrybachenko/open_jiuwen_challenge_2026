@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0217",
+  "task_type": "coding",
+  "instruction": "Implement merge_intervals(intervals) in intervals.py. Each interval is a [start, end] pair. Merge every pair that overlaps or touches another interval and return the result sorted by start. Run `python3 test_intervals.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 8,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0232",
+  "task_type": "search",
+  "instruction": "The file CHANGELOG.md records releases with dates. On what date was version 2.3.0 released? Answer in YYYY-MM-DD form. Use file tools or bash (grep, cat). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 7,
+  "expected": "2024-09-14",
+  "check": "exact_str"
+}

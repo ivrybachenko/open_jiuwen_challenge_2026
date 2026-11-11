@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0209",
+  "task_type": "search",
+  "instruction": "The files under src contain Python functions. Which function calls parse_header? Answer with the function name only. Use file tools or bash (grep, cat). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 4,
+  "expected": "load_request",
+  "check": "exact_str"
+}

@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0211",
+  "task_type": "coding",
+  "instruction": "Implement shift(text, amount) in caesar.py. Shift ASCII letters by amount positions, wrapping inside the same case, and leave every other character unchanged. Run `python3 test_caesar.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 2,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

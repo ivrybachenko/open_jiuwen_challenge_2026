@@ -1,4 +1,4 @@
-"""Answer verdicts for ``unittest``, ``exact_int`` and ``exact_str`` tasks."""
+"""Answer verdicts for ``unittest``, ``hidden_unittest`` and exact tasks."""
 
 from evaluation.answer_evaluator.evaluator import Verdict, evaluate_task
 

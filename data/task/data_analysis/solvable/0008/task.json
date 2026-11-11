@@ -1,0 +1,8 @@
+{
+  "task_id": "data_analysis_0202",
+  "task_type": "data_analysis",
+  "instruction": "The file sales.csv has columns order_id,region,product,units,price. What is the total number of units across all rows? Use bash with python3 to compute it. Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 5,
+  "expected": "617",
+  "check": "exact_int"
+}

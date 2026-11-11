@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0213",
+  "task_type": "coding",
+  "instruction": "Implement transpose(matrix) in matrix.py. The input is a rectangular list of lists. Return a new matrix whose rows are the columns of the input. Do not modify the input. Run `python3 test_matrix.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 3,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

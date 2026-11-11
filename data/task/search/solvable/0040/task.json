@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0234",
+  "task_type": "search",
+  "instruction": "The ticket docs/tickets/123.md refers to a numbered RFC. Which RFC number does it implement? Answer in the form RFC-NNNN. Use file tools or bash (grep, cat). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 5,
+  "expected": "RFC-0042",
+  "check": "exact_str"
+}

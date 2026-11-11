@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0215",
+  "task_type": "search",
+  "instruction": "kb/people.md lists people, their mentors and their employers; kb/companies.md lists companies and headquarters cities. In which city is the employer of the mentor of Lena Ortiz headquartered? Use file tools or bash (grep, cat). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 4,
+  "expected": "Lisbon",
+  "check": "exact_str"
+}

@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0219",
+  "task_type": "search",
+  "instruction": "Three notes under notes contain one part of an access code each, in lines of the form part=... . Read the parts in file-name order and concatenate them without spaces. What is the code? Use file tools or bash (ls, cat). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 6,
+  "expected": "QX731",
+  "check": "exact_str"
+}

@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0223",
+  "task_type": "search",
+  "instruction": "network/edges.txt lists undirected links between routers, one pair per line. How many hops are in the shortest path from A to E? Use file tools or bash (grep, cat, python3). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 4,
+  "expected": "2",
+  "check": "exact_int"
+}

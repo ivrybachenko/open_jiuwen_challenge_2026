@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0234",
+  "task_type": "coding",
+  "instruction": "Write program.py. It reads a single arithmetic expression with non-negative integers, spaces, parentheses, and the operators +, - and *. All intermediate values are non-negative. Print its integer value. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 6,
+  "expected": "tests_pass",
+  "check": "hidden_unittest"
+}

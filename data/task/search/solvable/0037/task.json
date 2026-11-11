@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0231",
+  "task_type": "search",
+  "instruction": "The file README.md has a section named Quick start. What is the first command shown in that section? Answer with the command exactly as written, without the shell prompt. Use file tools or bash (grep, sed, cat). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 7,
+  "expected": "python3 -m app --port 8080",
+  "check": "exact_str"
+}

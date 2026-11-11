@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0205",
+  "task_type": "math",
+  "instruction": "Positive integers x and y satisfy x + y = 11 and 3x + 5y = 47. What is the value of 2x + 3y? Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 1,
+  "expected": "29",
+  "check": "exact_int"
+}

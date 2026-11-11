@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0233",
+  "task_type": "math",
+  "instruction": "Compute the sum of all prime numbers strictly below 2,000,000. Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 4,
+  "expected": "142913828922",
+  "check": "exact_int"
+}

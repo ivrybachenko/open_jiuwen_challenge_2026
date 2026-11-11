@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0223",
+  "task_type": "coding",
+  "instruction": "Implement the command-line program json_query.py. Usage: `python3 json_query.py FILE PATH`, where PATH is a dot-separated path such as `a.b.0.c`. Read the JSON value, follow the path (list indexes are decimal numbers) and print the selected value as compact JSON. If the path does not exist, exit with code 1. Run `python3 test_json_query.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 8,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

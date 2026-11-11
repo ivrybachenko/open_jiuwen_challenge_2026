@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0207",
+  "task_type": "search",
+  "instruction": "The file config.ini has several sections and port values. What is the port in the [server] section? Use file tools or bash (grep, cat). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 3,
+  "expected": "8443",
+  "check": "exact_int"
+}

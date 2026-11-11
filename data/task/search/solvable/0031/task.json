@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0225",
+  "task_type": "search",
+  "instruction": "Two operations documents disagree about the API port. Which file states that the port is 8081? Answer with the file path. Use file tools or bash (grep, cat). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 5,
+  "expected": "docs/ops.md",
+  "check": "exact_str"
+}

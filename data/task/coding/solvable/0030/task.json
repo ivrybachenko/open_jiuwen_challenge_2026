@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0224",
+  "task_type": "coding",
+  "instruction": "Implement sort_versions(versions) in semver.py. Every version is a string with three non-negative integer parts separated by dots. Return a new list sorted in ascending order by numeric parts, not as text. Run `python3 test_semver.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 5,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

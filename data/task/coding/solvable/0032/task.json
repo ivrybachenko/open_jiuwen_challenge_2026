@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0226",
+  "task_type": "coding",
+  "instruction": "Write program.py. It reads an undirected weighted graph from standard input: the first line has n and m, then m lines have u v w (0-based vertices, positive integer weights), then one line has s and t. Print the length of the shortest s-to-t path, or -1 if t is unreachable. Use only the Python standard library. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 4,
+  "expected": "tests_pass",
+  "check": "hidden_unittest"
+}

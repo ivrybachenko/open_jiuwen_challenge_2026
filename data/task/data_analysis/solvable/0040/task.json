@@ -1,0 +1,8 @@
+{
+  "task_id": "data_analysis_0234",
+  "task_type": "data_analysis",
+  "instruction": "transactions_a.csv and transactions_b.csv have columns txn_id,amount. Treat transactions_b.csv as the newer source: for a txn_id present in both files use the amount from transactions_b.csv, otherwise use the only available amount. What is the total amount across all distinct txn_id values? Use bash with python3. Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 4,
+  "expected": "150",
+  "check": "exact_int"
+}

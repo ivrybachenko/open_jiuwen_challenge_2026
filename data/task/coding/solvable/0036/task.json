@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0230",
+  "task_type": "coding",
+  "instruction": "Write program.py. It reads n and m, then m directed edges u v. Print the lexicographically smallest topological order as space-separated vertices, or -1 if the graph has a cycle. Vertices are numbered from 0 to n-1. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 2,
+  "expected": "tests_pass",
+  "check": "hidden_unittest"
+}

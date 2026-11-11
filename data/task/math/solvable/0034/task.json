@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0228",
+  "task_type": "math",
+  "instruction": "A flight leaves at 2025-03-10 22:40 local time in a UTC+8 zone and lasts 7 hours 25 minutes. What is the local date and time at arrival in a UTC-5 zone? Answer in the form YYYY-MM-DD HH:MM. Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 6,
+  "expected": "2025-03-10 17:05",
+  "check": "exact_str"
+}

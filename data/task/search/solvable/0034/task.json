@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0228",
+  "task_type": "search",
+  "instruction": "The files under releases are named after versions. Which file has the highest version when the numeric parts are compared as numbers? Answer with the file name only. Use file tools or bash (ls, sort, python3). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 3,
+  "expected": "v1.10.0.txt",
+  "check": "exact_str"
+}

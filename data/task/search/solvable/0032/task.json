@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0226",
+  "task_type": "search",
+  "instruction": "The Python files under src form an import graph. List all modules that belong to the only import cycle, sorted by file path and separated by commas. Include the src/ prefix and the .py suffix. Use file tools or bash (grep, cat, python3). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 5,
+  "expected": "src/a.py, src/b.py, src/c.py",
+  "check": "exact_str"
+}

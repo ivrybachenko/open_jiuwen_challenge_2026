@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0227",
+  "task_type": "math",
+  "instruction": "A triangle has sides 13, 14 and 15. What is its area? Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 5,
+  "expected": "84",
+  "check": "exact_int"
+}

@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0233",
+  "task_type": "search",
+  "instruction": "CODEOWNERS assigns owners to paths. Who owns services/api/? Answer with the owner exactly as written, including the @ sign. Use file tools or bash (grep, cat). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 7,
+  "expected": "@backend-team",
+  "check": "exact_str"
+}

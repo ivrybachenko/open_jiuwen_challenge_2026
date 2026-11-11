@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0217",
+  "task_type": "search",
+  "instruction": "src/app.py imports modules, and requirements.txt lists the installed third-party packages. One imported third-party module is missing from requirements.txt. Which module is it? Use file tools or bash (grep, cat). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 8,
+  "expected": "numpy",
+  "check": "exact_str"
+}

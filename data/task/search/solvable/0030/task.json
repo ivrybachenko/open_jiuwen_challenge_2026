@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0224",
+  "task_type": "search",
+  "instruction": "The environment is defined in .env and then overridden by deploy/override.env, where the later file wins. What is the effective LOG_LEVEL? Use file tools or bash (grep, cat). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 4,
+  "expected": "debug",
+  "check": "exact_str"
+}

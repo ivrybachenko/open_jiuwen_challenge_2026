@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0205",
+  "task_type": "coding",
+  "instruction": "Implement reverse_text(text) in strings.py. It must return the characters of text in reverse order. Run `python3 test_strings.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 2,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0230",
+  "task_type": "math",
+  "instruction": "How many subsets of {1, 2, ..., 15} have sum exactly 30? The empty set counts as a subset. Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 4,
+  "expected": "186",
+  "check": "exact_int"
+}

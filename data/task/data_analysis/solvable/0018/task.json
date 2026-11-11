@@ -1,0 +1,8 @@
+{
+  "task_id": "data_analysis_0212",
+  "task_type": "data_analysis",
+  "instruction": "duplicates.csv has columns order_id,region,units. When an order_id appears more than once, keep only its first occurrence. What is the total units over the remaining rows? Use bash with python3. Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 4,
+  "expected": "306",
+  "check": "exact_int"
+}

@@ -1,0 +1,8 @@
+{
+  "task_id": "math_0209",
+  "task_type": "math",
+  "instruction": "Find the smallest positive integer x such that 17x leaves remainder 1 when divided by 100. What is x? Compute it with the bash tool (python3 -c). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 1,
+  "expected": "53",
+  "check": "exact_int"
+}

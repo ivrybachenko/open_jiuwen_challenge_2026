@@ -1,0 +1,8 @@
+{
+  "task_id": "coding_0212",
+  "task_type": "coding",
+  "instruction": "Implement binary_search(values, target) in search.py. values is sorted in ascending order. Return any index where target occurs, or -1 when target is absent. Run `python3 test_search.py`; do not edit the tests. Work only inside the current directory. When you are done, write ONLY the word DONE to answer.txt.",
+  "reward": 5,
+  "expected": "tests_pass",
+  "check": "unittest"
+}

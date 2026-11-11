@@ -149,6 +149,44 @@ class SuiteTest(unittest.TestCase):
             self.assertFalse(outcomes[1].verdict.solved)
             self.assertEqual(outcomes[1].test_files_modified, ["test_mylib.py"])
 
+    def test_hidden_test_edits_invalidate_task(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            task = make_task(
+                base / "source",
+                task_id="hidden_1",
+                check="hidden_unittest",
+                expected="tests_pass",
+                reward=4,
+                files={
+                    "workspace/mylib.py": "def add(a, b):\n    return a + b\n",
+                    "tests/test_hidden.py": self.TEST,
+                },
+            )
+            prepared = prepare_suite([task], base / "work")
+            copied = prepared.copied["hidden_1"]
+            (copied.workspace / "answer.txt").write_text("DONE\n", encoding="utf-8")
+            solutions = {
+                "hidden_1": {
+                    "answer": "DONE",
+                    "input_tokens": 10,
+                    "output_tokens": 5,
+                    "cost": 6,
+                }
+            }
+
+            outcomes = evaluate_suite(prepared, solutions, python=sys.executable)
+            self.assertTrue(outcomes[0].verdict.solved)
+
+            (copied.root / "tests" / "test_hidden.py").write_text(
+                "import unittest\nclass T(unittest.TestCase):\n"
+                "    def test_ok(self):\n        pass\n",
+                encoding="utf-8",
+            )
+            outcomes = evaluate_suite(prepared, solutions, python=sys.executable)
+            self.assertFalse(outcomes[0].verdict.solved)
+            self.assertEqual(outcomes[0].test_files_modified, ["test_hidden.py"])
+
     def test_duplicate_task_ids_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             base = Path(tmp)

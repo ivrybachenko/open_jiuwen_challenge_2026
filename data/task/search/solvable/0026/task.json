@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0220",
+  "task_type": "search",
+  "instruction": "One letter was removed from the word observability and the remaining letters were shuffled. The result appears as a word in one file under corpus, where words are separated by spaces. Which file contains it? Answer with the file name only, for example file-01.txt. Use file tools or bash (grep, python3). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 1,
+  "expected": "file-23.txt",
+  "check": "exact_str"
+}

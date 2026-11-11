@@ -1,0 +1,8 @@
+{
+  "task_id": "search_0203",
+  "task_type": "search",
+  "instruction": "How many files with the .md extension are under docs, including nested directories? Use file tools or bash (ls, find, grep). Work only inside the current directory. When you are done, write ONLY the final answer to answer.txt.",
+  "reward": 4,
+  "expected": "12",
+  "check": "exact_int"
+}
