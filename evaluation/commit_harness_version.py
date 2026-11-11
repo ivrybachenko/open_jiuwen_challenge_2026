@@ -21,6 +21,7 @@ import argparse
 import logging
 import sys
 import time
+from dataclasses import replace
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -213,10 +214,12 @@ def main(argv: list[str] | None = None) -> int:
 
         for index, task in enumerate(tasks, start=1):
             dataset_id = task_dataset_id(task, tasks_root)
+            run_id = new_run_id()
+            task_config = replace(config, run_id=run_id)
             try:
                 report = check_task(
                     task,
-                    config,
+                    task_config,
                     python=test_python,
                     strict=args.strict,
                     forbid_test_edits=not args.allow_test_edits,
@@ -229,7 +232,7 @@ def main(argv: list[str] | None = None) -> int:
                     root,
                     task_id=dataset_id,
                     harness_version=version,
-                    run_id=new_run_id(),
+                    run_id=run_id,
                     is_solved_correctly=solved,
                     cost_tokens=cost,
                     cost_seconds=seconds,
@@ -245,7 +248,7 @@ def main(argv: list[str] | None = None) -> int:
                     root,
                     task_id=dataset_id,
                     harness_version=version,
-                    run_id=new_run_id(),
+                    run_id=run_id,
                     is_solved_correctly=False,
                     cost_tokens=0,
                     cost_seconds=0.0,
@@ -256,11 +259,13 @@ def main(argv: list[str] | None = None) -> int:
                 )
 
         if spec is not None:
+            set_run_id = new_run_id()
+            set_config = replace(config, run_id=set_run_id)
             try:
                 report = check_task_set(
                     spec,
                     set_tasks,
-                    config,
+                    set_config,
                     python=test_python,
                     strict=args.strict,
                     forbid_test_edits=not args.allow_test_edits,
@@ -270,7 +275,7 @@ def main(argv: list[str] | None = None) -> int:
                     root,
                     task_set_id=spec.name,
                     harness_version=version,
-                    run_id=new_run_id(),
+                    run_id=set_run_id,
                     score=report.summary.score,
                     cost_tokens=report.summary.cost,
                     cost_seconds=report.harness_duration_seconds,
@@ -293,7 +298,7 @@ def main(argv: list[str] | None = None) -> int:
                     root,
                     task_set_id=spec.name,
                     harness_version=version,
-                    run_id=new_run_id(),
+                    run_id=set_run_id,
                     score=0.0,
                     cost_tokens=0,
                     cost_seconds=0.0,

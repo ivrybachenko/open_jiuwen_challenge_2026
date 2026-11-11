@@ -10,12 +10,14 @@ import logging
 import shutil
 import uuid
 from abc import ABC, abstractmethod
+from contextlib import nullcontext
 from dataclasses import dataclass
 
 from harness.application.config import Settings
 from harness.application.llm import MODELS, TokenLedger
 from harness.application.ojw import configure_logging
 from harness.application.tasks import Task
+from harness.application.trajectory import TrajectoryRecorder
 
 log = logging.getLogger(__name__)
 
@@ -97,6 +99,11 @@ class DeepAgentSolver(Solver):
         super().__init__(settings)
         self._runner_started = False
         self._sys_operation = None
+        self._trajectory = (
+            TrajectoryRecorder(settings.trajectories_dir, settings.run_id)
+            if settings.trajectories_dir is not None
+            else None
+        )
 
     async def start(self) -> None:
         configure_logging()
@@ -117,6 +124,8 @@ class DeepAgentSolver(Solver):
 
         await Runner.start()
         self._runner_started = True
+        if self._trajectory is not None:
+            self._trajectory.start()
         # One operation for the whole run: cwd/sandbox are per-agent ContextVars,
         # so sharing it avoids creating 100 thread pools and lock managers.
         self._sys_operation = SysOperation(
@@ -131,16 +140,25 @@ class DeepAgentSolver(Solver):
         )
 
     async def close(self) -> None:
-        if not self._runner_started:
-            return
-        from openjiuwen.core.runner import Runner
-
         try:
-            await Runner.stop()
-        except Exception:  # noqa: BLE001 - never mask the saved results
-            log.exception("failed to stop openJiuwen Runner")
+            if self._runner_started:
+                from openjiuwen.core.runner import Runner
+
+                try:
+                    await Runner.stop()
+                except Exception:  # noqa: BLE001 - never mask the saved results
+                    log.exception("failed to stop openJiuwen Runner")
+                finally:
+                    self._runner_started = False
         finally:
-            self._runner_started = False
+            if self._trajectory is not None:
+                self._trajectory.close()
+
+    def _trajectory_span(self, task_id: str):
+        """Root span openJiuwen needs before it emits LLM/tool spans."""
+        if self._trajectory is None or not self._trajectory.enabled:
+            return nullcontext()
+        return self._trajectory.task_span(task_id)
 
     async def _solve_one(self, task: Task) -> SolveResult:
         from openjiuwen.core.foundation.llm import init_model
@@ -204,6 +222,11 @@ class DeepAgentSolver(Solver):
                 log.debug("cannot remove stale %s", path, exc_info=True)
 
         tracker = TokenTrackingRail()
+        rails = [SysOperationRail(), tracker, _make_finish_rail()]
+        if self._trajectory is not None and self._trajectory.enabled:
+            trajectory_rail = self._trajectory.rail()
+            if trajectory_rail is not None:
+                rails.append(trajectory_rail)
         agent = create_deep_agent(
             model=model,
             card=AgentCard(
@@ -213,7 +236,7 @@ class DeepAgentSolver(Solver):
             ),
             system_prompt=SYSTEM_PROMPT,
             tools=[write_answer],
-            rails=[SysOperationRail(), tracker, _make_finish_rail()],
+            rails=rails,
             workspace=str(workspace),
             cwd=str(task.workspace),
             project_root=str(task.workspace),
@@ -231,17 +254,18 @@ class DeepAgentSolver(Solver):
         result_type = "unknown"
         error_note = ""
         try:
-            result = await Runner.run_agent(
-                agent,
-                {
-                    "query": (
-                        f"{task.instruction}\n\n"
-                        f"Current working directory: {task.workspace}\n"
-                        "Call write_answer with the final answer when done."
-                    ),
-                    "conversation_id": task.task_id,
-                },
-            )
+            with self._trajectory_span(task.task_id):
+                result = await Runner.run_agent(
+                    agent,
+                    {
+                        "query": (
+                            f"{task.instruction}\n\n"
+                            f"Current working directory: {task.workspace}\n"
+                            "Call write_answer with the final answer when done."
+                        ),
+                        "conversation_id": task.task_id,
+                    },
+                )
             if isinstance(result, dict):
                 result_type = str(result.get("result_type", "unknown"))
         except Exception as exc:  # noqa: BLE001 - record the task, keep going

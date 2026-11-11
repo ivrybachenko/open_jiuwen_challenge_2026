@@ -42,11 +42,15 @@ docker run ... hack:latest /app/run_agent.py --tasks-dir /data/tasks
 | Модель | `--model` | `LLM_MODEL` | `qwen3.6-35b-a3b` |
 | Лимит итераций | `--max-iterations` | `MAX_ITERATIONS` | `12` |
 | Каталог агента | `--agent-workspace` | `AGENT_WORKSPACE` | `/tmp/agent-workspaces` |
+| Каталог траекторий | `--trajectories-dir` | `TRAJECTORIES_DIR` | не задан (запись выключена) |
+| Идентификатор попытки | `--run-id` | `HARNESS_RUN_ID` | не задан |
 | Число задач | `--max-tasks` | — | все задачи |
 | Уровень логов | `--log-level` | — | `INFO` |
 
 `LLM_BASE_URL` и `LLM_API_KEY` передаются только через окружение. Если `OUT`
 указывает на каталог, файл решений будет `<OUT>/solutions.json`.
+`--run-id` / `HARNESS_RUN_ID` — непрозрачный идентификатор попытки: харнесс
+только сохраняет его в траектории, сам не генерирует.
 
 ## Файловая система
 
@@ -56,6 +60,8 @@ docker run ... hack:latest /app/run_agent.py --tasks-dir /data/tasks
   умолчанию, `solutions.json`.
 - Артефакты агента по задаче лежат в
   `/tmp/agent-workspaces/<task_id>` и очищаются перед каждым запуском задачи.
+- Каталог траекторий, если он задан, должен быть доступен на запись. В
+  зачётном контейнере флаг не передаётся, поэтому корень остаётся read-only.
 
 ## Логи
 
@@ -67,7 +73,8 @@ docker run ... hack:latest /app/run_agent.py --tasks-dir /data/tasks
 
 ## Известные ограничения
 
-- Полные траектории не сохраняются.
+- Полные траектории сохраняются только по флагу `--trajectories-dir`; без
+  него харнесс их не пишет.
 - Параллельный запуск нескольких сессий не используется: задачи решаются
   последовательно.
 

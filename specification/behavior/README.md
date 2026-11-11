@@ -54,7 +54,7 @@
 | [03_solver.md](03_solver.md) | Агент, инструменты, лимиты | реализовано |
 | [04_budget_and_selection.md](04_budget_and_selection.md) | Учёт токенов, бюджет, выбор задач, невыполнимые задачи | частично |
 | [05_answers_and_solutions.md](05_answers_and_solutions.md) | `answer.txt` и `solutions.json` | реализовано |
-| [06_trajectories.md](06_trajectories.md) | Логи и траектории | частично |
+| [06_trajectories.md](06_trajectories.md) | Логи и траектории | реализовано |
 | [07_evaluation.md](07_evaluation.md) | Как измеряется решение | реализовано |
 | [08_agents_md.md](08_agents_md.md) | Инструкции для coding-агента: вопросы и антипаттерны `AGENTS.md` | реализовано |
 | [09_readme.md](09_readme.md) | README для организаторов: читатель, обязательные вопросы, границы стабильности | реализовано |

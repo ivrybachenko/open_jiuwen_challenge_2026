@@ -9,6 +9,8 @@ environment variables passed by the jury:
     LLM_API_KEY   - proxy key (never baked into the image)
     LLM_MODEL     - one of the four allowed model names
     TOKEN_BUDGET  - optional output-token budget
+    TRAJECTORIES_DIR - optional directory for full task trajectories
+    HARNESS_RUN_ID - optional run identifier stored in the trajectory
 
 The container root filesystem is read-only, so the default output location
 and the agent workspace live under ``/tmp``.
@@ -59,6 +61,8 @@ class Settings:
     budget: int | None
     max_iterations: int
     agent_workspace: Path
+    trajectories_dir: Path | None
+    run_id: str | None
 
     @classmethod
     def from_env(
@@ -70,6 +74,8 @@ class Settings:
         model: str | None = None,
         max_iterations: int | None = None,
         agent_workspace: Path | str | None = None,
+        trajectories_dir: Path | str | None = None,
+        run_id: str | None = None,
     ) -> "Settings":
         env = os.environ
         raw_tasks = str(tasks_dir) if tasks_dir is not None else env.get("TASKS")
@@ -95,6 +101,14 @@ class Settings:
             if agent_workspace is not None
             else env.get("AGENT_WORKSPACE")
         )
+        raw_trajectories = (
+            str(trajectories_dir)
+            if trajectories_dir is not None
+            else env.get("TRAJECTORIES_DIR")
+        )
+        raw_run_id = (
+            str(run_id) if run_id is not None else env.get("HARNESS_RUN_ID")
+        )
 
         return cls(
             tasks_dir=tasks_path,
@@ -107,4 +121,8 @@ class Settings:
             agent_workspace=(
                 Path(raw_workspace) if raw_workspace else DEFAULT_AGENT_WORKSPACE
             ),
+            trajectories_dir=(
+                Path(raw_trajectories).expanduser() if raw_trajectories else None
+            ),
+            run_id=raw_run_id.strip() if raw_run_id and raw_run_id.strip() else None,
         )

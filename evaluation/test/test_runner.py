@@ -121,6 +121,57 @@ class RunnerTest(unittest.TestCase):
             self.assertEqual(suite.outcomes[0].cost, 30)
             self.assertIsNone(suite.work_dir)
 
+    def test_trajectories_are_written_to_repo_data_by_default(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            fake_repo = make_fake_repo(base)
+            task = make_task(base)
+            config = HarnessConfig(repo_root=fake_repo, python=sys.executable)
+            out = base / "out" / "solutions.json"
+
+            run = run_harness(config, task.root.parent, out)
+
+            self.assertIn("--trajectories-dir", run.command)
+            index = run.command.index("--trajectories-dir")
+            self.assertEqual(
+                Path(run.command[index + 1]),
+                (fake_repo / "data" / "trajectories").resolve(),
+            )
+
+    def test_trajectories_can_be_disabled(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            fake_repo = make_fake_repo(base)
+            task = make_task(base)
+            config = HarnessConfig(
+                repo_root=fake_repo,
+                python=sys.executable,
+                save_trajectories=False,
+            )
+            out = base / "out" / "solutions.json"
+
+            run = run_harness(config, task.root.parent, out)
+
+            self.assertNotIn("--trajectories-dir", run.command)
+
+    def test_run_id_is_passed_to_harness(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            fake_repo = make_fake_repo(base)
+            task = make_task(base)
+            config = HarnessConfig(
+                repo_root=fake_repo,
+                python=sys.executable,
+                run_id="run-123",
+            )
+            out = base / "out" / "solutions.json"
+
+            run = run_harness(config, task.root.parent, out)
+
+            self.assertIn("--run-id", run.command)
+            index = run.command.index("--run-id")
+            self.assertEqual(run.command[index + 1], "run-123")
+
 
 if __name__ == "__main__":
     unittest.main()

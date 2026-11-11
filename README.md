@@ -19,7 +19,7 @@ openJiuwen и сохраняет ответы и расход.
 | Куда пишутся ответы | `answer.txt` в каталоге задачи; сводка — в `solutions.json` |
 | Как учитывается расход | `output + ceil(input / 10)` выходных токенов |
 | Невыполнимые задачи | автоматически не распознаются |
-| Траектории | полные траектории не сохраняются; есть логи и отчёты оценщика |
+| Траектории | по флагу `--trajectories-dir`; оценщики пишут JSONL и YAML в `data/trajectories/` |
 
 ## Сборка и запуск
 
@@ -100,12 +100,34 @@ cost = output_tokens + ceil(input_tokens / 10)
 
 ## Траектории
 
-Полные траектории сообщений и вызовов инструментов не сохраняются.
+Полные траектории пишутся только при тестовых прогонах и только по запросу:
+харнессу передаётся `--trajectories-dir` (или `TRAJECTORIES_DIR`). Оценщики
+делают это автоматически и складывают данные в `data/trajectories/`. Зачётный
+запуск по регламенту флаг не передаёт, поэтому в контейнере ничего не
+создаётся.
 
+- Сохраняется по одной канонической траектории openJiuwen на задачу
+  (`data/trajectories/trajectories_default.jsonl`): вызовы инструментов,
+  сообщения модели и её рассуждения.
+- Рядом пишется читаемая YAML-проекция
+  (`data/trajectories/readable/*.yaml`) с шагами модели и инструментов,
+  рассуждениями, аргументами и результатами. JSONL остаётся источником истины
+  для обучения, YAML удобен для просмотра глазами.
+- Запись содержит `gen_ai.conversation.id` (в API — `session_id`), равный
+  `task_id` из `task.json`; по этому значению она соединяется с
+  `solutions.json`.
+- Оценщики передают в харнесс `--run-id`; тот же `run_id` попадает в
+  траекторию (JSONL-атрибут `harness.run_id`, YAML-поле `run_id`) и в строку
+  `data/harness_task_score/`. Это связывает конкретную попытку решения с
+  датасетом.
+- Формат и пример чтения — в
+  [data/trajectories/README.md](data/trajectories/README.md).
 - Логи харнесса идут в stdout/stderr.
-- В `solutions.json` в поле `note` фиксируется, как получен ответ и была ли ошибка.
+- В `solutions.json` в поле `note` фиксируется, как получен ответ и была ли
+  ошибка.
 - Оценщик сохраняет отчёты в `out/reports/*.json`.
-- Артефакты агента живут в `/tmp/agent-workspaces/<task_id>` и в контейнере исчезают вместе с ним.
+- Артефакты агента живут в `/tmp/agent-workspaces/<task_id>` и в контейнере
+  исчезают вместе с ним.
 
 Подробности — в
 [06_trajectories.md](specification/behavior/06_trajectories.md).
@@ -143,6 +165,6 @@ uv run python -m unittest discover -s test
 | --- | --- |
 | Требования организаторов и примеры задач | [challenge_info/](challenge_info/) |
 | Текущее поведение и ограничения | [specification/behavior/](specification/behavior/README.md) |
-| Версии харнесса и результаты замеров | [data/](data/) |
+| Версии харнесса, результаты замеров и траектории | [data/](data/) |
 | Инструменты оценки и отчёты | [evaluation/README.md](evaluation/README.md) |
 | Правила разработки | [specification/constitution/](specification/constitution/README.md) |

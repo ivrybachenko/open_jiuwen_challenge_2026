@@ -25,6 +25,23 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--model", default=None)
     parser.add_argument("--max-iterations", type=int, default=None)
     parser.add_argument("--agent-workspace", type=Path, default=None)
+    parser.add_argument(
+        "--trajectories-dir",
+        type=Path,
+        default=None,
+        help=(
+            "Directory for full openJiuwen task trajectories; "
+            "TRAJECTORIES_DIR is used when the flag is absent."
+        ),
+    )
+    parser.add_argument(
+        "--run-id",
+        default=None,
+        help=(
+            "Opaque evaluation run identifier stored in each trajectory; "
+            "HARNESS_RUN_ID is used when the flag is absent."
+        ),
+    )
     parser.add_argument("--max-tasks", type=int, default=None)
     parser.add_argument("--log-level", default="INFO")
     return parser.parse_args(argv)
@@ -38,15 +55,19 @@ async def _run(args: argparse.Namespace) -> int:
         model=args.model,
         max_iterations=args.max_iterations,
         agent_workspace=args.agent_workspace,
+        trajectories_dir=args.trajectories_dir,
+        run_id=args.run_id,
     )
     tasks = load_tasks(settings.tasks_dir)
     log.info(
-        "loaded %d tasks from %s (model=%s, budget=%s, out=%s)",
+        "loaded %d tasks from %s (model=%s, budget=%s, out=%s, trajectories=%s, run_id=%s)",
         len(tasks),
         settings.tasks_dir,
         settings.model,
         settings.budget,
         settings.out,
+        settings.trajectories_dir,
+        settings.run_id or "-",
     )
 
     store = SolutionsStore(settings.out)

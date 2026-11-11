@@ -166,6 +166,48 @@ class CommitHarnessVersionTest(unittest.TestCase):
             self.assertEqual(fields[3], "true")
             self.assertEqual(fields[4], "30")
 
+    def test_task_run_id_matches_recorded_row(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            base = self._make_repo(Path(tmp))
+            captured: list[str | None] = []
+
+            def fail_check(task, config, **kwargs):
+                captured.append(config.run_id)
+                raise RuntimeError("boom")
+
+            with mock.patch.dict(os.environ, {"LLM_API_KEY": "dummy"}, clear=False):
+                with mock.patch(
+                    "evaluation.commit_harness_version.check_task",
+                    side_effect=fail_check,
+                ):
+                    with contextlib.redirect_stdout(io.StringIO()):
+                        rc = commit_main(
+                            [
+                                "--harness-version",
+                                "0001",
+                                "--runs",
+                                "1",
+                                "--max-tasks",
+                                "1",
+                                "--skip-set",
+                                "--repo-root",
+                                str(base),
+                                "--tasks-root",
+                                str(base / "data" / "task"),
+                                "--python",
+                                sys.executable,
+                            ]
+                        )
+            self.assertEqual(rc, 0)
+            self.assertEqual(len(captured), 1)
+            row = (
+                base
+                / "data"
+                / "harness_task_score"
+                / "harness_v_0001.tsv"
+            ).read_text(encoding="utf-8").splitlines()[1]
+            self.assertEqual(row.split("\t")[1], captured[0])
+
     def test_every_row_gets_its_own_run_id(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             base = self._make_repo(Path(tmp))

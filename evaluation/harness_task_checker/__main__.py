@@ -142,6 +142,7 @@ def main(argv: list[str] | None = None) -> int:
         budget=args.budget,
         max_iterations=args.max_iterations,
         timeout=args.timeout,
+        run_id=run_id,
     )
 
     # Use the same interpreter for the harness and for re-running the tests:

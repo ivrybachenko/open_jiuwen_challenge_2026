@@ -26,6 +26,12 @@ class HarnessConfig:
     extra_args: tuple[str, ...] = ()
     timeout: float | None = 3600.0
     env: Mapping[str, str] = field(default_factory=dict)
+    # Evaluation runs double as training-data collection.  The harness only
+    # writes trajectories when the flag is present, so the jury command is
+    # unaffected.  ``trajectories_dir=None`` resolves to <repo>/data/trajectories.
+    save_trajectories: bool = True
+    trajectories_dir: Path | None = None
+    run_id: str | None = None
 
 
 @dataclass
@@ -107,6 +113,11 @@ def run_harness(
         command += ["--budget", str(config.budget)]
     if config.max_iterations is not None:
         command += ["--max-iterations", str(config.max_iterations)]
+    if config.save_trajectories:
+        trajectories = config.trajectories_dir or config.repo_root / "data" / "trajectories"
+        command += ["--trajectories-dir", str(trajectories.resolve())]
+    if config.run_id:
+        command += ["--run-id", str(config.run_id)]
     command += list(config.extra_args)
 
     env = os.environ.copy()
