@@ -166,6 +166,59 @@ class CommitHarnessVersionTest(unittest.TestCase):
             self.assertEqual(fields[3], "true")
             self.assertEqual(fields[4], "30")
 
+    def test_every_row_gets_its_own_run_id(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            base = self._make_repo(Path(tmp))
+            self._add_task(base, "test/solvable/0002", "t_other")
+            task_set = base / "data" / "task_set" / "example.yaml"
+            task_set.parent.mkdir(parents=True)
+            task_set.write_text(
+                "dataset:\n"
+                "  random_seed: 42\n"
+                "  tasks:\n"
+                "    - test/solvable/0001\n"
+                "    - test/solvable/0002\n",
+                encoding="utf-8",
+            )
+            with mock.patch.dict(os.environ, {"LLM_API_KEY": "dummy"}, clear=False):
+                with contextlib.redirect_stdout(io.StringIO()):
+                    rc = commit_main(
+                        [
+                            "--harness-version",
+                            "0001",
+                            "--runs",
+                            "2",
+                            "--task-set",
+                            str(task_set),
+                            "--repo-root",
+                            str(base),
+                            "--tasks-root",
+                            str(base / "data" / "task"),
+                            "--python",
+                            sys.executable,
+                        ]
+                    )
+            self.assertEqual(rc, 0)
+
+            run_ids = []
+            expected_rows = {
+                "harness_task_score": 4,
+                "harness_task_set_score": 2,
+            }
+            for name, expected in expected_rows.items():
+                path = (
+                    base
+                    / "data"
+                    / name
+                    / "harness_v_0001.tsv"
+                )
+                rows = path.read_text(encoding="utf-8").splitlines()[1:]
+                ids = [row.split("\t")[1] for row in rows]
+                self.assertEqual(len(rows), expected)
+                self.assertEqual(len(set(ids)), len(rows))
+                run_ids.extend(ids)
+            self.assertEqual(len(set(run_ids)), len(run_ids))
+
     def test_existing_dataset_rows_are_kept(self) -> None:
         header = (
             "harness_version\trun_id\ttask_id\tis_solved_correctly\t"

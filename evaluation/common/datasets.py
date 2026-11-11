@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import os
 import re
-from datetime import datetime, timezone
+import uuid
 from pathlib import Path
 
 HARNESS_INFO_HEADER = ("harness_version", "parent_harness_version", "description")
@@ -64,8 +64,8 @@ def resolve_harness_version(
 
 
 def new_run_id() -> str:
-    """Unique run identifier (UTC timestamp with microseconds)."""
-    return datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ")
+    """Unique row identifier: a random UUID (version 4)."""
+    return str(uuid.uuid4())
 
 
 def record_task_score(
@@ -86,6 +86,7 @@ def record_task_score(
         / f"harness_v_{harness_version}.tsv"
     )
     rows = _read_rows(path, TASK_SCORE_HEADER)
+    _ensure_run_id_is_available(rows, run_id, "task_id", task_id)
     _upsert(
         rows,
         ("harness_version", "run_id", "task_id"),
@@ -127,6 +128,7 @@ def record_task_set_score(
         / f"harness_v_{harness_version}.tsv"
     )
     rows = _read_rows(path, TASK_SET_SCORE_HEADER)
+    _ensure_run_id_is_available(rows, run_id, "task_set_id", task_set_id)
     _upsert(
         rows,
         ("harness_version", "run_id", "task_set_id"),
@@ -295,6 +297,25 @@ def _write_rows(path: Path, header: tuple[str, ...], rows: list[dict[str, str]])
 
 def _clean_cell(value: str) -> str:
     return value.replace("\t", " ").replace("\r", " ").replace("\n", " ").strip()
+
+
+def _ensure_run_id_is_available(
+    rows: list[dict[str, str]],
+    run_id: str,
+    key_field: str,
+    key_value: str,
+) -> None:
+    """Reject reusing a ``run_id`` that belongs to a different row."""
+    for row in rows:
+        if row.get("run_id") != run_id:
+            continue
+        if row.get(key_field) == key_value:
+            # The same row: the caller may update it in place.
+            continue
+        raise ValueError(
+            f"run_id {run_id!r} is already used by "
+            f"{key_field} {row.get(key_field)!r}"
+        )
 
 
 def _upsert(

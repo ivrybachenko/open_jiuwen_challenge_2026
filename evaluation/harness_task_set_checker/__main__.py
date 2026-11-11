@@ -86,7 +86,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--run-id",
         default=None,
-        help="Run identifier for --record (default: UTC timestamp).",
+        help="Run identifier for --record (default: a random UUID).",
     )
     parser.add_argument("--log-level", default="INFO")
     return parser.parse_args(argv)

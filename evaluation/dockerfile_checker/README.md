@@ -30,7 +30,8 @@ python -m evaluation.dockerfile_checker --fail-on-unsolved
 
 `LLM_BASE_URL=https://api.neuraldeep.ru/v1` оценщик передаёт контейнеру сам
 через `-e`; в харнессе этого URL нет. С `--record` обязателен
-`--harness-version`; каждый запуск получает новый `run_id` (или `--run-id`).
+`--harness-version`; каждая запись получает новый `run_id` (UUID, или
+`--run-id`).
 
 Ограничения по умолчанию соответствуют регламенту:
 

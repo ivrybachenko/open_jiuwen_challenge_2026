@@ -12,7 +12,7 @@ The script:
    ``data/harness_task_set_score/harness_v_<version>.tsv`` (existing rows are
    kept);
 4. runs the harness 5 times on every task and 5 times on the example task set;
-5. records every run under its own ``run_id``.
+5. records every row under its own unique ``run_id``.
 """
 
 from __future__ import annotations
@@ -26,6 +26,7 @@ from pathlib import Path
 
 from evaluation.common.datasets import (
     has_harness_info,
+    new_run_id,
     record_task_score,
     record_task_set_score,
     resolve_harness_version,
@@ -208,8 +209,7 @@ def main(argv: list[str] | None = None) -> int:
 
     started = time.monotonic()
     for run_index in range(1, args.runs + 1):
-        run_id = f"{batch}-{run_index:02d}"
-        print(f"\n=== run {run_index}/{args.runs}: {run_id} ===")
+        print(f"\n=== run {run_index}/{args.runs} ===")
 
         for index, task in enumerate(tasks, start=1):
             dataset_id = task_dataset_id(task, tasks_root)
@@ -229,7 +229,7 @@ def main(argv: list[str] | None = None) -> int:
                     root,
                     task_id=dataset_id,
                     harness_version=version,
-                    run_id=run_id,
+                    run_id=new_run_id(),
                     is_solved_correctly=solved,
                     cost_tokens=cost,
                     cost_seconds=seconds,
@@ -245,7 +245,7 @@ def main(argv: list[str] | None = None) -> int:
                     root,
                     task_id=dataset_id,
                     harness_version=version,
-                    run_id=run_id,
+                    run_id=new_run_id(),
                     is_solved_correctly=False,
                     cost_tokens=0,
                     cost_seconds=0.0,
@@ -270,7 +270,7 @@ def main(argv: list[str] | None = None) -> int:
                     root,
                     task_set_id=spec.name,
                     harness_version=version,
-                    run_id=run_id,
+                    run_id=new_run_id(),
                     score=report.summary.score,
                     cost_tokens=report.summary.cost,
                     cost_seconds=report.harness_duration_seconds,
@@ -293,7 +293,7 @@ def main(argv: list[str] | None = None) -> int:
                     root,
                     task_set_id=spec.name,
                     harness_version=version,
-                    run_id=run_id,
+                    run_id=new_run_id(),
                     score=0.0,
                     cost_tokens=0,
                     cost_seconds=0.0,

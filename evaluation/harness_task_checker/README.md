@@ -22,8 +22,8 @@ python -m evaluation.harness_task_checker \
 
 `LLM_BASE_URL=https://api.neuraldeep.ru/v1` оценщик подставляет сам; в
 харнессе этого URL нет. С `--record` обязателен `--harness-version`, и он
-должен совпадать с `harness/pyproject.toml`. Каждый запуск получает новый
-`run_id`; задать вручную можно через `--run-id`.
+должен совпадать с `harness/pyproject.toml`. Каждая запись получает новый
+`run_id` (UUID); задать вручную можно через `--run-id`.
 
 Что происходит:
 

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import tempfile
 import unittest
+import uuid
 from pathlib import Path
 
 from evaluation.common.datasets import (
@@ -12,6 +13,7 @@ from evaluation.common.datasets import (
     current_harness_version,
     ensure_harness_info,
     has_harness_info,
+    new_run_id,
     record_task_score,
     record_task_set_score,
     resolve_harness_version,
@@ -39,6 +41,13 @@ class DatasetWriterTest(unittest.TestCase):
             with self.assertRaises(ValueError):
                 resolve_harness_version(repo, "0002")
 
+    def test_new_run_id_is_a_unique_uuid(self) -> None:
+        first = new_run_id()
+        second = new_run_id()
+        self.assertNotEqual(first, second)
+        self.assertEqual(uuid.UUID(first).version, 4)
+        self.assertEqual(uuid.UUID(second).version, 4)
+
     def test_task_score_upsert_and_tsv(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             repo = self._repo(Path(tmp))
@@ -64,7 +73,7 @@ class DatasetWriterTest(unittest.TestCase):
                 repo,
                 task_id="math/solvable/0001",
                 harness_version="0001",
-                run_id="r1",
+                run_id="r2",
                 is_solved_correctly=True,
                 cost_tokens=50,
                 cost_seconds=5.0,
@@ -81,7 +90,7 @@ class DatasetWriterTest(unittest.TestCase):
             )
             self.assertEqual(
                 lines[2],
-                "0001\tr1\tmath/solvable/0001\ttrue\t50\t5.000",
+                "0001\tr2\tmath/solvable/0001\ttrue\t50\t5.000",
             )
             self.assertEqual(len(lines), 3)
 
@@ -110,6 +119,56 @@ class DatasetWriterTest(unittest.TestCase):
             self.assertEqual(len(lines), 3)
             self.assertIn("0001\tr1\tcoding/solvable/0001\ttrue\t100\t1.000", lines)
             self.assertIn("0001\tr2\tcoding/solvable/0001\tfalse\t200\t2.000", lines)
+
+    def test_task_score_rejects_run_id_of_another_task(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = self._repo(Path(tmp))
+            path = record_task_score(
+                repo,
+                task_id="coding/solvable/0001",
+                harness_version="0001",
+                run_id="r1",
+                is_solved_correctly=True,
+                cost_tokens=100,
+                cost_seconds=1.0,
+            )
+            before = path.read_text(encoding="utf-8")
+            with self.assertRaises(ValueError):
+                record_task_score(
+                    repo,
+                    task_id="math/solvable/0001",
+                    harness_version="0001",
+                    run_id="r1",
+                    is_solved_correctly=True,
+                    cost_tokens=50,
+                    cost_seconds=5.0,
+                )
+            self.assertEqual(path.read_text(encoding="utf-8"), before)
+
+    def test_task_set_score_rejects_run_id_of_another_set(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = self._repo(Path(tmp))
+            path = record_task_set_score(
+                repo,
+                task_set_id="minimal",
+                harness_version="0001",
+                run_id="r1",
+                score=5.0,
+                cost_tokens=300,
+                cost_seconds=60.0,
+            )
+            before = path.read_text(encoding="utf-8")
+            with self.assertRaises(ValueError):
+                record_task_set_score(
+                    repo,
+                    task_set_id="example",
+                    harness_version="0001",
+                    run_id="r1",
+                    score=2.0,
+                    cost_tokens=100,
+                    cost_seconds=20.0,
+                )
+            self.assertEqual(path.read_text(encoding="utf-8"), before)
 
     def test_old_task_score_header_is_migrated(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
