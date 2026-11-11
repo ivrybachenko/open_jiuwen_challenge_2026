@@ -1,0 +1,8 @@
+{
+  "task_id": "data_analysis_0112",
+  "task_type": "data_analysis",
+  "instruction": "The file expenses.csv has columns expense_id,amount,currency and meta.json contains the target currency and conversion rates. What is the total of all expenses in the target currency? Use bash with python3 to compute it. Work only inside the current directory. When you are done, write ONLY the final answer to the file answer.txt in the current directory (for example with bash: echo 42 > answer.txt).",
+  "reward": 4,
+  "check": "none",
+  "solvable": false
+}

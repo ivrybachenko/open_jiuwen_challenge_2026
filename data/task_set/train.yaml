@@ -9,6 +9,14 @@ dataset:
     - coding/solvable/0006
     - coding/impossible/0001
     - coding/impossible/0002
+    - coding/impossible/0003
+    - coding/impossible/0004
+    - coding/impossible/0005
+    - coding/impossible/0006
+    - coding/impossible/0007
+    - coding/impossible/0008
+    - coding/impossible/0009
+    - coding/impossible/0010
     - data_analysis/solvable/0001
     - data_analysis/solvable/0002
     - data_analysis/solvable/0003
@@ -17,6 +25,14 @@ dataset:
     - data_analysis/solvable/0006
     - data_analysis/impossible/0001
     - data_analysis/impossible/0002
+    - data_analysis/impossible/0003
+    - data_analysis/impossible/0004
+    - data_analysis/impossible/0005
+    - data_analysis/impossible/0006
+    - data_analysis/impossible/0007
+    - data_analysis/impossible/0008
+    - data_analysis/impossible/0009
+    - data_analysis/impossible/0010
     - math/solvable/0001
     - math/solvable/0002
     - math/solvable/0003
@@ -25,6 +41,14 @@ dataset:
     - math/solvable/0006
     - math/impossible/0001
     - math/impossible/0002
+    - math/impossible/0003
+    - math/impossible/0004
+    - math/impossible/0005
+    - math/impossible/0006
+    - math/impossible/0007
+    - math/impossible/0008
+    - math/impossible/0009
+    - math/impossible/0010
     - search/solvable/0001
     - search/solvable/0002
     - search/solvable/0003
@@ -33,3 +57,11 @@ dataset:
     - search/solvable/0006
     - search/impossible/0001
     - search/impossible/0002
+    - search/impossible/0003
+    - search/impossible/0004
+    - search/impossible/0005
+    - search/impossible/0006
+    - search/impossible/0007
+    - search/impossible/0008
+    - search/impossible/0009
+    - search/impossible/0010

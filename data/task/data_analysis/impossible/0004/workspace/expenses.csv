@@ -1,0 +1,5 @@
+expense_id,amount,currency
+e1,120.00,USD
+e2,80.00,EUR
+e3,45.00,GBP
+e4,60.00,ZKL

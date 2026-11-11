@@ -1,0 +1,8 @@
+{
+  "task_id": "data_analysis_0130",
+  "task_type": "data_analysis",
+  "instruction": "The file reviews.csv has columns restaurant,rating. What is the average rating? Use bash with python3 to compute it. Work only inside the current directory. When you are done, write ONLY the final answer to the file answer.txt in the current directory (for example with bash: echo 42 > answer.txt).",
+  "reward": 3,
+  "check": "none",
+  "solvable": false
+}
