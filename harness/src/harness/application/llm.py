@@ -22,7 +22,7 @@ MODELS = (
     "qwen3.6-35b-a3b",
     "qwen3.6-35b-a3b-noreason",
 )
-DEFAULT_MODEL = "qwen3.6-35b-a3b"
+DEFAULT_MODEL = "qwen3.6-35b-a3b-noreason"
 
 INPUT_TOKENS_PER_OUTPUT_TOKEN = 10
 

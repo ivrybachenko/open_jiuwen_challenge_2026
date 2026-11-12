@@ -9,6 +9,7 @@ import unittest
 from pathlib import Path
 
 from harness.application.config import Settings
+from harness.application.llm import DEFAULT_MODEL
 from harness.application.solver import (
     SYSTEM_PROMPT,
     BashAgentSolver,
@@ -26,7 +27,7 @@ def make_settings(tmp: Path, *, resume: bool = True) -> Settings:
         out=tmp / "solutions.json",
         llm_base_url="http://example.invalid/v1",
         llm_api_key="test-key",
-        model="qwen3.6-35b-a3b",
+        model=DEFAULT_MODEL,
         budget=None,
         max_iterations=12,
         agent_workspace=tmp / "agent",
@@ -68,7 +69,7 @@ def make_state(task: Task, **overrides) -> TaskState:
     state = TaskState(
         task_id=task.task_id,
         task_root=str(task.root),
-        model="qwen3.6-35b-a3b",
+        model=DEFAULT_MODEL,
         overview="$ cat task.txt\ndo it",
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
@@ -88,6 +89,12 @@ class PromptTest(unittest.TestCase):
         self.assertIn("bash script", lowered)
         self.assertIn("answer.txt", lowered)
         self.assertIn("impossible", lowered)
+
+    def test_prompt_requires_one_fenced_block_without_prose(self) -> None:
+        lowered = SYSTEM_PROMPT.lower()
+        self.assertIn("exactly one fenced", lowered)
+        self.assertIn("do not write any text before or after", lowered)
+        self.assertNotIn("without markdown fences", lowered)
 
     def test_extract_script_takes_the_last_fenced_block(self) -> None:
         self.assertEqual(

@@ -7,8 +7,10 @@
 ## Назначение
 
 Решение собирается в Docker-образ и запускается проверяющей системой с
-каталогом задач и ключом LLM-прокси. Версия `0002` использует bash-агента:
+каталогом задач и ключом LLM-прокси. Версия `0003` использует bash-агента:
 ответ модели исполняется как скрипт, а не как вызов инструментов openJiuwen.
+По умолчанию выбрана модель без ризонинга; явные `--model` и `LLM_MODEL`
+перекрывают её.
 
 ## Сборка
 
@@ -40,7 +42,7 @@ docker run ... hack:latest /app/run_agent.py --tasks-dir /data/tasks
 | Каталог задач | `--tasks-dir` | `TASKS` | `/data/tasks` |
 | Файл решений | `--out` | `OUT` | `<tasks-dir>/solutions.json` |
 | Бюджет | `--budget` | `TOKEN_BUDGET`, `BUDGET`, `LLM_TOKEN_BUDGET` | без лимита |
-| Модель | `--model` | `LLM_MODEL` | `qwen3.6-35b-a3b` |
+| Модель | `--model` | `LLM_MODEL` | `qwen3.6-35b-a3b-noreason` |
 | Лимит волны 1 | `--wave1-max-tokens` | `HARNESS_WAVE1_MAX_TOKENS` | `1000` |
 | Лимит волны 2 | `--wave2-max-tokens` | `HARNESS_WAVE2_MAX_TOKENS` | `4000` |
 | Число задач волны 2 | `--wave2-max-tasks` | `HARNESS_WAVE2_MAX_TASKS` | `50` |

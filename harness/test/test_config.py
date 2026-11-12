@@ -10,6 +10,26 @@ from unittest.mock import patch
 from harness.application.config import Settings
 
 
+class ModelDefaultTest(unittest.TestCase):
+    def test_default_model_is_noreason(self) -> None:
+        with patch.dict(os.environ, {}, clear=True):
+            settings = Settings.from_env(tasks_dir="/tmp/tasks")
+        self.assertEqual(settings.model, "qwen3.6-35b-a3b-noreason")
+
+    def test_env_model_overrides_default(self) -> None:
+        with patch.dict(os.environ, {"LLM_MODEL": "qwen3.8-27b"}, clear=True):
+            settings = Settings.from_env(tasks_dir="/tmp/tasks")
+        self.assertEqual(settings.model, "qwen3.8-27b")
+
+    def test_flag_model_overrides_env(self) -> None:
+        with patch.dict(os.environ, {"LLM_MODEL": "qwen3.8-27b"}, clear=True):
+            settings = Settings.from_env(
+                tasks_dir="/tmp/tasks",
+                model="qwen3.6-35b-a3b",
+            )
+        self.assertEqual(settings.model, "qwen3.6-35b-a3b")
+
+
 class TrajectoriesDirTest(unittest.TestCase):
     def test_disabled_without_flag_or_env(self) -> None:
         with patch.dict(os.environ, {}, clear=True):

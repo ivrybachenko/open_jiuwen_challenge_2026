@@ -1,6 +1,6 @@
 """Turn features for the future difficulty predictor.
 
-The harness v0002 does not train a model yet.  It records the same signals the
+The harness v0003 does not train a model yet.  It records the same signals the
 predictor will need -- reasoning, usage, script shape, execution result and the
 submitted answer -- and ranks wave-2 candidates with a transparent heuristic.
 """

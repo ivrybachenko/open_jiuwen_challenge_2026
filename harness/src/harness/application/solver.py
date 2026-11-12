@@ -47,8 +47,10 @@ STATE_VERSION = 2
 MAX_ANSWER_CHARS = 20_000
 
 SYSTEM_PROMPT = """You are a program generator, not an interactive shell.
-For each task, output one complete self-contained bash script that solves the
-whole task in a single execution. The harness runs it as:
+For each task, reply with exactly one fenced bash block. The block must contain
+one complete self-contained bash script that solves the whole task in a single
+execution. Do not write any text before or after the block. The harness runs
+the contents of that block as:
     cd <current directory> && bash <script>
 and sends you the script output in the next message.
 
@@ -67,7 +69,7 @@ If the task is impossible, write IMPOSSIBLE as the first line of answer.txt
 and briefly explain why on the following lines. If the requested value does
 not exist or the conditions contradict each other, do not invent an
 approximate or fractional answer. Do not ask questions and do not describe
-the script. Output raw bash, without markdown fences.
+the script.
 
 Before writing answer.txt, check that the values you extracted are non-empty
 and plausible. If a lookup returned nothing, fix the parsing instead of
@@ -811,10 +813,11 @@ def _message_text(content: Any) -> str:
 def extract_script(content: str) -> str:
     """Return the intended bash script.
 
-    Providers sometimes put the model's reasoning into ``content`` together
-    with several Markdown blocks.  The whole reply is executed as-is only when
-    there is no fenced block; otherwise the last block is the model's final
-    answer.  A single wrapping fence is therefore handled automatically.
+    The system prompt asks for exactly one fenced bash block.  As a defensive
+    fallback, providers sometimes put reasoning into ``content`` together with
+    several Markdown blocks: the whole reply is executed as-is only when there
+    is no fenced block, otherwise the last block is used.  A single wrapping
+    fence is therefore handled automatically.
     """
     text = (content or "").strip()
     if not text:

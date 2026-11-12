@@ -29,7 +29,7 @@ DEFAULT_OUT = Path("/tmp/out/solutions.json")
 DEFAULT_AGENT_WORKSPACE = Path("/tmp/agent-workspaces")
 DEFAULT_MAX_ITERATIONS = 12
 
-# Harness v0002 behaviour.  Values are exposed as flags so the evaluators can
+# Harness v0003 behaviour.  Values are exposed as flags so the evaluators can
 # compare strategies without editing code.
 DEFAULT_WAVE1_MAX_TOKENS = 1000
 DEFAULT_WAVE2_MAX_TOKENS = 4000
