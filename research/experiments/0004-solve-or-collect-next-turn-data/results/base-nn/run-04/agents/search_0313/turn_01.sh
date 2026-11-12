@@ -1,0 +1,2 @@
+# Decode the base64-encoded JSON record and extract the owner field
+cat vault/blob.txt | base64 -d | python3 -c "import sys, json; data = json.load(sys.stdin); print(data.get('owner', 'NOT_FOUND'))" > answer.txt

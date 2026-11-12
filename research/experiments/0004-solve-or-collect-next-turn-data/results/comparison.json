@@ -1,0 +1,249 @@
+{
+  "configs": {
+    "base-nn": {
+      "runs": 4,
+      "score_mean": 81.75,
+      "score_sd": 3.6996621467371855,
+      "solved_mean": 19.25,
+      "solved_sd": 0.82915619758885,
+      "tasks": 32,
+      "cost_mean": 13117.25,
+      "cost_sd": 923.2411318285164,
+      "wave1_cost_mean": 9622.0,
+      "wave2_cost_mean": 3495.25,
+      "wave1_answered_mean": 20.75,
+      "unanswered": 45,
+      "wave2_attempted": 45,
+      "wave2_solved": 8,
+      "wave2_conversion": 0.17777777777777778,
+      "wave2_conversion_attempted": 0.17777777777777778,
+      "unanswered_wave1_script_chars": 561.9555555555555,
+      "unanswered_wave1_script_lines": 6.711111111111111,
+      "unanswered_wave1_output_chars": 281.3333333333333,
+      "unanswered_wave1_head_tail": 0.3333333333333333,
+      "unanswered_wave1_cat": 0.5333333333333333,
+      "corr_output_wave2_success": -0.05967991314330681,
+      "corr_script_lines_wave2_success": -0.21544203587082128
+    },
+    "goal-nn": {
+      "runs": 4,
+      "score_mean": 80.75,
+      "score_sd": 6.722164829874376,
+      "solved_mean": 18.5,
+      "solved_sd": 2.0615528128088303,
+      "tasks": 32,
+      "cost_mean": 15946.5,
+      "cost_sd": 837.6814728761763,
+      "wave1_cost_mean": 11285.5,
+      "wave2_cost_mean": 4661.0,
+      "wave1_answered_mean": 18.25,
+      "unanswered": 55,
+      "wave2_attempted": 55,
+      "wave2_solved": 16,
+      "wave2_conversion": 0.2909090909090909,
+      "wave2_conversion_attempted": 0.2909090909090909,
+      "unanswered_wave1_script_chars": 754.7454545454545,
+      "unanswered_wave1_script_lines": 7.490909090909091,
+      "unanswered_wave1_output_chars": 383.0,
+      "unanswered_wave1_head_tail": 0.21818181818181817,
+      "unanswered_wave1_cat": 0.6181818181818182,
+      "corr_output_wave2_success": -0.019094613685122348,
+      "corr_script_lines_wave2_success": -0.11264549307865486
+    }
+  },
+  "pairs": [
+    {
+      "left": "base-nn",
+      "right": "goal-nn",
+      "runs": 4,
+      "tasks": 32,
+      "both": 68,
+      "only_left": 9,
+      "only_right": 6,
+      "neither": 45,
+      "mcnemar_p": 0.60723876953125,
+      "score_diff_mean": 0.03125,
+      "score_diff_ci": [
+        -0.1171875,
+        0.1875
+      ],
+      "cost_diff_mean": -88.4140625,
+      "cost_diff_ci": [
+        -158.9765625,
+        -11.78125
+      ],
+      "left_cost_sum": 52469,
+      "right_cost_sum": 63786,
+      "left_score_sum": 327.0,
+      "right_score_sum": 323.0
+    }
+  ],
+  "categories": {
+    "base-nn": {
+      "coding": {
+        "rows": 32,
+        "score": 99.0,
+        "solved": 18,
+        "cost": 10833,
+        "wave1_answered": 18,
+        "wave2_solved": 3
+      },
+      "data_analysis": {
+        "rows": 32,
+        "score": 80.0,
+        "solved": 24,
+        "cost": 10495,
+        "wave1_answered": 31,
+        "wave2_solved": 0
+      },
+      "math": {
+        "rows": 32,
+        "score": 116.0,
+        "solved": 24,
+        "cost": 15454,
+        "wave1_answered": 22,
+        "wave2_solved": 4
+      },
+      "search": {
+        "rows": 32,
+        "score": 32.0,
+        "solved": 11,
+        "cost": 15687,
+        "wave1_answered": 12,
+        "wave2_solved": 1
+      }
+    },
+    "goal-nn": {
+      "coding": {
+        "rows": 32,
+        "score": 100.0,
+        "solved": 18,
+        "cost": 17967,
+        "wave1_answered": 13,
+        "wave2_solved": 9
+      },
+      "data_analysis": {
+        "rows": 32,
+        "score": 80.0,
+        "solved": 24,
+        "cost": 12104,
+        "wave1_answered": 30,
+        "wave2_solved": 0
+      },
+      "math": {
+        "rows": 32,
+        "score": 114.0,
+        "solved": 22,
+        "cost": 20007,
+        "wave1_answered": 21,
+        "wave2_solved": 4
+      },
+      "search": {
+        "rows": 32,
+        "score": 29.0,
+        "solved": 10,
+        "cost": 13708,
+        "wave1_answered": 9,
+        "wave2_solved": 3
+      }
+    }
+  },
+  "per_run": [
+    {
+      "config": "base-nn",
+      "repeat": 1,
+      "score": 85.0,
+      "solved": 20,
+      "cost": 14551,
+      "wave1_cost": 10758,
+      "wave1_answered": 24,
+      "wave2_cost": 3793,
+      "duration_seconds": 204.986,
+      "returncode": 0
+    },
+    {
+      "config": "base-nn",
+      "repeat": 2,
+      "score": 76.0,
+      "solved": 18,
+      "cost": 12758,
+      "wave1_cost": 9158,
+      "wave1_answered": 19,
+      "wave2_cost": 3600,
+      "duration_seconds": 285.577,
+      "returncode": 0
+    },
+    {
+      "config": "base-nn",
+      "repeat": 3,
+      "score": 81.0,
+      "solved": 19,
+      "cost": 13149,
+      "wave1_cost": 9178,
+      "wave1_answered": 20,
+      "wave2_cost": 3971,
+      "duration_seconds": 240.632,
+      "returncode": 0
+    },
+    {
+      "config": "base-nn",
+      "repeat": 4,
+      "score": 85.0,
+      "solved": 20,
+      "cost": 12011,
+      "wave1_cost": 9394,
+      "wave1_answered": 20,
+      "wave2_cost": 2617,
+      "duration_seconds": 175.773,
+      "returncode": 0
+    },
+    {
+      "config": "goal-nn",
+      "repeat": 1,
+      "score": 73.0,
+      "solved": 16,
+      "cost": 14824,
+      "wave1_cost": 10379,
+      "wave1_answered": 17,
+      "wave2_cost": 4445,
+      "duration_seconds": 466.309,
+      "returncode": 0
+    },
+    {
+      "config": "goal-nn",
+      "repeat": 2,
+      "score": 77.0,
+      "solved": 17,
+      "cost": 16020,
+      "wave1_cost": 11588,
+      "wave1_answered": 18,
+      "wave2_cost": 4432,
+      "duration_seconds": 213.053,
+      "returncode": 0
+    },
+    {
+      "config": "goal-nn",
+      "repeat": 3,
+      "score": 91.0,
+      "solved": 21,
+      "cost": 17175,
+      "wave1_cost": 11476,
+      "wave1_answered": 18,
+      "wave2_cost": 5699,
+      "duration_seconds": 177.203,
+      "returncode": 0
+    },
+    {
+      "config": "goal-nn",
+      "repeat": 4,
+      "score": 82.0,
+      "solved": 20,
+      "cost": 15767,
+      "wave1_cost": 11699,
+      "wave1_answered": 20,
+      "wave2_cost": 4068,
+      "duration_seconds": 196.423,
+      "returncode": 0
+    }
+  ]
+}

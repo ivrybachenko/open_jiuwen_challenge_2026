@@ -1,0 +1,2 @@
+cd /Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0004-solve-or-collect-next-turn-data/results/base-nn/run-02/work/tasks/025_search_0201/workspace
+grep -i 'version' docs/README.md | head -5

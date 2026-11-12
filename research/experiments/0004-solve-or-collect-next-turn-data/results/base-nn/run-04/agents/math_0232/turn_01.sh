@@ -1,0 +1,25 @@
+python3 -c "
+# Look-and-say sequence: start with '1'
+# Each term describes the previous term
+# Count digits in the 20th term (1-indexed)
+
+def look_and_say(s):
+    result = []
+    i = 0
+    while i < len(s):
+        count = 1
+        while i + 1 < len(s) and s[i] == s[i+1]:
+            count += 1
+            i += 1
+        result.append(str(count))
+        result.append(s[i])
+        i += 1
+    return ''.join(result)
+
+# Term 1 is '1'
+current = '1'
+for i in range(1, 20):  # We already have term 1, need to generate up to term 20
+    current = look_and_say(current)
+
+print(len(current))
+" > answer.txt

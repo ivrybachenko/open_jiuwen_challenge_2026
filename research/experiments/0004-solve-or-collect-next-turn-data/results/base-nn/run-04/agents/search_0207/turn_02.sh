@@ -1,0 +1,1 @@
+grep -A 10 '^\[server\]' config.ini | grep '^port' | head -1 | awk -F'=' '{print $2}' | tr -d ' ' > answer.txt

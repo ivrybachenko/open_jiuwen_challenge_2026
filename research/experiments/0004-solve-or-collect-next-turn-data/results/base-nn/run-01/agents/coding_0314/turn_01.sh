@@ -1,0 +1,5 @@
+cat > /tmp/solve_task.sh << 'SCRIPT'
+cd /Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0004-solve-or-collect-next-turn-data/results/base-nn/run-01/work/tasks/007_coding_0314/workspace
+
+# First, let's read the test file to understand what encode should do
+cat test_codec.py

@@ -1,0 +1,1 @@
+grep -oP 'Current release: \K[0-9.]+' docs/README.md > answer.txt

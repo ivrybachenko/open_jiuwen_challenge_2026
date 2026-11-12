@@ -1,0 +1,1 @@
+cd /Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0004-solve-or-collect-next-turn-data/results/goal-nn/run-04/work/tasks/003_coding_0219/workspace && cat top_products.py && echo "---SEPARATOR---" && cat test_top_products.py && echo "---SEPARATOR---" && head -20 orders.csv
