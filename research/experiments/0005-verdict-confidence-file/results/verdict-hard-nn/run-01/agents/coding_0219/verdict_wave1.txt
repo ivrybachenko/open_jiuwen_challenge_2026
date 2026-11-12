@@ -1,0 +1,3 @@
+solved
+1.00
+top_products.py fixed to correctly parse CSV and sort products

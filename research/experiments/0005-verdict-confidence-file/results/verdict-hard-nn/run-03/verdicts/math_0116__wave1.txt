@@ -1,0 +1,3 @@
+not_solved
+0.00
+No non-degenerate triangle exists with perimeter 12 and longest side 6

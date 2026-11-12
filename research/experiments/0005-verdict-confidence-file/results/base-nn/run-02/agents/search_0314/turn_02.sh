@@ -1,0 +1,1 @@
+grep "req-8842" logs/app.log | sed -n 's/.*user=\([^ ,]*\).*/\1/p' > answer.txt

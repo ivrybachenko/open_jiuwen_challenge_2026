@@ -1,0 +1,1 @@
+cd /Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0005-verdict-confidence-file/results/base-nn/run-01/work/tasks/030_search_0313/workspace && cat vault/blob.txt | base64 -d | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('owner',''))" > answer.txt

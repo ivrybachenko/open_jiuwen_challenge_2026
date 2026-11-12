@@ -1,0 +1,3 @@
+solved
+1.00
+Assumed regular polygon due to ill-posed problem

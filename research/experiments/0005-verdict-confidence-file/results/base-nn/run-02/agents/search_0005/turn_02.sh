@@ -1,0 +1,1 @@
+cat kb/person_sergei_garcia.md

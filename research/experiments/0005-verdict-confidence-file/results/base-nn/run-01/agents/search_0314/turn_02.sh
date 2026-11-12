@@ -1,0 +1,1 @@
+cat logs/app.log | grep "req-8842"

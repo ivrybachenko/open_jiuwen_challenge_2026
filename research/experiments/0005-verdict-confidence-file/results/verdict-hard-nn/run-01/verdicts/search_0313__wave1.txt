@@ -1,0 +1,3 @@
+solved
+1.00
+Extracted owner from base64-encoded JSON

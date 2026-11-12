@@ -1,0 +1,15 @@
+cat > brackets.py << 'EOF'
+def balanced(text):
+    stack = []
+    matching = {')': '(', ']': '[', '}': '{'}
+    for ch in text:
+        if ch in '([{':
+            stack.append(ch)
+        elif ch in ')]}':
+            if not stack or stack[-1] != matching[ch]:
+                return False
+            stack.pop()
+    return len(stack) == 0
+EOF
+python3 test_brackets.py
+echo "DONE" > answer.txt

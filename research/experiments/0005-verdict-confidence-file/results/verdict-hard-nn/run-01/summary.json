@@ -1,0 +1,1479 @@
+{
+  "config": {
+    "name": "verdict-hard-nn",
+    "model": "qwen3.6-35b-a3b-noreason",
+    "verdict": true,
+    "mode": "hard"
+  },
+  "run_id": "exp0005-verdict-hard-nn-r1-20261112183356",
+  "repeat": 1,
+  "command": [
+    "/Users/zbr174/dev/open_jiuwen_challenge_2026/harness/.venv/bin/python",
+    "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0005-verdict-confidence-file/experiment_agent.py",
+    "--tasks-dir",
+    "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0005-verdict-confidence-file/results/verdict-hard-nn/run-01/work/tasks",
+    "--out",
+    "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0005-verdict-confidence-file/results/verdict-hard-nn/run-01/solutions.json",
+    "--agent-workspace",
+    "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0005-verdict-confidence-file/results/verdict-hard-nn/run-01/agents",
+    "--trajectories-dir",
+    "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0005-verdict-confidence-file/results/verdict-hard-nn/run-01/traj",
+    "--run-id",
+    "exp0005-verdict-hard-nn-r1-20261112183356",
+    "--model",
+    "qwen3.6-35b-a3b-noreason",
+    "--wave1-max-tokens",
+    "1000",
+    "--wave2-max-tokens",
+    "4000",
+    "--wave2-max-tasks",
+    "50",
+    "--log-level",
+    "WARNING"
+  ],
+  "returncode": 0,
+  "timed_out": false,
+  "duration_seconds": 179.663,
+  "summary": {
+    "score": 85.0,
+    "max_score": 137.0,
+    "solved_tasks": 20,
+    "total_tasks": 32,
+    "input_tokens": 42187,
+    "output_tokens": 12041,
+    "cost": 16277
+  },
+  "waves": {
+    "wave1": {
+      "turns": 32,
+      "input_tokens": 28244,
+      "output_tokens": 9158,
+      "cost": 11997,
+      "answered": 22,
+      "impossible": 1,
+      "hit_token_limit": 1,
+      "answered_tasks": 22
+    },
+    "wave2": {
+      "turns": 10,
+      "input_tokens": 13943,
+      "output_tokens": 2883,
+      "cost": 4280,
+      "answered": 5,
+      "impossible": 0,
+      "hit_token_limit": 0,
+      "tasks": 10
+    }
+  },
+  "task_set": "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0005-verdict-confidence-file/tasks.yaml",
+  "verdicts": {
+    "coding_0124": {
+      "1": ""
+    },
+    "coding_0202": {
+      "1": "solved\n1.00\nCaptured output from run.sh and wrote to answer.txt\n"
+    },
+    "coding_0208": {
+      "1": "solved\n1.00\ncount_vowels implemented and tests pass\n"
+    },
+    "coding_0219": {
+      "1": "solved\n1.00\ntop_products.py fixed to correctly parse CSV and sort products\n"
+    },
+    "coding_0227": {
+      "1": "solved\n1.00\nLevenshtein distance program written and DONE written to answer.txt\n"
+    },
+    "coding_0234": {
+      "1": "solved\n1.00\nSimple arithmetic expression parser with +, -, *, parentheses\n"
+    },
+    "data_analysis_0206": {
+      "1": "solved\n1.00\nCounted rows with region West and units > 10\n"
+    },
+    "data_analysis_0208": {
+      "1": "solved\n1.00\nFound product with max revenue from sales.csv\n"
+    },
+    "data_analysis_0209": {
+      "1": "solved\n1.00\nCalculated total revenue for Leeds customers\n"
+    },
+    "data_analysis_0217": {
+      "1": "solved\n1.00\nCounted distinct normalized names from names.csv\n"
+    },
+    "data_analysis_0225": {
+      "1": "solved\n1.00\nFound earliest date from events.csv\n"
+    },
+    "data_analysis_0229": {
+      "1": "solved\n1.00\nCounted numeric leaf values > 10 in nested JSON\n"
+    },
+    "data_analysis_0314": {
+      "1": "solved\n1.00\nComputed sum of total column\n"
+    },
+    "data_analysis_0316": {
+      "1": "<solved|not_solved|impossible>\n1.00\nFound top-level ancestor of alpha from categories.csv\n"
+    },
+    "math_0004": {
+      "1": "solved\n1.00\nSimple arithmetic: 1669 - 108 + 174 = 1735\n"
+    },
+    "math_0104": {
+      "1": "solved\n1.00\nComputed modular exponentiation\n",
+      "2": "solved\n1.00\nComputed modular exponentiation correctly\n"
+    },
+    "math_0116": {
+      "1": "solved\n1.00\nTriangle enumeration complete\n",
+      "2": "solved\n1.00\nVerified no valid triangle exists\n"
+    },
+    "math_0132": {
+      "2": "solved\n1.00\nAssumed regular polygon due to ill-posed problem, answer is 100\n"
+    },
+    "math_0214": {
+      "1": "solved\n1.00\nComputed C(30,15) for robot path problem\n"
+    },
+    "math_0222": {
+      "1": "solved\n1.00\nOptimal expected value is 17/4\n"
+    },
+    "math_0228": {
+      "1": "solved\n1.00\nComputed arrival time correctly\n"
+    },
+    "math_0232": {
+      "1": "solved\n1.00\nComputed look-and-say sequence 20th term digit count\n"
+    },
+    "search_0201": {
+      "1": "solved\n1.00\nExtracted version from docs/README.md\n"
+    },
+    "search_0207": {
+      "1": "solved\n1.00\nExtracted port from [server] section of config.ini\n"
+    },
+    "search_0215": {
+      "2": "solved\n1.00\nFound city for employer of mentor of Lena Ortiz\n"
+    },
+    "search_0216": {
+      "1": "solved\n1.00\nFound Alex Morgan's id in the CSV files\n"
+    },
+    "search_0229": {
+      "1": "solved\n1.00\nShortest path computed using Dijkstra\n"
+    },
+    "search_0313": {
+      "1": "solved\n1.00\nExtracted owner from base64-encoded JSON\n",
+      "2": "solved\n1.00\nExtracted owner from base64-encoded JSON\n"
+    },
+    "search_0314": {
+      "2": "solved\n1.00\nFound user ma for req-8842\n"
+    }
+  },
+  "tasks": [
+    {
+      "task_id": "coding_0202",
+      "task_path": "coding/solvable/0008",
+      "task_type": "coding",
+      "reward": 8.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": true,
+      "score": 8.0,
+      "verdict": {
+        "task_id": "coding_0202",
+        "check": "exact_str",
+        "solved": true,
+        "expected": "HELLO-42",
+        "actual": "HELLO-42",
+        "detail": "matched 'hello-42'"
+      },
+      "tokens": {
+        "input": 785,
+        "output": 111,
+        "cost": 190
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 785,
+        "output_tokens": 111,
+        "cost": 190,
+        "answer_kind": "value",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 1.237
+      },
+      "wave2": null,
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "coding_0208",
+      "task_path": "coding/solvable/0014",
+      "task_type": "coding",
+      "reward": 2.0,
+      "check": "unittest",
+      "solvable": true,
+      "solved": true,
+      "score": 2.0,
+      "verdict": {
+        "task_id": "coding_0208",
+        "check": "unittest",
+        "solved": true,
+        "expected": "tests_pass",
+        "actual": "DONE",
+        "detail": "1 test file(s) passed"
+      },
+      "tokens": {
+        "input": 1147,
+        "output": 147,
+        "cost": 262
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 1147,
+        "output_tokens": 147,
+        "cost": 262,
+        "answer_kind": "done",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 2.27
+      },
+      "wave2": null,
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "coding_0210",
+      "task_path": "coding/solvable/0016",
+      "task_type": "coding",
+      "reward": 3.0,
+      "check": "unittest",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "coding_0210",
+        "check": "unittest",
+        "solved": false,
+        "expected": "tests_pass",
+        "actual": null,
+        "detail": "test_brackets.py: exit 1\nF.\n======================================================================\nFAIL: test_invalid (__main__.BracketTest.test_invalid)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0005-verdict-confidence-file/results/verdict-hard-nn/run-01/work/tasks/002_coding_0210/workspace/test_brackets.py\", line 12, in test_invalid\n    self.assertFalse(balanced(text), text)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: True is not false : (\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nFAILED (failures=1)"
+      },
+      "tokens": {
+        "input": 2310,
+        "output": 43,
+        "cost": 275
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 1021,
+        "output_tokens": 32,
+        "cost": 135,
+        "answer_kind": "none",
+        "answer_present": false,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 2.299
+      },
+      "wave2": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 1289,
+        "output_tokens": 11,
+        "cost": 140,
+        "answer_kind": "none",
+        "answer_present": false,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 0.524
+      },
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "coding_0219",
+      "task_path": "coding/solvable/0025",
+      "task_type": "coding",
+      "reward": 3.0,
+      "check": "unittest",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "coding_0219",
+        "check": "unittest",
+        "solved": false,
+        "expected": "tests_pass",
+        "actual": "DONE",
+        "detail": "test_top_products.py: exit 1\nFF\n======================================================================\nFAIL: test_default_top (__main__.TopProductsTest.test_default_top)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0005-verdict-confidence-file/results/verdict-hard-nn/run-01/work/tasks/003_coding_0219/workspace/test_top_products.py\", line 18, in test_default_top\n    self.assertEqual(completed.stdout, \"bag 10\\nbook 10\\npen 10\\n\")\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: '\\n' != 'bag 10\\nbook 10\\npen 10\\n'\n- \n+ bag 10\n+ book 10\n+ pen 10\n\n\n======================================================================\nFAIL: test_explicit_top (__main__.TopProductsTest.test_explicit_top)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0005-verdict-confidence-file/results/verdict-hard-nn/run-01/work/tasks/003_coding_0219/workspace/test_top_products.py\", line 23, in test_explicit_top\n    self.assertEqual(completed.stdout, \"bag 10\\nbook 10\\n\")\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: '\\n' != 'bag 10\\nbook 10\\n'\n- \n+ bag 10\n+ book 10\n\n\n----------------------------------------------------------------------\nRan 2 tests in 0.040s\n\nFAILED (failures=2)"
+      },
+      "tokens": {
+        "input": 1235,
+        "output": 537,
+        "cost": 661
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 1235,
+        "output_tokens": 537,
+        "cost": 661,
+        "answer_kind": "done",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 7.08
+      },
+      "wave2": null,
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "coding_0227",
+      "task_path": "coding/solvable/0033",
+      "task_type": "coding",
+      "reward": 8.0,
+      "check": "hidden_unittest",
+      "solvable": true,
+      "solved": true,
+      "score": 8.0,
+      "verdict": {
+        "task_id": "coding_0227",
+        "check": "hidden_unittest",
+        "solved": true,
+        "expected": "tests_pass",
+        "actual": "DONE",
+        "detail": "1 hidden test file(s) passed"
+      },
+      "tokens": {
+        "input": 805,
+        "output": 440,
+        "cost": 521
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 805,
+        "output_tokens": 440,
+        "cost": 521,
+        "answer_kind": "done",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 4.046
+      },
+      "wave2": null,
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "coding_0234",
+      "task_path": "coding/solvable/0040",
+      "task_type": "coding",
+      "reward": 6.0,
+      "check": "hidden_unittest",
+      "solvable": true,
+      "solved": true,
+      "score": 6.0,
+      "verdict": {
+        "task_id": "coding_0234",
+        "check": "hidden_unittest",
+        "solved": true,
+        "expected": "tests_pass",
+        "actual": "DONE",
+        "detail": "1 hidden test file(s) passed"
+      },
+      "tokens": {
+        "input": 809,
+        "output": 668,
+        "cost": 749
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 809,
+        "output_tokens": 668,
+        "cost": 749,
+        "answer_kind": "done",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 19.109
+      },
+      "wave2": null,
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "coding_0124",
+      "task_path": "coding/impossible/0008",
+      "task_type": "coding",
+      "reward": 3.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "coding_0124",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": null,
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 3380,
+        "output": 255,
+        "cost": 593
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 1160,
+        "output_tokens": 228,
+        "cost": 344,
+        "answer_kind": "none",
+        "answer_present": false,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 2.909
+      },
+      "wave2": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 2220,
+        "output_tokens": 27,
+        "cost": 249,
+        "answer_kind": "none",
+        "answer_present": false,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 0.838
+      },
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "coding_0314",
+      "task_path": "coding/impossible/0014",
+      "task_type": "coding",
+      "reward": 6.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "coding_0314",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": null,
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 2435,
+        "output": 34,
+        "cost": 278
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 1088,
+        "output_tokens": 24,
+        "cost": 133,
+        "answer_kind": "none",
+        "answer_present": false,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 0.705
+      },
+      "wave2": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 1347,
+        "output_tokens": 10,
+        "cost": 145,
+        "answer_kind": "none",
+        "answer_present": false,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 1.32
+      },
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "data_analysis_0206",
+      "task_path": "data_analysis/solvable/0012",
+      "task_type": "data_analysis",
+      "reward": 5.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 5.0,
+      "verdict": {
+        "task_id": "data_analysis_0206",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "6",
+        "actual": "6",
+        "detail": "matched integer 6"
+      },
+      "tokens": {
+        "input": 852,
+        "output": 150,
+        "cost": 236
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 852,
+        "output_tokens": 150,
+        "cost": 236,
+        "answer_kind": "value",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 5.06
+      },
+      "wave2": null,
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "data_analysis_0208",
+      "task_path": "data_analysis/solvable/0014",
+      "task_type": "data_analysis",
+      "reward": 2.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": true,
+      "score": 2.0,
+      "verdict": {
+        "task_id": "data_analysis_0208",
+        "check": "exact_str",
+        "solved": true,
+        "expected": "adapter",
+        "actual": "adapter",
+        "detail": "matched 'adapter'"
+      },
+      "tokens": {
+        "input": 859,
+        "output": 323,
+        "cost": 409
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 859,
+        "output_tokens": 323,
+        "cost": 409,
+        "answer_kind": "value",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 3.47
+      },
+      "wave2": null,
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "data_analysis_0209",
+      "task_path": "data_analysis/solvable/0015",
+      "task_type": "data_analysis",
+      "reward": 7.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 7.0,
+      "verdict": {
+        "task_id": "data_analysis_0209",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "975",
+        "actual": "975",
+        "detail": "matched integer 975"
+      },
+      "tokens": {
+        "input": 905,
+        "output": 310,
+        "cost": 401
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 905,
+        "output_tokens": 310,
+        "cost": 401,
+        "answer_kind": "value",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 4.542
+      },
+      "wave2": null,
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "data_analysis_0217",
+      "task_path": "data_analysis/solvable/0023",
+      "task_type": "data_analysis",
+      "reward": 2.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 2.0,
+      "verdict": {
+        "task_id": "data_analysis_0217",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "6",
+        "actual": "6",
+        "detail": "matched integer 6"
+      },
+      "tokens": {
+        "input": 826,
+        "output": 202,
+        "cost": 285
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 826,
+        "output_tokens": 202,
+        "cost": 285,
+        "answer_kind": "value",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 2.726
+      },
+      "wave2": null,
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "data_analysis_0225",
+      "task_path": "data_analysis/solvable/0031",
+      "task_type": "data_analysis",
+      "reward": 3.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": true,
+      "score": 3.0,
+      "verdict": {
+        "task_id": "data_analysis_0225",
+        "check": "exact_str",
+        "solved": true,
+        "expected": "2020-06-15",
+        "actual": "2020-06-15",
+        "detail": "matched '2020-06-15'"
+      },
+      "tokens": {
+        "input": 849,
+        "output": 467,
+        "cost": 552
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 849,
+        "output_tokens": 467,
+        "cost": 552,
+        "answer_kind": "value",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 4.465
+      },
+      "wave2": null,
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "data_analysis_0229",
+      "task_path": "data_analysis/solvable/0035",
+      "task_type": "data_analysis",
+      "reward": 1.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 1.0,
+      "verdict": {
+        "task_id": "data_analysis_0229",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "5",
+        "actual": "5",
+        "detail": "matched integer 5"
+      },
+      "tokens": {
+        "input": 805,
+        "output": 256,
+        "cost": 337
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 805,
+        "output_tokens": 256,
+        "cost": 337,
+        "answer_kind": "value",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 4.398
+      },
+      "wave2": null,
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "data_analysis_0314",
+      "task_path": "data_analysis/impossible/0014",
+      "task_type": "data_analysis",
+      "reward": 7.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "data_analysis_0314",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": "7.0",
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 861,
+        "output": 145,
+        "cost": 232
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 861,
+        "output_tokens": 145,
+        "cost": 232,
+        "answer_kind": "value",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 1.885
+      },
+      "wave2": null,
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "data_analysis_0316",
+      "task_path": "data_analysis/impossible/0016",
+      "task_type": "data_analysis",
+      "reward": 2.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "data_analysis_0316",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": "alpha",
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 851,
+        "output": 408,
+        "cost": 494
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 851,
+        "output_tokens": 408,
+        "cost": 494,
+        "answer_kind": "value",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 7.628
+      },
+      "wave2": null,
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "math_0004",
+      "task_path": "math/solvable/0002",
+      "task_type": "math",
+      "reward": 2.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 2.0,
+      "verdict": {
+        "task_id": "math_0004",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "1735",
+        "actual": "1735",
+        "detail": "matched integer 1735"
+      },
+      "tokens": {
+        "input": 846,
+        "output": 102,
+        "cost": 187
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 846,
+        "output_tokens": 102,
+        "cost": 187,
+        "answer_kind": "value",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 3.33
+      },
+      "wave2": null,
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "math_0104",
+      "task_path": "math/solvable/0006",
+      "task_type": "math",
+      "reward": 6.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 6.0,
+      "verdict": {
+        "task_id": "math_0104",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "27872",
+        "actual": "27872",
+        "detail": "matched integer 27872"
+      },
+      "tokens": {
+        "input": 1912,
+        "output": 196,
+        "cost": 388
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 843,
+        "output_tokens": 98,
+        "cost": 183,
+        "answer_kind": "none",
+        "answer_present": false,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 1.707
+      },
+      "wave2": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 1069,
+        "output_tokens": 98,
+        "cost": 205,
+        "answer_kind": "value",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 1.244
+      },
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "math_0214",
+      "task_path": "math/solvable/0020",
+      "task_type": "math",
+      "reward": 6.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 6.0,
+      "verdict": {
+        "task_id": "math_0214",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "155117520",
+        "actual": "155117520",
+        "detail": "matched integer 155117520"
+      },
+      "tokens": {
+        "input": 822,
+        "output": 150,
+        "cost": 233
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 822,
+        "output_tokens": 150,
+        "cost": 233,
+        "answer_kind": "value",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 1.734
+      },
+      "wave2": null,
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "math_0222",
+      "task_path": "math/solvable/0028",
+      "task_type": "math",
+      "reward": 1.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": true,
+      "score": 1.0,
+      "verdict": {
+        "task_id": "math_0222",
+        "check": "exact_str",
+        "solved": true,
+        "expected": "17/4",
+        "actual": "17/4",
+        "detail": "matched '17/4'"
+      },
+      "tokens": {
+        "input": 828,
+        "output": 473,
+        "cost": 556
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 828,
+        "output_tokens": 473,
+        "cost": 556,
+        "answer_kind": "value",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 4.888
+      },
+      "wave2": null,
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "math_0228",
+      "task_path": "math/solvable/0034",
+      "task_type": "math",
+      "reward": 6.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": true,
+      "score": 6.0,
+      "verdict": {
+        "task_id": "math_0228",
+        "check": "exact_str",
+        "solved": true,
+        "expected": "2025-03-10 17:05",
+        "actual": "2025-03-10 17:05",
+        "detail": "matched '2025-03-10 17:05'"
+      },
+      "tokens": {
+        "input": 847,
+        "output": 234,
+        "cost": 319
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 847,
+        "output_tokens": 234,
+        "cost": 319,
+        "answer_kind": "value",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 3.557
+      },
+      "wave2": null,
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "math_0232",
+      "task_path": "math/solvable/0038",
+      "task_type": "math",
+      "reward": 8.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 8.0,
+      "verdict": {
+        "task_id": "math_0232",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "302",
+        "actual": "302",
+        "detail": "matched integer 302"
+      },
+      "tokens": {
+        "input": 851,
+        "output": 246,
+        "cost": 332
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 851,
+        "output_tokens": 246,
+        "cost": 332,
+        "answer_kind": "value",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 4.71
+      },
+      "wave2": null,
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "math_0116",
+      "task_path": "math/impossible/0004",
+      "task_type": "math",
+      "reward": 6.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "math_0116",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": "No valid triangle found\nIMPOSSIBLE",
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 2457,
+        "output": 1215,
+        "cost": 1461
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 837,
+        "output_tokens": 679,
+        "cost": 763,
+        "answer_kind": "impossible",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 8.967
+      },
+      "wave2": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 1620,
+        "output_tokens": 536,
+        "cost": 698,
+        "answer_kind": "value",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 4.671
+      },
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "math_0132",
+      "task_path": "math/impossible/0008",
+      "task_type": "math",
+      "reward": 5.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "math_0132",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": "100",
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 2929,
+        "output": 2043,
+        "cost": 2337
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 828,
+        "output_tokens": 1000,
+        "cost": 1083,
+        "answer_kind": "none",
+        "answer_present": false,
+        "hit_token_limit": true,
+        "finish_reason": "length",
+        "duration_seconds": 10.35
+      },
+      "wave2": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 2101,
+        "output_tokens": 1043,
+        "cost": 1254,
+        "answer_kind": "value",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 10.074
+      },
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "search_0005",
+      "task_path": "search/solvable/0002",
+      "task_type": "search",
+      "reward": 2.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "search_0005",
+        "check": "exact_str",
+        "solved": false,
+        "expected": "Osaka",
+        "actual": null,
+        "detail": "no answer was submitted"
+      },
+      "tokens": {
+        "input": 1864,
+        "output": 63,
+        "cost": 250
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 877,
+        "output_tokens": 27,
+        "cost": 115,
+        "answer_kind": "none",
+        "answer_present": false,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 0.783
+      },
+      "wave2": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 987,
+        "output_tokens": 36,
+        "cost": 135,
+        "answer_kind": "none",
+        "answer_present": false,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 0.554
+      },
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "search_0201",
+      "task_path": "search/solvable/0007",
+      "task_type": "search",
+      "reward": 3.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": true,
+      "score": 3.0,
+      "verdict": {
+        "task_id": "search_0201",
+        "check": "exact_str",
+        "solved": true,
+        "expected": "3.7.2",
+        "actual": "3.7.2",
+        "detail": "matched '3.7.2'"
+      },
+      "tokens": {
+        "input": 807,
+        "output": 314,
+        "cost": 395
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 807,
+        "output_tokens": 314,
+        "cost": 395,
+        "answer_kind": "value",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 2.953
+      },
+      "wave2": null,
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "search_0207",
+      "task_path": "search/solvable/0013",
+      "task_type": "search",
+      "reward": 3.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 3.0,
+      "verdict": {
+        "task_id": "search_0207",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "8443",
+        "actual": "8443",
+        "detail": "matched integer 8443"
+      },
+      "tokens": {
+        "input": 801,
+        "output": 126,
+        "cost": 207
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 801,
+        "output_tokens": 126,
+        "cost": 207,
+        "answer_kind": "value",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 1.209
+      },
+      "wave2": null,
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "search_0215",
+      "task_path": "search/solvable/0021",
+      "task_type": "search",
+      "reward": 4.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "search_0215",
+        "check": "exact_str",
+        "solved": false,
+        "expected": "Lisbon",
+        "actual": "Riga\nLisbon",
+        "detail": "expected 'lisbon', got 'riga lisbon'"
+      },
+      "tokens": {
+        "input": 1822,
+        "output": 295,
+        "cost": 478
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 824,
+        "output_tokens": 51,
+        "cost": 134,
+        "answer_kind": "none",
+        "answer_present": false,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 3.513
+      },
+      "wave2": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 998,
+        "output_tokens": 244,
+        "cost": 344,
+        "answer_kind": "value",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 3.06
+      },
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "search_0216",
+      "task_path": "search/solvable/0022",
+      "task_type": "search",
+      "reward": 2.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": true,
+      "score": 2.0,
+      "verdict": {
+        "task_id": "search_0216",
+        "check": "exact_str",
+        "solved": true,
+        "expected": "u-17",
+        "actual": "u-17",
+        "detail": "matched 'u-17'"
+      },
+      "tokens": {
+        "input": 878,
+        "output": 257,
+        "cost": 345
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 878,
+        "output_tokens": 257,
+        "cost": 345,
+        "answer_kind": "value",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 7.071
+      },
+      "wave2": null,
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "search_0229",
+      "task_path": "search/solvable/0035",
+      "task_type": "search",
+      "reward": 4.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 4.0,
+      "verdict": {
+        "task_id": "search_0229",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "7",
+        "actual": "7",
+        "detail": "matched integer 7"
+      },
+      "tokens": {
+        "input": 837,
+        "output": 743,
+        "cost": 827
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 837,
+        "output_tokens": 743,
+        "cost": 827,
+        "answer_kind": "value",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 10.747
+      },
+      "wave2": null,
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "search_0313",
+      "task_path": "search/impossible/0013",
+      "task_type": "search",
+      "reward": 4.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "search_0313",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": null,
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 2170,
+        "output": 944,
+        "cost": 1162
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 831,
+        "output_tokens": 170,
+        "cost": 254,
+        "answer_kind": "none",
+        "answer_present": false,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 2.689
+      },
+      "wave2": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 1339,
+        "output_tokens": 774,
+        "cost": 908,
+        "answer_kind": "none",
+        "answer_present": false,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 9.925
+      },
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    },
+    {
+      "task_id": "search_0314",
+      "task_path": "search/impossible/0014",
+      "task_type": "search",
+      "reward": 7.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "search_0314",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": "ma",
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 1802,
+        "output": 144,
+        "cost": 325
+      },
+      "test_files_modified": [],
+      "wave1": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 829,
+        "output_tokens": 40,
+        "cost": 123,
+        "answer_kind": "none",
+        "answer_present": false,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 0.762
+      },
+      "wave2": {
+        "model": "qwen3.6-35b-a3b-noreason",
+        "input_tokens": 973,
+        "output_tokens": 104,
+        "cost": 202,
+        "answer_kind": "value",
+        "answer_present": true,
+        "hit_token_limit": false,
+        "finish_reason": "stop",
+        "duration_seconds": 1.74
+      },
+      "config": "verdict-hard-nn",
+      "repeat": 1
+    }
+  ]
+}

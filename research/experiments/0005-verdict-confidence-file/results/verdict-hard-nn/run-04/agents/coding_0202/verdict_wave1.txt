@@ -1,0 +1,3 @@
+solved
+1.00
+run.sh was made executable and its output was captured and written to answer.txt

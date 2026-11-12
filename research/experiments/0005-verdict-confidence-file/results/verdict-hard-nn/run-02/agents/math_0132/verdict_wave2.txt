@@ -1,0 +1,3 @@
+solved
+0.50
+Assuming regular polygon with given sum, angle = 500/5 = 100

@@ -1,0 +1,1 @@
+cd /Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0005-verdict-confidence-file/results/verdict-hard-nn/run-03/work/tasks/002_coding_0210/workspace && cat test_brackets.py

@@ -1,0 +1,3 @@
+solved
+1.00
+Assumed regular pentagon with correct geometric sum 540

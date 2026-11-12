@@ -1,0 +1,3 @@
+<solved|not_solved|impossible>
+1.00
+Found top-level ancestor of alpha from categories.csv

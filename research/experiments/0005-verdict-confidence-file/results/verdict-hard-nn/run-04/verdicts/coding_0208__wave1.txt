@@ -1,0 +1,3 @@
+solved
+1.00
+Fixed vowels.py to correctly count only a,e,i,o,u case-insensitively

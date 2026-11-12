@@ -1,0 +1,35 @@
+dataset:
+  random_seed: 20261112
+  tasks:
+    - coding/solvable/0008
+    - coding/solvable/0014
+    - coding/solvable/0016
+    - coding/solvable/0025
+    - coding/solvable/0033
+    - coding/solvable/0040
+    - coding/impossible/0008
+    - coding/impossible/0014
+    - data_analysis/solvable/0012
+    - data_analysis/solvable/0014
+    - data_analysis/solvable/0015
+    - data_analysis/solvable/0023
+    - data_analysis/solvable/0031
+    - data_analysis/solvable/0035
+    - data_analysis/impossible/0014
+    - data_analysis/impossible/0016
+    - math/solvable/0002
+    - math/solvable/0006
+    - math/solvable/0020
+    - math/solvable/0028
+    - math/solvable/0034
+    - math/solvable/0038
+    - math/impossible/0004
+    - math/impossible/0008
+    - search/solvable/0002
+    - search/solvable/0007
+    - search/solvable/0013
+    - search/solvable/0021
+    - search/solvable/0022
+    - search/solvable/0035
+    - search/impossible/0013
+    - search/impossible/0014

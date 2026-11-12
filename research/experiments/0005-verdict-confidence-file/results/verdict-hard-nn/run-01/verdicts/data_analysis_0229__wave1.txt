@@ -1,0 +1,3 @@
+solved
+1.00
+Counted numeric leaf values > 10 in nested JSON

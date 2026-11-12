@@ -1,0 +1,2 @@
+python3 -c "print((pow(3, 2026, 100000) + pow(7, 2027, 100000)) % 100000)" > answer.txt
+cat answer.txt

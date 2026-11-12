@@ -1,0 +1,584 @@
+{
+  "configs": {
+    "base-nn": {
+      "runs": 2,
+      "tasks": 32,
+      "score_mean": 79.5,
+      "score_sd": 0.5,
+      "solved_mean": 17.5,
+      "cost_mean": 14270.5,
+      "cost_sd": 827.5,
+      "wave1_cost_mean": 9820.0,
+      "compliance": null,
+      "metrics": {
+        "wave1": {
+          "n": 0,
+          "accuracy": null,
+          "brier": null,
+          "brier_constant": null,
+          "ece": null,
+          "mean_confidence": null,
+          "auc_solved_correct": null,
+          "solved_precision": null,
+          "impossible_recall": null,
+          "false_impossible": 0,
+          "false_impossible_reward": 0.0
+        },
+        "wave2": {
+          "n": 0,
+          "accuracy": null,
+          "brier": null,
+          "brier_constant": null,
+          "ece": null,
+          "mean_confidence": null,
+          "auc_solved_correct": null,
+          "solved_precision": null,
+          "impossible_recall": null,
+          "false_impossible": 0,
+          "false_impossible_reward": 0.0
+        },
+        "final": {
+          "n": 0,
+          "accuracy": null,
+          "brier": null,
+          "brier_constant": null,
+          "ece": null,
+          "mean_confidence": null,
+          "auc_solved_correct": null,
+          "solved_precision": null,
+          "impossible_recall": null,
+          "false_impossible": 0,
+          "false_impossible_reward": 0.0
+        }
+      },
+      "confusion": {
+        "wave1": {
+          "solved": {},
+          "not_solved": {},
+          "impossible": {}
+        },
+        "wave2": {
+          "solved": {},
+          "not_solved": {},
+          "impossible": {}
+        },
+        "final": {
+          "solved": {},
+          "not_solved": {},
+          "impossible": {}
+        }
+      },
+      "buckets": {
+        "wave1": [
+          {
+            "label": "<0.50",
+            "n": 0,
+            "accuracy": null,
+            "mean_confidence": null
+          },
+          {
+            "label": "0.50-0.80",
+            "n": 0,
+            "accuracy": null,
+            "mean_confidence": null
+          },
+          {
+            "label": ">=0.80",
+            "n": 0,
+            "accuracy": null,
+            "mean_confidence": null
+          }
+        ],
+        "wave2": [
+          {
+            "label": "<0.50",
+            "n": 0,
+            "accuracy": null,
+            "mean_confidence": null
+          },
+          {
+            "label": "0.50-0.80",
+            "n": 0,
+            "accuracy": null,
+            "mean_confidence": null
+          },
+          {
+            "label": ">=0.80",
+            "n": 0,
+            "accuracy": null,
+            "mean_confidence": null
+          }
+        ],
+        "final": [
+          {
+            "label": "<0.50",
+            "n": 0,
+            "accuracy": null,
+            "mean_confidence": null
+          },
+          {
+            "label": "0.50-0.80",
+            "n": 0,
+            "accuracy": null,
+            "mean_confidence": null
+          },
+          {
+            "label": ">=0.80",
+            "n": 0,
+            "accuracy": null,
+            "mean_confidence": null
+          }
+        ]
+      }
+    },
+    "verdict-hard-nn": {
+      "runs": 4,
+      "tasks": 32,
+      "score_mean": 79.25,
+      "score_sd": 4.710360920354193,
+      "solved_mean": 18.0,
+      "cost_mean": 19443.0,
+      "cost_sd": 3040.77218811275,
+      "wave1_cost_mean": 12549.0,
+      "compliance": {
+        "turns": 256,
+        "valid": 116,
+        "missing": 139,
+        "malformed": 1,
+        "valid_rate": 0.453125
+      },
+      "metrics": {
+        "wave1": {
+          "n": 91,
+          "accuracy": 0.7252747252747253,
+          "brier": 0.26373626373626374,
+          "brier_constant": 0.19925129815239706,
+          "ece": 0.2637362637362638,
+          "mean_confidence": 0.989010989010989,
+          "auc_solved_correct": 0.5,
+          "solved_precision": 0.7333333333333333,
+          "impossible_recall": 0.0,
+          "false_impossible": 0,
+          "false_impossible_reward": 0
+        },
+        "wave2": {
+          "n": 25,
+          "accuracy": 0.28,
+          "brier": 0.6901,
+          "brier_constant": 0.2016,
+          "ece": 0.6980000000000001,
+          "mean_confidence": 0.978,
+          "auc_solved_correct": 0.5277777777777778,
+          "solved_precision": 0.25,
+          "impossible_recall": 0.0625,
+          "false_impossible": 0,
+          "false_impossible_reward": 0
+        },
+        "final": {
+          "n": 106,
+          "accuracy": 0.6509433962264151,
+          "brier": 0.3325707547169811,
+          "brier_constant": 0.22721609113563546,
+          "ece": 0.33443396226415095,
+          "mean_confidence": 0.9853773584905661,
+          "auc_solved_correct": 0.5138888888888888,
+          "solved_precision": 0.6538461538461539,
+          "impossible_recall": 0.043478260869565216,
+          "false_impossible": 0,
+          "false_impossible_reward": 0
+        }
+      },
+      "confusion": {
+        "wave1": {
+          "solved": {
+            "solved": 66
+          },
+          "not_solved": {
+            "solved": 12
+          },
+          "impossible": {
+            "solved": 12,
+            "not_solved": 1
+          }
+        },
+        "wave2": {
+          "solved": {
+            "solved": 6
+          },
+          "not_solved": {
+            "solved": 3
+          },
+          "impossible": {
+            "solved": 15,
+            "impossible": 1
+          }
+        },
+        "final": {
+          "solved": {
+            "solved": 68
+          },
+          "not_solved": {
+            "solved": 15
+          },
+          "impossible": {
+            "solved": 21,
+            "impossible": 1,
+            "not_solved": 1
+          }
+        }
+      },
+      "buckets": {
+        "wave1": [
+          {
+            "label": "<0.50",
+            "n": 1,
+            "accuracy": 0.0,
+            "mean_confidence": 0.0
+          },
+          {
+            "label": "0.50-0.80",
+            "n": 0,
+            "accuracy": null,
+            "mean_confidence": null
+          },
+          {
+            "label": ">=0.80",
+            "n": 90,
+            "accuracy": 0.7333333333333333,
+            "mean_confidence": 1.0
+          }
+        ],
+        "wave2": [
+          {
+            "label": "<0.50",
+            "n": 0,
+            "accuracy": null,
+            "mean_confidence": null
+          },
+          {
+            "label": "0.50-0.80",
+            "n": 1,
+            "accuracy": 0.0,
+            "mean_confidence": 0.5
+          },
+          {
+            "label": ">=0.80",
+            "n": 24,
+            "accuracy": 0.2916666666666667,
+            "mean_confidence": 0.9979166666666667
+          }
+        ],
+        "final": [
+          {
+            "label": "<0.50",
+            "n": 1,
+            "accuracy": 0.0,
+            "mean_confidence": 0.0
+          },
+          {
+            "label": "0.50-0.80",
+            "n": 1,
+            "accuracy": 0.0,
+            "mean_confidence": 0.5
+          },
+          {
+            "label": ">=0.80",
+            "n": 104,
+            "accuracy": 0.6634615384615384,
+            "mean_confidence": 0.9995192307692308
+          }
+        ]
+      }
+    },
+    "verdict-nn": {
+      "runs": 2,
+      "tasks": 32,
+      "score_mean": 85.5,
+      "score_sd": 6.5,
+      "solved_mean": 20.0,
+      "cost_mean": 14693.0,
+      "cost_sd": 5.0,
+      "wave1_cost_mean": 10216.0,
+      "compliance": {
+        "turns": 128,
+        "valid": 15,
+        "missing": 113,
+        "malformed": 0,
+        "valid_rate": 0.1171875
+      },
+      "metrics": {
+        "wave1": {
+          "n": 10,
+          "accuracy": 0.7,
+          "brier": 0.3,
+          "brier_constant": 0.21,
+          "ece": 0.30000000000000004,
+          "mean_confidence": 1.0,
+          "auc_solved_correct": 0.5,
+          "solved_precision": 0.6666666666666666,
+          "impossible_recall": 0.3333333333333333,
+          "false_impossible": 0,
+          "false_impossible_reward": 0
+        },
+        "wave2": {
+          "n": 5,
+          "accuracy": 0.2,
+          "brier": 0.85,
+          "brier_constant": 0.16000000000000003,
+          "ece": 0.9,
+          "mean_confidence": 0.7,
+          "auc_solved_correct": null,
+          "solved_precision": 0.0,
+          "impossible_recall": 0.25,
+          "false_impossible": 0,
+          "false_impossible_reward": 0
+        },
+        "final": {
+          "n": 11,
+          "accuracy": 0.6363636363636364,
+          "brier": 0.38636363636363635,
+          "brier_constant": 0.23140495867768596,
+          "ece": 0.4090909090909091,
+          "mean_confidence": 0.8636363636363636,
+          "auc_solved_correct": 0.625,
+          "solved_precision": 0.6,
+          "impossible_recall": 0.25,
+          "false_impossible": 0,
+          "false_impossible_reward": 0
+        }
+      },
+      "confusion": {
+        "wave1": {
+          "solved": {
+            "solved": 6
+          },
+          "not_solved": {
+            "solved": 1
+          },
+          "impossible": {
+            "impossible": 1,
+            "solved": 2
+          }
+        },
+        "wave2": {
+          "solved": {},
+          "not_solved": {
+            "solved": 1
+          },
+          "impossible": {
+            "solved": 3,
+            "impossible": 1
+          }
+        },
+        "final": {
+          "solved": {
+            "solved": 6
+          },
+          "not_solved": {
+            "solved": 1
+          },
+          "impossible": {
+            "solved": 3,
+            "impossible": 1
+          }
+        }
+      },
+      "buckets": {
+        "wave1": [
+          {
+            "label": "<0.50",
+            "n": 0,
+            "accuracy": null,
+            "mean_confidence": null
+          },
+          {
+            "label": "0.50-0.80",
+            "n": 0,
+            "accuracy": null,
+            "mean_confidence": null
+          },
+          {
+            "label": ">=0.80",
+            "n": 10,
+            "accuracy": 0.7,
+            "mean_confidence": 1.0
+          }
+        ],
+        "wave2": [
+          {
+            "label": "<0.50",
+            "n": 1,
+            "accuracy": 1.0,
+            "mean_confidence": 0.0
+          },
+          {
+            "label": "0.50-0.80",
+            "n": 1,
+            "accuracy": 0.0,
+            "mean_confidence": 0.5
+          },
+          {
+            "label": ">=0.80",
+            "n": 3,
+            "accuracy": 0.0,
+            "mean_confidence": 1.0
+          }
+        ],
+        "final": [
+          {
+            "label": "<0.50",
+            "n": 1,
+            "accuracy": 1.0,
+            "mean_confidence": 0.0
+          },
+          {
+            "label": "0.50-0.80",
+            "n": 1,
+            "accuracy": 0.0,
+            "mean_confidence": 0.5
+          },
+          {
+            "label": ">=0.80",
+            "n": 9,
+            "accuracy": 0.6666666666666666,
+            "mean_confidence": 1.0
+          }
+        ]
+      }
+    }
+  },
+  "pairs": [
+    {
+      "left": "base-nn",
+      "right": "verdict-nn",
+      "runs": 2,
+      "tasks": 32,
+      "both": 34,
+      "only_left": 1,
+      "only_right": 6,
+      "neither": 23,
+      "mcnemar_p": 0.125,
+      "score_diff_mean": -0.1875,
+      "score_diff_ci": [
+        -0.421875,
+        0.03125
+      ],
+      "cost_diff_mean": -13.203125,
+      "cost_diff_ci": [
+        -109.875,
+        93.5625
+      ]
+    },
+    {
+      "left": "base-nn",
+      "right": "verdict-hard-nn",
+      "runs": 2,
+      "tasks": 32,
+      "both": 31,
+      "only_left": 4,
+      "only_right": 5,
+      "neither": 24,
+      "mcnemar_p": 1.0,
+      "score_diff_mean": 0.03125,
+      "score_diff_ci": [
+        -0.1875,
+        0.28125
+      ],
+      "cost_diff_mean": -173.65625,
+      "cost_diff_ci": [
+        -382.796875,
+        -28.796875
+      ]
+    }
+  ],
+  "per_run": [
+    {
+      "config": "base-nn",
+      "repeat": 1,
+      "score": 79.0,
+      "solved": 17,
+      "cost": 15098,
+      "wave1_cost": 10013,
+      "verdicts": 0,
+      "duration_seconds": 151.787,
+      "returncode": 0
+    },
+    {
+      "config": "base-nn",
+      "repeat": 2,
+      "score": 80.0,
+      "solved": 18,
+      "cost": 13443,
+      "wave1_cost": 9627,
+      "verdicts": 0,
+      "duration_seconds": 148.772,
+      "returncode": 0
+    },
+    {
+      "config": "verdict-hard-nn",
+      "repeat": 1,
+      "score": 85.0,
+      "solved": 20,
+      "cost": 16277,
+      "wave1_cost": 11997,
+      "verdicts": 29,
+      "duration_seconds": 179.663,
+      "returncode": 0
+    },
+    {
+      "config": "verdict-hard-nn",
+      "repeat": 2,
+      "score": 72.0,
+      "solved": 16,
+      "cost": 23378,
+      "wave1_cost": 12468,
+      "verdicts": 26,
+      "duration_seconds": 243.867,
+      "returncode": 0
+    },
+    {
+      "config": "verdict-hard-nn",
+      "repeat": 3,
+      "score": 79.0,
+      "solved": 18,
+      "cost": 21423,
+      "wave1_cost": 13434,
+      "verdicts": 26,
+      "duration_seconds": 341.202,
+      "returncode": 0
+    },
+    {
+      "config": "verdict-hard-nn",
+      "repeat": 4,
+      "score": 81.0,
+      "solved": 18,
+      "cost": 16694,
+      "wave1_cost": 12297,
+      "verdicts": 27,
+      "duration_seconds": 163.569,
+      "returncode": 0
+    },
+    {
+      "config": "verdict-nn",
+      "repeat": 1,
+      "score": 79.0,
+      "solved": 18,
+      "cost": 14698,
+      "wave1_cost": 10170,
+      "verdicts": 6,
+      "duration_seconds": 154.307,
+      "returncode": 0
+    },
+    {
+      "config": "verdict-nn",
+      "repeat": 2,
+      "score": 92.0,
+      "solved": 22,
+      "cost": 14688,
+      "wave1_cost": 10262,
+      "verdicts": 5,
+      "duration_seconds": 134.12,
+      "returncode": 0
+    }
+  ]
+}

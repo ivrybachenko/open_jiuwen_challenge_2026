@@ -1,0 +1,3 @@
+solved
+1.00
+Dijkstra shortest path from S to T

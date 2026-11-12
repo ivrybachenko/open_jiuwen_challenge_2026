@@ -1,0 +1,5 @@
+cat > verdict.txt << 'EOF'
+solved
+1.00
+The balanced function correctly handles all bracket types and nesting.
+EOF
