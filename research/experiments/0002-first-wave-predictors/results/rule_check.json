@@ -1,0 +1,12 @@
+{
+  "rule": "remaining_turns == 1 iff wave1 answer_kind in {none, impossible}",
+  "groups": 240,
+  "mismatches": 0,
+  "wave1_answer_kind": {
+    "none": 99,
+    "value": 110,
+    "done": 15,
+    "impossible": 16
+  },
+  "source": "data/trajectories/exp0002-shard*/bash_attempts.jsonl"
+}
