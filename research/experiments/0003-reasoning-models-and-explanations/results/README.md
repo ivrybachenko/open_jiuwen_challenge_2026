@@ -13,6 +13,8 @@
 | `tasks.yaml` | Зафиксированная стратифицированная выборка 32 задач |
 | `results/comparison.md` / `comparison.json` | Сводка по конфигурациям, парам задач и формату ответа |
 | `results/comparison.txt` | Тот же отчёт в текстовом виде (вывод `analyze.py`) |
+| `results/repeats-summary.md` / `.json` | Средние и разброс по четырём прогонам ключевых конфигураций |
+| `results/repeats-{1,2,3}/` | Три независимых повтора `rr-plain`, `nr-plain`, `nn-plain`, `nn-single` |
 | `results/<config>/summary.json` | Итог конфигурации: балл, стоимость, волны, задачи |
 | `results/<config>/tasks.jsonl` | Построчные результаты и статистика волн |
 | `results/<config>/harness.log` | Команда, stdout/stderr харнесса |

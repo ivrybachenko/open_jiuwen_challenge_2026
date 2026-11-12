@@ -1,0 +1,377 @@
+{
+  "configs": {
+    "rr-plain": {
+      "runs": [
+        {
+          "name": "original",
+          "score": 90.0,
+          "solved": 22.0,
+          "tasks": 32.0,
+          "cost": 36252.0,
+          "wave1_cost": 19217.0,
+          "wave2_cost": 17035.0,
+          "seconds": 635.278,
+          "path": "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0003-reasoning-models-and-explanations/results/rr-plain/summary.json"
+        },
+        {
+          "name": "repeat-1",
+          "score": 90.0,
+          "solved": 21.0,
+          "tasks": 32.0,
+          "cost": 38875.0,
+          "wave1_cost": 22522.0,
+          "wave2_cost": 16353.0,
+          "seconds": 552.997,
+          "path": "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0003-reasoning-models-and-explanations/results/repeats-1/rr-plain/summary.json"
+        },
+        {
+          "name": "repeat-2",
+          "score": 89.0,
+          "solved": 21.0,
+          "tasks": 32.0,
+          "cost": 30867.0,
+          "wave1_cost": 19643.0,
+          "wave2_cost": 11224.0,
+          "seconds": 363.24,
+          "path": "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0003-reasoning-models-and-explanations/results/repeats-2/rr-plain/summary.json"
+        },
+        {
+          "name": "repeat-3",
+          "score": 77.0,
+          "solved": 18.0,
+          "tasks": 32.0,
+          "cost": 40649.0,
+          "wave1_cost": 21274.0,
+          "wave2_cost": 19375.0,
+          "seconds": 581.224,
+          "path": "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0003-reasoning-models-and-explanations/results/repeats-3/rr-plain/summary.json"
+        }
+      ],
+      "summary": {
+        "score": {
+          "n": 4,
+          "mean": 86.5,
+          "sd": 6.3508529610858835,
+          "min": 77.0,
+          "max": 90.0
+        },
+        "solved": {
+          "n": 4,
+          "mean": 20.5,
+          "sd": 1.7320508075688772,
+          "min": 18.0,
+          "max": 22.0
+        },
+        "cost": {
+          "n": 4,
+          "mean": 36660.75,
+          "sd": 4263.944056465407,
+          "min": 30867.0,
+          "max": 40649.0
+        },
+        "wave1_cost": {
+          "n": 4,
+          "mean": 20664.0,
+          "sd": 1523.210863056502,
+          "min": 19217.0,
+          "max": 22522.0
+        },
+        "wave2_cost": {
+          "n": 4,
+          "mean": 15996.75,
+          "sd": 3434.9474886815956,
+          "min": 11224.0,
+          "max": 19375.0
+        },
+        "seconds": {
+          "n": 4,
+          "mean": 533.18475,
+          "sd": 118.32799688260594,
+          "min": 363.24,
+          "max": 635.278
+        }
+      }
+    },
+    "nr-plain": {
+      "runs": [
+        {
+          "name": "original",
+          "score": 85.0,
+          "solved": 20.0,
+          "tasks": 32.0,
+          "cost": 19506.0,
+          "wave1_cost": 8778.0,
+          "wave2_cost": 10728.0,
+          "seconds": 264.509,
+          "path": "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0003-reasoning-models-and-explanations/results/nr-plain/summary.json"
+        },
+        {
+          "name": "repeat-1",
+          "score": 85.0,
+          "solved": 20.0,
+          "tasks": 32.0,
+          "cost": 18824.0,
+          "wave1_cost": 10451.0,
+          "wave2_cost": 8373.0,
+          "seconds": 259.95,
+          "path": "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0003-reasoning-models-and-explanations/results/repeats-1/nr-plain/summary.json"
+        },
+        {
+          "name": "repeat-2",
+          "score": 82.0,
+          "solved": 19.0,
+          "tasks": 32.0,
+          "cost": 17320.0,
+          "wave1_cost": 8343.0,
+          "wave2_cost": 8977.0,
+          "seconds": 204.02,
+          "path": "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0003-reasoning-models-and-explanations/results/repeats-2/nr-plain/summary.json"
+        },
+        {
+          "name": "repeat-3",
+          "score": 81.0,
+          "solved": 18.0,
+          "tasks": 32.0,
+          "cost": 26934.0,
+          "wave1_cost": 10359.0,
+          "wave2_cost": 16575.0,
+          "seconds": 361.643,
+          "path": "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0003-reasoning-models-and-explanations/results/repeats-3/nr-plain/summary.json"
+        }
+      ],
+      "summary": {
+        "score": {
+          "n": 4,
+          "mean": 83.25,
+          "sd": 2.0615528128088303,
+          "min": 81.0,
+          "max": 85.0
+        },
+        "solved": {
+          "n": 4,
+          "mean": 19.25,
+          "sd": 0.9574271077563381,
+          "min": 18.0,
+          "max": 20.0
+        },
+        "cost": {
+          "n": 4,
+          "mean": 20646.0,
+          "sd": 4290.318713879736,
+          "min": 17320.0,
+          "max": 26934.0
+        },
+        "wave1_cost": {
+          "n": 4,
+          "mean": 9482.75,
+          "sd": 1080.2815605202193,
+          "min": 8343.0,
+          "max": 10451.0
+        },
+        "wave2_cost": {
+          "n": 4,
+          "mean": 11163.25,
+          "sd": 3743.5128222032313,
+          "min": 8373.0,
+          "max": 16575.0
+        },
+        "seconds": {
+          "n": 4,
+          "mean": 272.5305,
+          "sd": 65.46586822917723,
+          "min": 204.02,
+          "max": 361.643
+        }
+      }
+    },
+    "nn-plain": {
+      "runs": [
+        {
+          "name": "original",
+          "score": 78.0,
+          "solved": 17.0,
+          "tasks": 32.0,
+          "cost": 12894.0,
+          "wave1_cost": 9204.0,
+          "wave2_cost": 3690.0,
+          "seconds": 235.129,
+          "path": "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0003-reasoning-models-and-explanations/results/nn-plain/summary.json"
+        },
+        {
+          "name": "repeat-1",
+          "score": 80.0,
+          "solved": 17.0,
+          "tasks": 32.0,
+          "cost": 11811.0,
+          "wave1_cost": 9208.0,
+          "wave2_cost": 2603.0,
+          "seconds": 326.352,
+          "path": "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0003-reasoning-models-and-explanations/results/repeats-1/nn-plain/summary.json"
+        },
+        {
+          "name": "repeat-2",
+          "score": 78.0,
+          "solved": 18.0,
+          "tasks": 32.0,
+          "cost": 12714.0,
+          "wave1_cost": 8252.0,
+          "wave2_cost": 4462.0,
+          "seconds": 141.122,
+          "path": "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0003-reasoning-models-and-explanations/results/repeats-2/nn-plain/summary.json"
+        },
+        {
+          "name": "repeat-3",
+          "score": 88.0,
+          "solved": 21.0,
+          "tasks": 32.0,
+          "cost": 13690.0,
+          "wave1_cost": 10790.0,
+          "wave2_cost": 2900.0,
+          "seconds": 257.854,
+          "path": "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0003-reasoning-models-and-explanations/results/repeats-3/nn-plain/summary.json"
+        }
+      ],
+      "summary": {
+        "score": {
+          "n": 4,
+          "mean": 81.0,
+          "sd": 4.760952285695233,
+          "min": 78.0,
+          "max": 88.0
+        },
+        "solved": {
+          "n": 4,
+          "mean": 18.25,
+          "sd": 1.8929694486000912,
+          "min": 17.0,
+          "max": 21.0
+        },
+        "cost": {
+          "n": 4,
+          "mean": 12777.25,
+          "sd": 771.2290515793605,
+          "min": 11811.0,
+          "max": 13690.0
+        },
+        "wave1_cost": {
+          "n": 4,
+          "mean": 9363.5,
+          "sd": 1051.9751264486565,
+          "min": 8252.0,
+          "max": 10790.0
+        },
+        "wave2_cost": {
+          "n": 4,
+          "mean": 3413.75,
+          "sd": 835.9419337888647,
+          "min": 2603.0,
+          "max": 4462.0
+        },
+        "seconds": {
+          "n": 4,
+          "mean": 240.11425,
+          "sd": 76.54185463468119,
+          "min": 141.122,
+          "max": 326.352
+        }
+      }
+    },
+    "nn-single": {
+      "runs": [
+        {
+          "name": "original",
+          "score": 91.0,
+          "solved": 22.0,
+          "tasks": 32.0,
+          "cost": 14544.0,
+          "wave1_cost": 10875.0,
+          "wave2_cost": 3669.0,
+          "seconds": 231.093,
+          "path": "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0003-reasoning-models-and-explanations/results/nn-single/summary.json"
+        },
+        {
+          "name": "repeat-1",
+          "score": 85.0,
+          "solved": 20.0,
+          "tasks": 32.0,
+          "cost": 13957.0,
+          "wave1_cost": 8831.0,
+          "wave2_cost": 5126.0,
+          "seconds": 338.57,
+          "path": "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0003-reasoning-models-and-explanations/results/repeats-1/nn-single/summary.json"
+        },
+        {
+          "name": "repeat-2",
+          "score": 88.0,
+          "solved": 21.0,
+          "tasks": 32.0,
+          "cost": 13152.0,
+          "wave1_cost": 10628.0,
+          "wave2_cost": 2524.0,
+          "seconds": 179.476,
+          "path": "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0003-reasoning-models-and-explanations/results/repeats-2/nn-single/summary.json"
+        },
+        {
+          "name": "repeat-3",
+          "score": 95.0,
+          "solved": 23.0,
+          "tasks": 32.0,
+          "cost": 20642.0,
+          "wave1_cost": 11945.0,
+          "wave2_cost": 8697.0,
+          "seconds": 238.184,
+          "path": "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0003-reasoning-models-and-explanations/results/repeats-3/nn-single/summary.json"
+        }
+      ],
+      "summary": {
+        "score": {
+          "n": 4,
+          "mean": 89.75,
+          "sd": 4.272001872658765,
+          "min": 85.0,
+          "max": 95.0
+        },
+        "solved": {
+          "n": 4,
+          "mean": 21.5,
+          "sd": 1.2909944487358056,
+          "min": 20.0,
+          "max": 23.0
+        },
+        "cost": {
+          "n": 4,
+          "mean": 15573.75,
+          "sd": 3426.674614938901,
+          "min": 13152.0,
+          "max": 20642.0
+        },
+        "wave1_cost": {
+          "n": 4,
+          "mean": 10569.75,
+          "sd": 1292.4311393648793,
+          "min": 8831.0,
+          "max": 11945.0
+        },
+        "wave2_cost": {
+          "n": 4,
+          "mean": 5004.0,
+          "sd": 2682.3968137966963,
+          "min": 2524.0,
+          "max": 8697.0
+        },
+        "seconds": {
+          "n": 4,
+          "mean": 246.83075,
+          "sd": 66.52116304542987,
+          "min": 179.476,
+          "max": 338.57
+        }
+      }
+    }
+  },
+  "dirs": [
+    "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0003-reasoning-models-and-explanations/results/repeats-1",
+    "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0003-reasoning-models-and-explanations/results/repeats-2",
+    "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0003-reasoning-models-and-explanations/results/repeats-3"
+  ]
+}
