@@ -47,6 +47,18 @@ class SolutionsStore:
     def total_cost(self) -> int:
         return sum(int(item.get("cost", 0)) for item in self._solutions.values())
 
+    @property
+    def total_input_tokens(self) -> int:
+        return sum(
+            int(item.get("input_tokens", 0)) for item in self._solutions.values()
+        )
+
+    @property
+    def total_output_tokens(self) -> int:
+        return sum(
+            int(item.get("output_tokens", 0)) for item in self._solutions.values()
+        )
+
     def record(self, solution: Solution) -> None:
         self._solutions[solution.task_id] = asdict(solution)
         self._flush()

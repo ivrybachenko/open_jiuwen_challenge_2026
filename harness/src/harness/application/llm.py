@@ -8,8 +8,8 @@ Rules from the regulation:
   ``completion_tokens``, so no special handling is needed);
 * provider-side prompt caching is ignored: every input token is charged.
 
-The actual LLM calls are made by openJiuwen; this module only converts the
-usage reported by the SDK (``TokenTrackingRail``) into the contest currency.
+The actual LLM calls are made by openJiuwen; this module converts the usage
+reported by the SDK into the contest currency.
 """
 
 from __future__ import annotations

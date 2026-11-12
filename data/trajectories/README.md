@@ -1,15 +1,15 @@
 # trajectories
 
-Полные траектории тестовых прогонов харнесса. Данные нужны для обучения
-предсказателя сложности задачи: по ним видно, сколько шагов и инструментов
-потребовала задача и как модель рассуждала.
+Данные тестовых прогонов харнесса. Начиная с `harness_v0002` здесь лежит
+журнал bash-попыток: он нужен для обучения предсказателя сложности и для
+разбора решений.
 
 ## Как появляется
 
 Оценщики (`harness_task_checker`, `harness_task_set_checker`,
 `commit_harness_version`) передают харнессу
 `--trajectories-dir <repo>/data/trajectories`. Сам харнесс без этого флага
-ничего не пишет, поэтому зачётный запуск по регламенту траектории не создаёт.
+ничего не пишет, поэтому зачётный запуск по регламенту журнал не создаёт.
 
 Локально можно включить сбор вручную:
 
@@ -21,86 +21,60 @@ uv run python -m harness.run_agent \
   --trajectories-dir ../data/trajectories
 ```
 
-## Файлы
+## Файлы v0002
 
 | Файл | Для кого | Что внутри |
 | --- | --- | --- |
-| `trajectories_default.jsonl` | машины | Одна JSON-строка на задачу: полная каноническая траектория openJiuwen в OTLP-представлении. Источник истины. |
-| `readable/<task_id>__<trajectory_id>.yaml` | человек и машины | Читаемая проекция той же траектории: шаги LLM и инструментов, рассуждения, аргументы и результаты. |
+| `bash_attempts.jsonl` | машины | Одна JSON-строка на ход: задача, волна, обзор, рассуждение, ответ модели, скрипт, вывод, код возврата, расход и признаки. Источник истины. |
+| `readable/<task_id>__waveN__<time>.yaml` | человек и машины | Читаемая проекция той же записи: многострочные рассуждения, скрипт и вывод. |
 
-JSONL и YAML пишутся вместе. JSONL остаётся главным для обучения: в нём есть
-полные prompt-истории, event-span'ы и все атрибуты OTLP. YAML — обзор
-решения без повторяющихся prompt-историй и служебных событий.
+JSONL дописывается и не ротируется. `*.jsonl` и `readable/*.yaml` не хранятся
+в git, потому что журнал быстро растёт.
 
-Файлы дописываются/создаются при каждом прогоне; старые записи не удаляются.
-`*.jsonl` и `readable/*.yaml` не хранятся в git, потому что траектории быстро
-растут.
+## Поля записи
 
-## Что сохраняется
+- `task_id`, `task_type`, `task_path`, `task_root`, `model`;
+- `wave`, `turn`, `started_at`, `duration_seconds`;
+- `overview` — что агент видел до первого хода;
+- `reasoning` — блок рассуждений модели, если провайдер его вернул;
+- `content` — сырой ответ модели;
+- `script` — скрипт, который реально исполнялся;
+- `output`, `exit_code`, `timed_out`, `script_error`;
+- `answer`, `answer_kind` (`none`, `value`, `done`, `impossible`);
+- `input_tokens`, `output_tokens`, `reasoning_tokens`, `finish_reason`,
+  `model_error`;
+- `features` — длина рассуждения, ключевые слова, обрыв по лимиту, форма
+  скрипта, результат исполнения, вид ответа и категория;
+- `run_id`, `logged_at`.
 
-Запись создаёт встроенный `TrajectoryRail` из openJiuwen. В ней есть:
+`task_id` — то же значение, под которым задача лежит в `solutions.json`.
+Датасетный путь (`coding/solvable/0001`) соединяется с записью через
+`task.json` или отчёт оценщика. Если оценщик передал `--run-id`, тот же
+идентификатор сохраняется в JSONL и в строке
+`data/harness_task_score/` или `data/harness_task_set_score/`.
 
-- LLM-span'ы: входные сообщения, ответ, `reasoning_content` (часть
-  `"type": "reasoning"`), определения инструментов и расход токенов;
-- tool-span'ы: имя инструмента, аргументы, результат и ошибка, если вызов
-  упал;
-- event-span'ы контекста, которые SDK относит к той же траектории.
+## Старые данные v0001
 
-Ресурсные атрибуты записи содержат `gen_ai.conversation.id` (в API
-траектории — `Trajectory.session_id`). Харнесс пишет туда `task_id` из
-`task.json`, то есть то же значение, под которым задача лежит в
-`solutions.json`. Датасетный путь (`coding/solvable/0001`) соединяется с
-траекторией через `task.json` задачи или отчёт оценщика.
-
-Если оценщик передал `--run-id`, тот же идентификатор сохраняется в JSONL как
-ресурсный атрибут `harness.run_id`, а в YAML — как поле `run_id`. Это позволяет
-однозначно соединить траекторию со строкой
-`data/harness_task_score/harness_v_<version>.tsv`: один `run_id` соответствует
-одной попытке решения. Для `harness_task_set_score` `run_id` относится ко
-всему набору, а задачи внутри набора различаются по `task_id`. Без `--run-id`
-поля нет, и связь остаётся только по `task_id`.
-
-## YAML-проекция
-
-Пример структуры:
-
-```yaml
-task_id: math_0000
-trajectory_id: cf76cba6-67b2-4c11-bb6e-a5233cda78b9
-run_id: 3f0c1c5e-...  # только если оценщик передал --run-id
-model: qwen3.6-35b-a3b
-started_at: '2026-11-10T19:23:33.500Z'
-duration_ms: 5840.2
-task: |
-  A warehouse starts with 1752 boxes...
-steps:
-  - kind: llm
-    started_at: '2026-11-10T19:23:33.500Z'
-    duration_ms: 8556.599
-    reasoning: |
-      Let me trace through this step by step...
-    tool_calls:
-      - name: bash
-        arguments:
-          command: |
-            python3 -c "..."
-    usage:
-      prompt_tokens: 3817
-      completion_tokens: 380
-      total_tokens: 4197
-  - kind: tool
-    started_at: '2026-11-10T19:23:42.100Z'
-    duration_ms: 120.5
-    tool: bash
-    arguments:
-      command: |
-        python3 -c "..."
-    result: |
-      Split into 2: 876
-      ...
-```
+`trajectories_default.jsonl` и `readable/*.yaml`, созданные `harness_v0001`,
+остаются как история. В них полные канонические траектории openJiuwen с
+вызовами инструментов. `harness_v0002` их не пишет: у bash-солвера нет
+инструментальных вызовов, а его журнал содержит всё нужное для обучения.
 
 ## Как прочитать
+
+JSONL:
+
+```python
+import json
+from pathlib import Path
+
+for line in Path("data/trajectories/bash_attempts.jsonl").read_text(
+    encoding="utf-8"
+).splitlines():
+    record = json.loads(line)
+    if record["task_id"] == "math_0000":
+        print(record["wave"], record["answer_kind"], record["features"])
+```
 
 YAML:
 
@@ -109,38 +83,17 @@ import yaml
 from pathlib import Path
 
 payload = yaml.safe_load(
-    Path("data/trajectories/readable/math_0000__<id>.yaml").read_text(
+    Path("data/trajectories/readable/math_0000__wave1__...yaml").read_text(
         encoding="utf-8"
     )
 )
-for step in payload["steps"]:
-    if step["kind"] == "llm":
-        print(step.get("reasoning"))
+print(payload["reasoning"])
+print(payload["script"])
 ```
 
-JSONL (полные данные):
+## Ограничения
 
-```python
-import json
-from pathlib import Path
-
-from openjiuwen.agent_evolving.trajectory.model import Trajectory
-from openjiuwen.agent_evolving.trajectory.spans import (
-    iter_spans,
-    read_llm_exchange,
-    read_tool_call,
-)
-from openjiuwen.agent_evolving.trajectory.team import span_category
-
-path = Path("data/trajectories/trajectories_default.jsonl")
-for line in path.read_text(encoding="utf-8").splitlines():
-    trajectory = Trajectory.from_otlp(json.loads(line))
-    for span in iter_spans(trajectory):
-        if span_category(span) == "llm":
-            prompts, completions = read_llm_exchange(span)
-        elif span_category(span) == "tool":
-            call = read_tool_call(span)
-```
-
-Полный разбор полей — в исходниках установленного openJiuwen
-(`openjiuwen/agent_evolving/trajectory/`).
+- Формат принадлежит харнессу, а не openJiuwen; он меняется вместе с
+  `harness/src/harness/application/features.py`.
+- Если провайдер не возвращает `reasoning_content`, поле `reasoning` пустое.
+- Журнал не ротируется; для длинных серий прогонов его нужно чистить вручную.

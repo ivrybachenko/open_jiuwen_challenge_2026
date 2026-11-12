@@ -9,8 +9,8 @@ environment variables passed by the jury:
     LLM_API_KEY   - proxy key (never baked into the image)
     LLM_MODEL     - one of the four allowed model names
     TOKEN_BUDGET  - optional output-token budget
-    TRAJECTORIES_DIR - optional directory for full task trajectories
-    HARNESS_RUN_ID - optional run identifier stored in the trajectory
+    TRAJECTORIES_DIR - optional directory for attempt logs
+    HARNESS_RUN_ID - optional run identifier stored in the attempt log
 
 The container root filesystem is read-only, so the default output location
 and the agent workspace live under ``/tmp``.
@@ -28,6 +28,16 @@ DEFAULT_TASKS_DIR = Path("/data/tasks")
 DEFAULT_OUT = Path("/tmp/out/solutions.json")
 DEFAULT_AGENT_WORKSPACE = Path("/tmp/agent-workspaces")
 DEFAULT_MAX_ITERATIONS = 12
+
+# Harness v0002 behaviour.  Values are exposed as flags so the evaluators can
+# compare strategies without editing code.
+DEFAULT_WAVE1_MAX_TOKENS = 1000
+DEFAULT_WAVE2_MAX_TOKENS = 4000
+DEFAULT_WAVE2_MAX_TASKS = 50
+DEFAULT_OVERVIEW_MAX_TOKENS = 1500
+DEFAULT_SCRIPT_OUTPUT_MAX_CHARS = 4000
+DEFAULT_TURN_TIMEOUT = 120.0
+DEFAULT_MODEL_TIMEOUT = 180.0
 
 _BUDGET_ENV_VARS = ("TOKEN_BUDGET", "BUDGET", "LLM_TOKEN_BUDGET")
 
@@ -51,6 +61,31 @@ def _int_or_none(raw: str | None) -> int | None:
         return None
 
 
+def _float_or_none(raw: str | None) -> float | None:
+    if raw is None or not str(raw).strip():
+        return None
+    try:
+        return float(str(raw).strip())
+    except ValueError:
+        return None
+
+
+def _first_int(env: dict[str, str], names: tuple[str, ...]) -> int | None:
+    for name in names:
+        parsed = _int_or_none(env.get(name))
+        if parsed is not None:
+            return parsed
+    return None
+
+
+def _first_float(env: dict[str, str], names: tuple[str, ...]) -> float | None:
+    for name in names:
+        parsed = _float_or_none(env.get(name))
+        if parsed is not None:
+            return parsed
+    return None
+
+
 @dataclass(frozen=True)
 class Settings:
     tasks_dir: Path
@@ -63,6 +98,14 @@ class Settings:
     agent_workspace: Path
     trajectories_dir: Path | None
     run_id: str | None
+    wave1_max_tokens: int = DEFAULT_WAVE1_MAX_TOKENS
+    wave2_max_tokens: int = DEFAULT_WAVE2_MAX_TOKENS
+    wave2_max_tasks: int = DEFAULT_WAVE2_MAX_TASKS
+    overview_max_tokens: int = DEFAULT_OVERVIEW_MAX_TOKENS
+    script_output_max_chars: int = DEFAULT_SCRIPT_OUTPUT_MAX_CHARS
+    turn_timeout: float = DEFAULT_TURN_TIMEOUT
+    model_timeout: float = DEFAULT_MODEL_TIMEOUT
+    resume: bool = True
 
     @classmethod
     def from_env(
@@ -76,8 +119,16 @@ class Settings:
         agent_workspace: Path | str | None = None,
         trajectories_dir: Path | str | None = None,
         run_id: str | None = None,
+        wave1_max_tokens: int | None = None,
+        wave2_max_tokens: int | None = None,
+        wave2_max_tasks: int | None = None,
+        overview_max_tokens: int | None = None,
+        script_output_max_chars: int | None = None,
+        turn_timeout: float | None = None,
+        model_timeout: float | None = None,
+        resume: bool | None = None,
     ) -> "Settings":
-        env = os.environ
+        env = dict(os.environ)
         raw_tasks = str(tasks_dir) if tasks_dir is not None else env.get("TASKS")
         raw_out = str(out) if out is not None else env.get("OUT")
         tasks_path = Path(raw_tasks) if raw_tasks else DEFAULT_TASKS_DIR
@@ -85,14 +136,7 @@ class Settings:
         resolved_out = _resolve_out(raw_out) if raw_out else tasks_path / "solutions.json"
 
         if budget is None:
-            budget = next(
-                (
-                    parsed
-                    for name in _BUDGET_ENV_VARS
-                    if (parsed := _int_or_none(env.get(name))) is not None
-                ),
-                None,
-            )
+            budget = _first_int(env, _BUDGET_ENV_VARS)
         if max_iterations is None:
             max_iterations = _int_or_none(env.get("MAX_ITERATIONS")) or DEFAULT_MAX_ITERATIONS
 
@@ -110,6 +154,49 @@ class Settings:
             str(run_id) if run_id is not None else env.get("HARNESS_RUN_ID")
         )
 
+        if wave1_max_tokens is None:
+            wave1_max_tokens = (
+                _first_int(env, ("HARNESS_WAVE1_MAX_TOKENS",))
+                or DEFAULT_WAVE1_MAX_TOKENS
+            )
+        if wave2_max_tokens is None:
+            wave2_max_tokens = (
+                _first_int(env, ("HARNESS_WAVE2_MAX_TOKENS",))
+                or DEFAULT_WAVE2_MAX_TOKENS
+            )
+        if wave2_max_tasks is None:
+            wave2_max_tasks = (
+                _first_int(env, ("HARNESS_WAVE2_MAX_TASKS",))
+                or DEFAULT_WAVE2_MAX_TASKS
+            )
+        if overview_max_tokens is None:
+            overview_max_tokens = (
+                _first_int(env, ("HARNESS_OVERVIEW_MAX_TOKENS",))
+                or DEFAULT_OVERVIEW_MAX_TOKENS
+            )
+        if script_output_max_chars is None:
+            script_output_max_chars = (
+                _first_int(env, ("HARNESS_SCRIPT_OUTPUT_MAX_CHARS",))
+                or DEFAULT_SCRIPT_OUTPUT_MAX_CHARS
+            )
+        if turn_timeout is None:
+            turn_timeout = (
+                _first_float(env, ("HARNESS_TURN_TIMEOUT",))
+                or DEFAULT_TURN_TIMEOUT
+            )
+        if model_timeout is None:
+            model_timeout = (
+                _first_float(env, ("HARNESS_MODEL_TIMEOUT",))
+                or DEFAULT_MODEL_TIMEOUT
+            )
+        if resume is None:
+            resume = env.get("HARNESS_RESUME", "1").strip().lower() not in {
+                "0",
+                "false",
+                "no",
+                "off",
+            }
+
         return cls(
             tasks_dir=tasks_path,
             out=resolved_out,
@@ -125,4 +212,12 @@ class Settings:
                 Path(raw_trajectories).expanduser() if raw_trajectories else None
             ),
             run_id=raw_run_id.strip() if raw_run_id and raw_run_id.strip() else None,
+            wave1_max_tokens=max(1, int(wave1_max_tokens)),
+            wave2_max_tokens=max(1, int(wave2_max_tokens)),
+            wave2_max_tasks=max(0, int(wave2_max_tasks)),
+            overview_max_tokens=max(200, int(overview_max_tokens)),
+            script_output_max_chars=max(200, int(script_output_max_chars)),
+            turn_timeout=max(1.0, float(turn_timeout)),
+            model_timeout=max(1.0, float(model_timeout)),
+            resume=bool(resume),
         )

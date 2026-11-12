@@ -49,5 +49,53 @@ class TrajectoriesDirTest(unittest.TestCase):
         self.assertEqual(from_flag.run_id, "flag-run")
 
 
+class WaveSettingsTest(unittest.TestCase):
+    def test_defaults(self) -> None:
+        with patch.dict(os.environ, {}, clear=True):
+            settings = Settings.from_env(tasks_dir="/tmp/tasks")
+        self.assertEqual(settings.wave1_max_tokens, 1000)
+        self.assertEqual(settings.wave2_max_tokens, 4000)
+        self.assertEqual(settings.wave2_max_tasks, 50)
+        self.assertEqual(settings.overview_max_tokens, 1500)
+        self.assertTrue(settings.resume)
+
+    def test_flags_override_defaults(self) -> None:
+        with patch.dict(os.environ, {}, clear=True):
+            settings = Settings.from_env(
+                tasks_dir="/tmp/tasks",
+                wave1_max_tokens=700,
+                wave2_max_tokens=3000,
+                wave2_max_tasks=7,
+                overview_max_tokens=900,
+                script_output_max_chars=1200,
+                turn_timeout=30,
+                model_timeout=90,
+                resume=False,
+            )
+        self.assertEqual(settings.wave1_max_tokens, 700)
+        self.assertEqual(settings.wave2_max_tokens, 3000)
+        self.assertEqual(settings.wave2_max_tasks, 7)
+        self.assertEqual(settings.overview_max_tokens, 900)
+        self.assertEqual(settings.script_output_max_chars, 1200)
+        self.assertEqual(settings.turn_timeout, 30)
+        self.assertEqual(settings.model_timeout, 90)
+        self.assertFalse(settings.resume)
+
+    def test_environment_is_used(self) -> None:
+        with patch.dict(
+            os.environ,
+            {
+                "HARNESS_WAVE1_MAX_TOKENS": "500",
+                "HARNESS_WAVE2_MAX_TOKENS": "2500",
+                "HARNESS_RESUME": "0",
+            },
+            clear=True,
+        ):
+            settings = Settings.from_env(tasks_dir="/tmp/tasks")
+        self.assertEqual(settings.wave1_max_tokens, 500)
+        self.assertEqual(settings.wave2_max_tokens, 2500)
+        self.assertFalse(settings.resume)
+
+
 if __name__ == "__main__":
     unittest.main()
