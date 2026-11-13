@@ -20,7 +20,7 @@ from harness.config import DEFAULT_MODEL, Settings
 from harness.tasks import TaskState
 from harness.tasks import Task
 from harness.solving.workspace import ProcessResult
-from harness.solving.waves import FollowUpSelector
+from harness.solving.scheduler import WaveScheduler
 
 
 def make_settings(tmp: Path, *, resume: bool = True) -> Settings:
@@ -195,7 +195,7 @@ class WaveSelectionTest(unittest.TestCase):
             solver = ScriptAgent(settings)
             task = make_task(tmp_path)
             done = make_state(task, answer="42", answer_kind="value", wave1_done=True)
-            selected = FollowUpSelector(settings).select(
+            selected = WaveScheduler(settings).select_candidates(
                 [task], {task.task_id: done}, 2, remaining=None
             )
             self.assertEqual(selected, [])
@@ -232,7 +232,7 @@ class WaveSelectionTest(unittest.TestCase):
                     }
                 ],
             )
-            selected = FollowUpSelector(solver.settings).select(
+            selected = WaveScheduler(solver.settings).select_candidates(
                 [task], {task.task_id: state}, 2, remaining=None
             )
             self.assertEqual(len(selected), 1)
@@ -270,7 +270,7 @@ class WaveSelectionTest(unittest.TestCase):
                     }
                 ],
             )
-            selected = FollowUpSelector(settings).select(
+            selected = WaveScheduler(settings).select_candidates(
                 [task], {task.task_id: state}, 2, remaining=100
             )
             self.assertEqual(selected, [])
@@ -301,7 +301,7 @@ class WaveSelectionTest(unittest.TestCase):
             state_b = make_state(
                 task_b, wave1_done=True, cost=100, turns=[{"features": features}]
             )
-            selected = FollowUpSelector(solver.settings).select(
+            selected = WaveScheduler(solver.settings).select_candidates(
                 [task_a, task_b], {"a": state_a, "b": state_b}, 2, remaining=None
             )
             self.assertEqual([task.task_id for task, _ in selected], ["b", "a"])
@@ -383,15 +383,15 @@ class WaveSelectionTest(unittest.TestCase):
                     {"wave": 2, "features": features},
                 ],
             )
-            selector = FollowUpSelector(solver.settings)
+            selector = WaveScheduler(solver.settings)
             self.assertEqual(
-                len(selector.select([task], {task.task_id: state}, 3)),
+                len(selector.select_candidates([task], {task.task_id: state}, 3)),
                 1,
             )
 
             state.turns.append({"wave": 3, "features": features})
             self.assertEqual(
-                selector.select([task], {task.task_id: state}, 3),
+                selector.select_candidates([task], {task.task_id: state}, 3),
                 [],
             )
 

@@ -5,7 +5,7 @@ from __future__ import annotations
 import unittest
 from unittest import mock
 
-from harness.solving import waves as waves_module
+from harness.solving import scheduler as scheduler_module
 from harness.solving.success_predictors import estimate_success
 from harness.solving.success_predictors.model import available, predict_success
 
@@ -78,15 +78,15 @@ class OnlinePredictorTest(unittest.TestCase):
     def test_promise_uses_model_probability(self) -> None:
         sample = _sample_features()
         with mock.patch.object(
-            waves_module, "estimate_success", return_value=0.9
+            scheduler_module, "estimate_success", return_value=0.9
         ):
-            high = waves_module.promise_score(
+            high = scheduler_module.promise_score(
                 reward=5, features=sample, spent_cost=300, wave2_max_tokens=4000
             )
         with mock.patch.object(
-            waves_module, "estimate_success", return_value=0.1
+            scheduler_module, "estimate_success", return_value=0.1
         ):
-            low = waves_module.promise_score(
+            low = scheduler_module.promise_score(
                 reward=5, features=sample, spent_cost=300, wave2_max_tokens=4000
             )
         self.assertGreater(high, low)

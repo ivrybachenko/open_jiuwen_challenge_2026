@@ -1,7 +1,8 @@
 """Harness run orchestration.
 
-The CLI only parses arguments; this module owns the task loop, waves,
-solutions persistence and crash isolation.
+The CLI only parses arguments; this module owns setup, the task loop,
+solutions persistence and crash isolation.  Which tasks get the next wave is
+decided by :mod:`harness.solving.scheduler`.
 """
 
 from __future__ import annotations
@@ -15,7 +16,7 @@ from pathlib import Path
 from harness.solving.agents.script_agent import ScriptAgent, SolveResult
 from harness.config import Settings
 from harness.accounting import Solution, SolutionsStore
-from harness.solving.waves import FollowUpSelector
+from harness.solving.scheduler import WaveScheduler
 from harness.tasks import TaskState
 from harness.tasks import Task, load_tasks
 
@@ -130,7 +131,7 @@ async def _run(args: argparse.Namespace) -> int:
         store.total_output_tokens,
         store.total_cost,
     )
-    selector = FollowUpSelector(settings)
+    scheduler = WaveScheduler(settings)
     if args.max_tasks is not None:
         tasks = tasks[: args.max_tasks]
 
@@ -172,7 +173,7 @@ async def _run(args: argparse.Namespace) -> int:
                 log.warning("wave %d skipped", wave)
                 return 0
 
-            candidates = selector.select(
+            candidates = scheduler.select_candidates(
                 tasks,
                 states,
                 wave,

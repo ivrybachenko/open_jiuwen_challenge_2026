@@ -1,13 +1,12 @@
-"""Follow-up wave selection and the expected-value heuristic."""
+"""Wave scheduling: pick unfinished tasks for the next round."""
 
 from __future__ import annotations
 
 from typing import Any
 
 from harness.config import Settings
-from harness.tasks import TaskState
-from harness.tasks import Task
 from harness.solving.success_predictors import estimate_success
+from harness.tasks import Task, TaskState
 
 
 def estimate_retry_cost(spent_cost: int, wave2_max_tokens: int) -> int:
@@ -30,13 +29,13 @@ def promise_score(
     return probability * float(reward) / max(1, cost)
 
 
-class FollowUpSelector:
+class WaveScheduler:
     """Pick unfinished tasks worth another wave."""
 
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
 
-    def select(
+    def select_candidates(
         self,
         tasks: list[Task],
         states: dict[str, TaskState],
@@ -77,13 +76,3 @@ class FollowUpSelector:
         if self.settings.wave2_max_tasks > 0:
             candidates = candidates[: self.settings.wave2_max_tasks]
         return [(task, state) for _, task, state in candidates]
-
-    def select_wave2(
-        self,
-        tasks: list[Task],
-        states: dict[str, TaskState],
-        *,
-        remaining: int | None = None,
-    ) -> list[tuple[Task, TaskState]]:
-        """Compatibility wrapper for the second wave."""
-        return self.select(tasks, states, 2, remaining=remaining)

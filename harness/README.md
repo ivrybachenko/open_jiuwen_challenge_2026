@@ -22,8 +22,8 @@ src/harness/
     answer.py                   # AnswerInfo, classify_answer
 
   solving/                      # как получаем ответ
-    runner.py                   # цикл задач и волны
-    waves.py                    # выбор следующей волны
+    runner.py                   # исполнение задач и волн
+    scheduler.py                # планировщик следующей волны
     agents/
       script_agent.py           # ScriptAgent(BaseAgent), SYSTEM_PROMPT
       rails/
@@ -66,7 +66,7 @@ infrastructure.cli -> solving.runner
                               -> Model.invoke
                               -> bash-скрипт в workspace
                               -> solving.agents.rails
-                         -> solving.waves.select
+                         -> solving.scheduler.select_candidates
                          -> accounting.solutions.record после каждого хода
 ```
 

@@ -46,7 +46,7 @@ cost = output_tokens + ceil(input_tokens / 10)
   модуль `solving/success_predictors/model.py`). Если модель или признаки
   недоступны, используется прежняя эвристика `success_probability` из
   `solving/success_predictors/heuristic.py`; выбор кандидатов — в
-  `solving/waves.py`.
+  `solving/scheduler.py`.
 - Модель предсказывает `P(правильный ответ)` по признакам хода: вид ответа,
   расход, форма скрипта, вывод, код возврата, категория, `reward` и обзор.
   Оценка остатка стоимости по величине не используется: ожидаемая стоимость

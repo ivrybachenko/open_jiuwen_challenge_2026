@@ -9,7 +9,7 @@ from pathlib import Path
 
 from harness.tasks import classify_answer
 from harness.accounting import AttemptLogger, extract_features
-from harness.solving.waves import promise_score
+from harness.solving.scheduler import promise_score
 from harness.solving.success_predictors.heuristic import success_probability
 
 
