@@ -5,9 +5,9 @@ from __future__ import annotations
 from typing import Any
 
 from harness.config import Settings
-from harness.state import TaskState
+from harness.tasks import TaskState
 from harness.tasks import Task
-from harness.success_predictors import estimate_success
+from harness.solving.success_predictors import estimate_success
 
 
 def estimate_retry_cost(spent_cost: int, wave2_max_tokens: int) -> int:

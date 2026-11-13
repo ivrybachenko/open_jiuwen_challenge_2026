@@ -18,14 +18,14 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from harness.answers import AnswerInfo, classify_answer
-from harness.attempts import AttemptLogger
-from harness.budget import TokenLedger
+from harness.tasks import AnswerInfo, classify_answer
+from harness.accounting import AttemptLogger
+from harness.accounting import TokenLedger
 from harness.config import MODELS, Settings
-from harness.logging_setup import configure_logging
-from harness.state import StateStore, TaskState
+from harness.infrastructure.logging_setup import configure_logging
+from harness.tasks import StateStore, TaskState
 from harness.tasks import Task
-from harness.workspace import (
+from harness.solving.workspace import (
     OverviewLimits,
     ProcessResult,
     build_overview,
@@ -46,7 +46,7 @@ from openjiuwen.core.single_agent.rail.base import (  # noqa: E402
 )
 from openjiuwen.core.single_agent.schema.agent_card import AgentCard  # noqa: E402
 
-from harness.agents.rails import (  # noqa: E402
+from harness.solving.agents.rails import (  # noqa: E402
     AnswerRail,
     BudgetRail,
     FailureRail,

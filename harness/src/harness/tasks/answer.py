@@ -1,10 +1,21 @@
-"""Classify the value written to ``answer.txt``."""
+"""Answer contract: value object and classification."""
 
 from __future__ import annotations
 
-from harness.answers.model import AnswerInfo
+from dataclasses import dataclass
 
 DONE_VALUES = {"DONE", "OK", "SUCCESS", "PASS", "TESTS PASS"}
+
+
+@dataclass(frozen=True)
+class AnswerInfo:
+    text: str | None
+    kind: str
+    first_line: str = ""
+
+    @property
+    def present(self) -> bool:
+        return self.text is not None
 
 
 def classify_answer(text: str | None) -> AnswerInfo:

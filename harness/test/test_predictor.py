@@ -6,8 +6,8 @@ import unittest
 from unittest import mock
 
 from harness.solving import waves as waves_module
-from harness.success_predictors import estimate_success
-from harness.success_predictors.model import available, predict_success
+from harness.solving.success_predictors import estimate_success
+from harness.solving.success_predictors.model import available, predict_success
 
 
 def _sample_features() -> dict:
@@ -99,7 +99,7 @@ class OnlinePredictorTest(unittest.TestCase):
             answer_chars=0,
         )
         with mock.patch(
-            "harness.success_predictors.predict_success", return_value=None
+            "harness.solving.success_predictors.predict_success", return_value=None
         ):
             value = estimate_success(sample)
         self.assertGreater(value, 0.0)

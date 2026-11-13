@@ -1,90 +1,78 @@
 # harness
 
 Исходники харнесса. Точка входа — `src/harness/run_agent.py`; `main` живёт
-там, а `cli.py` только разбирает аргументы.
+там, а `infrastructure/cli.py` только разбирает аргументы.
 
-## Структура по бизнес-функциям
+## Структура
 
 ```
 src/harness/
   run_agent.py                  # entrypoint: main + logging
-  cli.py                        # только argparse
   config.py                     # Settings, список моделей
-  logging_setup.py              # логи openJiuwen до импорта SDK
 
-  tasks/                        # задача и её файлы
+  infrastructure/               # оболочка процесса
+    cli.py                      # только argparse
+    logging_setup.py            # логи openJiuwen до импорта SDK
+
+  tasks/                        # что решаем
     model.py                    # Task, answer.txt
     loader.py                   # чтение task.json
+    state.py                    # TaskState
+    store.py                    # state.json
+    answer.py                   # AnswerInfo, classify_answer
 
-  state/                        # состояние одной задачи
-    model.py                    # TaskState
-    store.py                    # атомарный state.json
-
-  answers/                      # контракт ответа
-    model.py                    # AnswerInfo
-    classify.py                 # classify_answer
-
-  attempts/                     # ход как источник данных
-    features.py                 # extract_features
-    log.py                      # AttemptLogger (JSONL + YAML)
-
-  budget/                       # бюджет и стоимость токенов
-    ledger.py                   # token_cost, TokenLedger
-
-  success_predictors/           # вероятность успеха
-    heuristic.py                # success_probability
-    model.py                    # predict_success
-    models/                     # артефакты sklearn-модели
-    __init__.py                 # estimate_success: модель -> эвристика
-
-  workspace/                    # работа с каталогом задачи
-    overview.py                 # обзор директории
-    shell.py                    # процессы с таймаутом и обрезкой вывода
-
-  solutions/                    # итоговый solutions.json
-    store.py
-
-  solving/                      # прогон набора задач
-    runner.py                   # задачи, волны, solutions.json
+  solving/                      # как получаем ответ
+    runner.py                   # цикл задач и волны
     waves.py                    # выбор следующей волны
+    agents/
+      script_agent.py           # ScriptAgent(BaseAgent), SYSTEM_PROMPT
+      rails/
+        budget.py
+        failure.py
+        followup.py             # follow-up warning
+        answer.py
+        features.py
+    workspace/
+      overview.py               # обзор каталога
+      shell.py                  # процессы с таймаутом и обрезкой вывода
+    success_predictors/
+      heuristic.py              # success_probability
+      model.py                  # predict_success
+      models/                   # артефакты sklearn
+      __init__.py               # estimate_success: модель -> эвристика
 
-  agents/                       # выполнение одного хода
-    script_agent.py             # ScriptAgent(BaseAgent), SYSTEM_PROMPT
-    rails/
-      budget.py
-      failure.py
-      followup.py               # follow-up warning
-      answer.py
-      features.py
+  accounting/                   # что тратим и записываем
+    budget.py                   # token_cost, TokenLedger
+    attempts.py                 # признаки хода + AttemptLogger
+    solutions.py                # solutions.json
 ```
+
+Три домена:
+
+- `tasks/` — что решаем, что помним и что считается ответом;
+- `solving/` — как получаем ответ: runner, волны, агент, rails, workspace и
+  предсказание успеха;
+- `accounting/` — что тратим и записываем: бюджет, журнал попыток,
+  `solutions.json`.
+
+`infrastructure/` — только процессная оболочка: разбор аргументов и настройка
+логов openJiuwen. Бизнес-логики там нет.
 
 Поток одного прогона:
 
 ```
-cli -> solving.runner
-          -> agents.script_agent.invoke
-               -> Model.invoke
-               -> bash-скрипт в workspace
-               -> agents.rails (budget / failure / followup / answer / features)
-          -> solving.waves.select
-          -> solutions.store.record после каждого хода
+infrastructure.cli -> solving.runner
+                         -> solving.agents.script_agent.invoke
+                              -> Model.invoke
+                              -> bash-скрипт в workspace
+                              -> solving.agents.rails
+                         -> solving.waves.select
+                         -> accounting.solutions.record после каждого хода
 ```
 
-Пакет = бизнес-функция, а не технический слой:
-
-- `tasks` — что решаем;
-- `state` — что помним о задаче между ходами;
-- `answers` — что считается ответом;
-- `attempts` — что записываем о ходе;
-- `budget` — как считаем деньги;
-- `success_predictors` — как оцениваем шанс успеха;
-- `workspace` — как взаимодействуем с файлами и процессами;
-- `solutions` — как отдаём итог;
-- `solving` — как гоняем волны;
-- `agents` — как выполняется один ход и его lifecycle-rails.
-
-Промпты лежат там, где используются: `SYSTEM_PROMPT` — в
-`agents/script_agent.py`, follow-up warning — в `agents/rails/followup.py`.
+Промпты лежат рядом с использованием: `SYSTEM_PROMPT` — в
+`solving/agents/script_agent.py`, follow-up warning — в
+`solving/agents/rails/followup.py`.
 
 ## Проверка
 

@@ -42,11 +42,11 @@ cost = output_tokens + ceil(input_tokens / 10)
   расход, `finish_reason`, обрыв по лимиту, форма скрипта, код возврата,
   таймаут, объём вывода, вид ответа, категория и `reward`.
 - Вероятность успеха после хода предсказывает обученная модель
-  (`harness/src/harness/success_predictors/models/online_correct_model.joblib`,
-  модуль `success_predictors/model.py`). Если модель или признаки недоступны,
-  используется
-  прежняя эвристика `success_probability` из `success_predictors/heuristic.py`;
-  выбор кандидатов — в `solving/waves.py`.
+  (`harness/src/harness/solving/success_predictors/models/online_correct_model.joblib`,
+  модуль `solving/success_predictors/model.py`). Если модель или признаки
+  недоступны, используется прежняя эвристика `success_probability` из
+  `solving/success_predictors/heuristic.py`; выбор кандидатов — в
+  `solving/waves.py`.
 - Модель предсказывает `P(правильный ответ)` по признакам хода: вид ответа,
   расход, форма скрипта, вывод, код возврата, категория, `reward` и обзор.
   Оценка остатка стоимости по величине не используется: ожидаемая стоимость

@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from harness.success_predictors.heuristic import success_probability
-from harness.success_predictors.model import predict_success
+from harness.solving.success_predictors.heuristic import success_probability
+from harness.solving.success_predictors.model import predict_success
 
 __all__ = ["estimate_success", "predict_success", "success_probability"]
 

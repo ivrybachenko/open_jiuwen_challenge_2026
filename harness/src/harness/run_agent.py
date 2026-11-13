@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import logging
 
-from harness.cli import parse_args
+from harness.infrastructure.cli import parse_args
 
 
 def main(argv: list[str] | None = None) -> int:

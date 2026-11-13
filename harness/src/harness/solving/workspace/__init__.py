@@ -1,7 +1,7 @@
 """Working-directory inspection and bounded process execution."""
 
-from harness.workspace.overview import OverviewLimits, build_overview
-from harness.workspace.shell import ProcessResult, run_process
+from harness.solving.workspace.overview import OverviewLimits, build_overview
+from harness.solving.workspace.shell import ProcessResult, run_process
 
 __all__ = [
     "OverviewLimits",

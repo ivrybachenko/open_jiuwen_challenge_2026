@@ -21,7 +21,7 @@
   подготовка follow-up, ответ и признаки хода вынесены в rails openJiuwen
   (`BudgetRail`, `FailureRail`, `FollowUpRail`, `AnswerRail`,
   `FeatureRail`); каждый rail — отдельный модуль в
-  `harness/src/harness/agents/rails/`. Rails не добавляют новых
+  `harness/src/harness/solving/agents/rails/`. Rails не добавляют новых
   инструкций в промпт и не вызывают модель; текст follow-up warning остаётся
   прежним, поэтому расход токенов не меняется.
 
