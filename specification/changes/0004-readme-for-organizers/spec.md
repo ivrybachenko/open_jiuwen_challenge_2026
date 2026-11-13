@@ -3,7 +3,7 @@
 - Статус: implemented
 - Дата: 2026-11-08
 - Заменяет (Supersedes): —
-- Заменено (Superseded by): —
+- Заменено (Superseded by): 0015
 - Меняет поведение: `specification/behavior/09_readme.md` (новый файл)
 - Связанные эксперименты: —
 - Затрагиваемые инварианты: `specification/constitution/03_documentation.md`, `specification/constitution/04_challenge_rules.md`

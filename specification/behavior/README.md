@@ -17,10 +17,13 @@
 
 | Что просили описать | Кратко в README | Детали и проверки |
 | --- | --- | --- |
-| Сборка и запуск | [README.md](../../README.md#сборка-и-запуск) | [01_runtime.md](01_runtime.md) |
-| Способ оценки расхода | [README.md](../../README.md#учёт-расхода) | [04_budget_and_selection.md](04_budget_and_selection.md) |
-| Поиск невыполнимых задач | [README.md](../../README.md#невыполнимые-задачи) | [04_budget_and_selection.md](04_budget_and_selection.md) |
-| Собранные траектории | [README.md](../../README.md#траектории) | [06_trajectories.md](06_trajectories.md) |
+| Сборка и запуск | [README.md](../../README.md#2-команды-для-сборки-и-запуска) | [01_runtime.md](01_runtime.md) |
+| Способ оценки расхода | [README.md](../../README.md#3-ключевые-идеи-харнесса) | [04_budget_and_selection.md](04_budget_and_selection.md) |
+| Поиск невыполнимых задач | [README.md](../../README.md#3-ключевые-идеи-харнесса) | [04_budget_and_selection.md](04_budget_and_selection.md) |
+| Собранные траектории | [README.md](../../README.md#3-ключевые-идеи-харнесса) | [06_trajectories.md](06_trajectories.md) |
+| Модель вероятности успеха | [README.md](../../README.md#4-модель-вероятности-правильного-ответа) | [04_budget_and_selection.md](04_budget_and_selection.md) |
+| Создание датасета | [README.md](../../README.md#5-особенности-создания-датасета) | [`data/task_generation/`](../../data/task_generation/README.md) |
+| Использование ИИ при разработке | [README.md](../../README.md#6-разглашение-использования-ии-при-разработке) | [`data/task/journal.md`](../../data/task/journal.md) |
 
 Отдельно зафиксированы контракты документации: инструкции для coding-агента
 [08_agents_md.md](08_agents_md.md) и README для организаторов
