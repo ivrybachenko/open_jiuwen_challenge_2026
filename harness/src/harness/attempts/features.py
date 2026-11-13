@@ -1,15 +1,12 @@
-"""Attempt classification and the per-turn feature record.
-
-The predictor consumes these features; the append-only journal lives in
-``harness.infrastructure.attempt_log``.
-"""
+"""Per-turn features used by the success predictor and wave policy."""
 
 from __future__ import annotations
 
 import math
 import re
-from dataclasses import dataclass
 from typing import Any
+
+from harness.answers.model import AnswerInfo
 
 IMPOSSIBLE_PATTERN = re.compile(
     r"\b(impossible|unsolvable|no\s+solution|cannot\s+be\s+solved|"
@@ -54,29 +51,6 @@ SCRIPT_COUNT_PATTERNS = {
     "n_echo": re.compile(r"\becho\b"),
     "n_impossible": re.compile(r"(?i)\bimpossible\b"),
 }
-
-
-@dataclass(frozen=True)
-class AnswerInfo:
-    text: str | None
-    kind: str
-    first_line: str = ""
-
-    @property
-    def present(self) -> bool:
-        return self.text is not None
-
-
-def classify_answer(text: str | None) -> AnswerInfo:
-    if text is None or not text.strip():
-        return AnswerInfo(text=None, kind="none")
-    stripped = text.strip()
-    first_line = stripped.splitlines()[0].strip()
-    if first_line.upper().startswith("IMPOSSIBLE"):
-        return AnswerInfo(text=stripped, kind="impossible", first_line=first_line)
-    if stripped.upper() in {"DONE", "OK", "SUCCESS", "PASS", "TESTS PASS"}:
-        return AnswerInfo(text=stripped, kind="done", first_line=first_line)
-    return AnswerInfo(text=stripped, kind="value", first_line=first_line)
 
 
 def _count(pattern: re.Pattern[str], text: str) -> int:

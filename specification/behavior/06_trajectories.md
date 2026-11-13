@@ -64,8 +64,8 @@ JSONL дописывается и не ротируется. YAML — удобн
 ## Ограничения
 
 - Формат журнала принадлежит харнессу, а не openJiuwen; он меняется вместе с
-  `harness/src/harness/infrastructure/attempt_log.py`, а состав признаков —
-  с `harness/src/harness/domain/attempts.py`.
+  `harness/src/harness/attempts/log.py`, а состав признаков — с
+  `harness/src/harness/attempts/features.py`.
 - Если провайдер не возвращает `reasoning_content`, рассуждений в записи не
   будет.
 - `bash_attempts.jsonl` дописывается и не ротируется; в git он не хранится.

@@ -2,7 +2,7 @@
 
 This module only parses arguments.  ``harness.run_agent.main`` owns the
 process entrypoint; wave scheduling and the task loop live in
-:mod:`harness.application.runner`.
+:mod:`harness.solving.runner`.
 """
 
 from __future__ import annotations

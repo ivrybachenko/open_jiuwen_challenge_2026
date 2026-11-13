@@ -20,12 +20,12 @@ from harness.agents.script_agent import (
     ModelReply,
     ScriptAgent,
 )
+from harness.answers import classify_answer
+from harness.budget import TokenLedger
 from harness.config import DEFAULT_MODEL, Settings
-from harness.domain.attempts import classify_answer
-from harness.domain.budget import TokenLedger
-from harness.domain.state import TaskState
-from harness.domain.tasks import Task
-from harness.infrastructure.shell import ProcessResult
+from harness.state import TaskState
+from harness.tasks import Task
+from harness.workspace import ProcessResult
 
 # Imported after the harness modules: importing them configures the openJiuwen
 # logger before the SDK modules are touched, matching the production order.

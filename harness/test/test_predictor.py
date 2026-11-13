@@ -5,7 +5,7 @@ from __future__ import annotations
 import unittest
 from unittest import mock
 
-from harness.application import waves as waves_module
+from harness.solving import waves as waves_module
 from harness.success_predictors import estimate_success
 from harness.success_predictors.model import available, predict_success
 

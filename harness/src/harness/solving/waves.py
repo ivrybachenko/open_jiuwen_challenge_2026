@@ -5,8 +5,8 @@ from __future__ import annotations
 from typing import Any
 
 from harness.config import Settings
-from harness.domain.state import TaskState
-from harness.domain.tasks import Task
+from harness.state import TaskState
+from harness.tasks import Task
 from harness.success_predictors import estimate_success
 
 

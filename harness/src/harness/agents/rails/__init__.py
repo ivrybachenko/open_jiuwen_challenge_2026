@@ -4,7 +4,7 @@ Importing this package configures openJiuwen logging before the SDK rail
 modules are loaded, so the read-only container root is never used for logs.
 """
 
-from harness.infrastructure.logging_setup import configure_logging
+from harness.logging_setup import configure_logging
 
 configure_logging()
 

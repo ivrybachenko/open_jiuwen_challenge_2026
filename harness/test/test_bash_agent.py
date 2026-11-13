@@ -17,10 +17,10 @@ from harness.agents.script_agent import (
     extract_script,
 )
 from harness.config import DEFAULT_MODEL, Settings
-from harness.domain.state import TaskState
-from harness.domain.tasks import Task
-from harness.infrastructure.shell import ProcessResult
-from harness.application.waves import FollowUpSelector
+from harness.state import TaskState
+from harness.tasks import Task
+from harness.workspace import ProcessResult
+from harness.solving.waves import FollowUpSelector
 
 
 def make_settings(tmp: Path, *, resume: bool = True) -> Settings:

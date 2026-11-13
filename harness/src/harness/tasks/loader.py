@@ -6,7 +6,7 @@ import json
 import logging
 from pathlib import Path
 
-from harness.domain.tasks import Task
+from harness.tasks.model import Task
 
 log = logging.getLogger(__name__)
 

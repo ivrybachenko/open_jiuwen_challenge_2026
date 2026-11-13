@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import unittest
 
-from harness.domain.budget import token_cost
+from harness.budget import token_cost
 
 
 class TokenCostTest(unittest.TestCase):

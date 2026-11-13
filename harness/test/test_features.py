@@ -7,9 +7,9 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from harness.application.waves import promise_score
-from harness.domain.attempts import classify_answer, extract_features
-from harness.infrastructure.attempt_log import AttemptLogger
+from harness.answers import classify_answer
+from harness.attempts import AttemptLogger, extract_features
+from harness.solving.waves import promise_score
 from harness.success_predictors.heuristic import success_probability
 
 

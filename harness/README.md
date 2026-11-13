@@ -3,25 +3,52 @@
 Исходники харнесса. Точка входа — `src/harness/run_agent.py`; `main` живёт
 там, а `cli.py` только разбирает аргументы.
 
-## Слои
+## Структура по бизнес-функциям
 
 ```
 src/harness/
   run_agent.py                  # entrypoint: main + logging
   cli.py                        # только argparse
   config.py                     # Settings, список моделей
+  logging_setup.py              # логи openJiuwen до импорта SDK
 
-  domain/                       # чистые данные и правила
-    tasks.py                    # Task, answer.txt
-    state.py                    # TaskState
-    attempts.py                 # AnswerInfo, classify_answer, extract_features
-    budget.py                   # token_cost, TokenLedger
+  tasks/                        # задача и её файлы
+    model.py                    # Task, answer.txt
+    loader.py                   # чтение task.json
 
-  application/                  # сценарии: что и в каком порядке делать
-    runner.py                   # цикл задач, волны, solutions.json
-    waves.py                    # выбор следующей волны и expected value
+  state/                        # состояние одной задачи
+    model.py                    # TaskState
+    store.py                    # атомарный state.json
 
-  agents/                       # как выполняется один ход
+  answers/                      # контракт ответа
+    model.py                    # AnswerInfo
+    classify.py                 # classify_answer
+
+  attempts/                     # ход как источник данных
+    features.py                 # extract_features
+    log.py                      # AttemptLogger (JSONL + YAML)
+
+  budget/                       # бюджет и стоимость токенов
+    ledger.py                   # token_cost, TokenLedger
+
+  success_predictors/           # вероятность успеха
+    heuristic.py                # success_probability
+    model.py                    # predict_success
+    models/                     # артефакты sklearn-модели
+    __init__.py                 # estimate_success: модель -> эвристика
+
+  workspace/                    # работа с каталогом задачи
+    overview.py                 # обзор директории
+    shell.py                    # процессы с таймаутом и обрезкой вывода
+
+  solutions/                    # итоговый solutions.json
+    store.py
+
+  solving/                      # прогон набора задач
+    runner.py                   # задачи, волны, solutions.json
+    waves.py                    # выбор следующей волны
+
+  agents/                       # выполнение одного хода
     script_agent.py             # ScriptAgent(BaseAgent), SYSTEM_PROMPT
     rails/
       budget.py
@@ -29,42 +56,35 @@ src/harness/
       followup.py               # follow-up warning
       answer.py
       features.py
-
-  success_predictors/           # оценка вероятности успеха
-    heuristic.py                # success_probability
-    model.py                    # онлайн-модель; данные в models/
-    __init__.py                 # estimate_success: модель -> эвристика
-
-  infrastructure/               # адаптеры к ОС, диску и логам
-    attempt_log.py              # AttemptLogger (JSONL + YAML)
-    logging_setup.py            # настройка логов openJiuwen до импорта SDK
-    overview.py                 # обзор рабочей директории
-    shell.py                    # процессы с таймаутом и обрезкой вывода
-    solutions.py                # solutions.json
-    state_store.py              # атомарный state.json
-    tasks.py                    # чтение task.json
 ```
 
 Поток одного прогона:
 
 ```
-cli -> application.runner
+cli -> solving.runner
           -> agents.script_agent.invoke
                -> Model.invoke
                -> bash-скрипт в workspace
                -> agents.rails (budget / failure / followup / answer / features)
-          -> application.waves.select
-          -> infrastructure.solutions.record после каждого хода
+          -> solving.waves.select
+          -> solutions.store.record после каждого хода
 ```
 
-Принцип разделения:
+Пакет = бизнес-функция, а не технический слой:
 
-- `domain/` не знает про файлы и openJiuwen;
-- `application/` решает, что запускать дальше;
-- `agents/` выполняет один ход и содержит только его промпты;
-- `success_predictors/` изолирует две стратегии оценки вероятности;
-- `infrastructure/` реализует I/O: процессы, файлы, логи, JSON-хранилища;
-- `cli.py` и `run_agent.py` — интерфейс, без бизнес-логики.
+- `tasks` — что решаем;
+- `state` — что помним о задаче между ходами;
+- `answers` — что считается ответом;
+- `attempts` — что записываем о ходе;
+- `budget` — как считаем деньги;
+- `success_predictors` — как оцениваем шанс успеха;
+- `workspace` — как взаимодействуем с файлами и процессами;
+- `solutions` — как отдаём итог;
+- `solving` — как гоняем волны;
+- `agents` — как выполняется один ход и его lifecycle-rails.
+
+Промпты лежат там, где используются: `SYSTEM_PROMPT` — в
+`agents/script_agent.py`, follow-up warning — в `agents/rails/followup.py`.
 
 ## Проверка
 

@@ -10,8 +10,8 @@ import shutil
 from pathlib import Path
 
 from harness.config import Settings
-from harness.domain.state import TaskState
-from harness.domain.tasks import Task
+from harness.state.model import TaskState
+from harness.tasks.model import Task
 
 log = logging.getLogger(__name__)
 

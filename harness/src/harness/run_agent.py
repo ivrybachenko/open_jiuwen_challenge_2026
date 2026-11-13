@@ -24,7 +24,7 @@ def main(argv: list[str] | None = None) -> int:
         format="%(asctime)s %(levelname)s %(name)s: %(message)s",
     )
     # Import after parsing so --help does not initialize openJiuwen.
-    from harness.application.runner import run
+    from harness.solving.runner import run
 
     return run(args)
 
