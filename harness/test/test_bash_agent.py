@@ -320,6 +320,79 @@ class WaveSelectionTest(unittest.TestCase):
         warning = BashAgentSolver._wave2_warning(state).lower()
         self.assertIn("did not create a non-empty answer.txt", warning)
         self.assertIn("even if the tests already pass", warning)
+        self.assertNotIn("final attempt", warning)
+
+    def test_final_wave_warning_requires_chaining(self) -> None:
+        state = TaskState(
+            task_id="search_0005",
+            task_root="/data/tasks/search_0005",
+            model=DEFAULT_MODEL,
+            turns=[{"wave": 2, "answer": None, "exit_code": 0, "features": {}}],
+        )
+        warning = BashAgentSolver._followup_warning(state, final=True).lower()
+        self.assertIn("final attempt", warning)
+        self.assertIn("single grep", warning)
+        self.assertIn("write answer.txt", warning)
+
+    def test_wave_done_uses_turns_and_flags(self) -> None:
+        state = TaskState(
+            task_id="search_0001",
+            task_root="/data/tasks/search_0001",
+            model=DEFAULT_MODEL,
+            turns=[{"wave": 1}, {"wave": 2}, {"wave": 3}],
+        )
+        self.assertTrue(state.wave_done(1))
+        self.assertTrue(state.wave_done(2))
+        self.assertTrue(state.wave_done(3))
+        self.assertFalse(state.wave_done(4))
+
+    def test_third_wave_is_selected_after_the_second(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            solver = BashAgentSolver(make_settings(tmp_path))
+            task = make_task(tmp_path, reward=10)
+            features = {
+                "answer_kind": "none",
+                "hit_token_limit": False,
+                "script_error": "",
+                "script_timed_out": False,
+                "exit_code": 0,
+                "reasoning_keyword_impossible": 0,
+                "reasoning_keyword_give_up": 0,
+                "reasoning_words": 100,
+                "script_has_write_answer": False,
+                "script_has_python": True,
+                "output_chars": 10,
+                "tests_in_overview": False,
+            }
+            state = make_state(
+                task,
+                wave1_done=True,
+                wave2_done=True,
+                cost=100,
+                turns=[
+                    {"wave": 1, "features": features},
+                    {"wave": 2, "features": features},
+                ],
+            )
+            self.assertEqual(
+                len(solver.select_followups([task], {task.task_id: state}, 3)),
+                1,
+            )
+
+            state.turns.append({"wave": 3, "features": features})
+            self.assertEqual(
+                solver.select_followups([task], {task.task_id: state}, 3),
+                [],
+            )
+
+    def test_run_turn_skips_a_completed_wave(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            solver = BashAgentSolver(make_settings(tmp_path))
+            task = make_task(tmp_path)
+            state = make_state(task, turns=[{"wave": 1}])
+            self.assertIsNone(asyncio.run(solver.run_turn(task, state, 1)))
 
 
 class ScriptExecutionTest(unittest.TestCase):

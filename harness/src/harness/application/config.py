@@ -9,6 +9,7 @@ environment variables passed by the jury:
     LLM_API_KEY   - proxy key (never baked into the image)
     LLM_MODEL     - one of the four allowed model names
     BUDGET        - output-token budget (default 100000)
+    HARNESS_MAX_WAVES - wave 1 plus follow-up waves (default 4)
     TRAJECTORIES_DIR - optional directory for attempt logs
     HARNESS_RUN_ID - optional run identifier stored in the attempt log
 
@@ -34,6 +35,7 @@ DEFAULT_MAX_ITERATIONS = 12
 DEFAULT_WAVE1_MAX_TOKENS = 1000
 DEFAULT_WAVE2_MAX_TOKENS = 4000
 DEFAULT_WAVE2_MAX_TASKS = 50
+DEFAULT_MAX_WAVES = 4
 DEFAULT_OVERVIEW_MAX_TOKENS = 1500
 DEFAULT_SCRIPT_OUTPUT_MAX_CHARS = 4000
 DEFAULT_TURN_TIMEOUT = 120.0
@@ -103,6 +105,7 @@ class Settings:
     wave1_max_tokens: int = DEFAULT_WAVE1_MAX_TOKENS
     wave2_max_tokens: int = DEFAULT_WAVE2_MAX_TOKENS
     wave2_max_tasks: int = DEFAULT_WAVE2_MAX_TASKS
+    max_waves: int = DEFAULT_MAX_WAVES
     overview_max_tokens: int = DEFAULT_OVERVIEW_MAX_TOKENS
     script_output_max_chars: int = DEFAULT_SCRIPT_OUTPUT_MAX_CHARS
     turn_timeout: float = DEFAULT_TURN_TIMEOUT
@@ -125,6 +128,7 @@ class Settings:
         wave1_max_tokens: int | None = None,
         wave2_max_tokens: int | None = None,
         wave2_max_tasks: int | None = None,
+        max_waves: int | None = None,
         overview_max_tokens: int | None = None,
         script_output_max_chars: int | None = None,
         turn_timeout: float | None = None,
@@ -185,6 +189,11 @@ class Settings:
                 _first_int(env, ("HARNESS_OVERVIEW_MAX_TOKENS",))
                 or DEFAULT_OVERVIEW_MAX_TOKENS
             )
+        if max_waves is None:
+            max_waves = (
+                _first_int(env, ("HARNESS_MAX_WAVES",))
+                or DEFAULT_MAX_WAVES
+            )
         if script_output_max_chars is None:
             script_output_max_chars = (
                 _first_int(env, ("HARNESS_SCRIPT_OUTPUT_MAX_CHARS",))
@@ -227,6 +236,7 @@ class Settings:
             wave1_max_tokens=max(1, int(wave1_max_tokens)),
             wave2_max_tokens=max(1, int(wave2_max_tokens)),
             wave2_max_tasks=max(0, int(wave2_max_tasks)),
+            max_waves=max(1, int(max_waves)),
             overview_max_tokens=max(200, int(overview_max_tokens)),
             script_output_max_chars=max(200, int(script_output_max_chars)),
             turn_timeout=max(1.0, float(turn_timeout)),

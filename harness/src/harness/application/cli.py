@@ -57,6 +57,15 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--wave1-max-tokens", type=int, default=None)
     parser.add_argument("--wave2-max-tokens", type=int, default=None)
     parser.add_argument("--wave2-max-tasks", type=int, default=None)
+    parser.add_argument(
+        "--max-waves",
+        type=int,
+        default=None,
+        help=(
+            "Wave 1 plus follow-up waves; HARNESS_MAX_WAVES is used when the "
+            "flag is absent, then 4."
+        ),
+    )
     parser.add_argument("--overview-max-tokens", type=int, default=None)
     parser.add_argument("--script-output-max-chars", type=int, default=None)
     parser.add_argument("--turn-timeout", type=float, default=None)
@@ -126,6 +135,7 @@ async def _run(args: argparse.Namespace) -> int:
         wave1_max_tokens=args.wave1_max_tokens,
         wave2_max_tokens=args.wave2_max_tokens,
         wave2_max_tasks=args.wave2_max_tasks,
+        max_waves=args.max_waves,
         overview_max_tokens=args.overview_max_tokens,
         script_output_max_chars=args.script_output_max_chars,
         turn_timeout=args.turn_timeout,
@@ -200,34 +210,40 @@ async def _run(args: argparse.Namespace) -> int:
                 log.warning("stopping wave 1 after %s", task.task_id)
                 break
 
-        if solver.budget_exceeded or solver.abort_requested:
-            log.warning("wave 2 skipped")
-            return 0
-
-        candidates = solver.select_wave2(tasks, states)
-        log.info(
-            "wave 2: %d promising task(s) selected (max %d)",
-            len(candidates),
-            settings.wave2_max_tasks,
-        )
-        for task, state in candidates:
-            if solver.ledger.exhausted:
-                log.warning("token budget exhausted; stopping before %s", task.task_id)
-                break
-            if solver.abort_requested:
-                log.warning("too many model errors; stopping wave 2")
-                break
-            if state.wave2_done:
-                continue
-            try:
-                await solver.run_turn(task, state, 2)
-            except Exception as exc:  # noqa: BLE001 - keep the run alive
-                log.exception("wave 2 crashed for %s", task.task_id)
-                solver.record_failure(task, state, 2, f"{type(exc).__name__}: {exc}")
-            _record(store, solver, task, state, "wave2")
+        for wave in range(2, settings.max_waves + 1):
             if solver.budget_exceeded or solver.abort_requested:
-                log.warning("stopping wave 2 after %s", task.task_id)
+                log.warning("wave %d skipped", wave)
+                return 0
+
+            candidates = solver.select_followups(tasks, states, wave)
+            log.info(
+                "wave %d: %d promising task(s) selected (max %d)",
+                wave,
+                len(candidates),
+                settings.wave2_max_tasks,
+            )
+            if not candidates:
                 break
+            for task, state in candidates:
+                if solver.ledger.exhausted:
+                    log.warning(
+                        "token budget exhausted; stopping before %s", task.task_id
+                    )
+                    break
+                if solver.abort_requested:
+                    log.warning("too many model errors; stopping wave %d", wave)
+                    break
+                try:
+                    await solver.run_turn(task, state, wave)
+                except Exception as exc:  # noqa: BLE001 - keep the run alive
+                    log.exception("wave %d crashed for %s", wave, task.task_id)
+                    solver.record_failure(
+                        task, state, wave, f"{type(exc).__name__}: {exc}"
+                    )
+                _record(store, solver, task, state, f"wave{wave}")
+                if solver.budget_exceeded or solver.abort_requested:
+                    log.warning("stopping wave %d after %s", wave, task.task_id)
+                    break
     finally:
         await solver.close()
 

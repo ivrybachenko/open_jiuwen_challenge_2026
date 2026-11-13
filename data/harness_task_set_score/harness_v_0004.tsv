@@ -1,0 +1,6 @@
+harness_version	run_id	task_set_id	score	cost_tokens	cost_seconds
+0004	4cf0a556-f593-48f4-89fe-34d613a56578	example	18	3062	33.389
+0004	851b070c-0473-4757-9a1b-98f17cd9187f	example	16	2913	34.306
+0004	9b79c0f4-ead7-4c62-8e46-8c9559fd829b	example	18	3087	32.718
+0004	9e319772-eac5-4daf-9cf4-0603ba84e217	example	17	3060	26.116
+0004	ce5859fc-af36-4e40-9e11-807bb27c9fa1	example	18	2853	54.335

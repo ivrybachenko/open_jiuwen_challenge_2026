@@ -132,6 +132,16 @@ class TaskState:
     selected_wave2: bool = False
     promise: float = 0.0
 
+    def wave_done(self, wave: int) -> bool:
+        """True when this wave already produced a turn."""
+        if wave == 1 and self.wave1_done:
+            return True
+        if wave == 2 and self.wave2_done:
+            return True
+        return any(
+            int(turn.get("wave", 0) or 0) == wave for turn in self.turns
+        )
+
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
@@ -367,12 +377,10 @@ class BashAgentSolver(Solver):
         state: TaskState,
         wave: int,
     ) -> dict[str, Any] | None:
-        if wave == 1 and state.wave1_done:
+        if state.wave_done(wave):
             return None
-        if wave == 2 and state.wave2_done:
-            return None
-        if wave == 2:
-            self._prepare_wave2(task, state)
+        if wave > 1:
+            self._prepare_followup(task, state, wave)
 
         max_tokens = (
             self.settings.wave1_max_tokens
@@ -384,8 +392,8 @@ class BashAgentSolver(Solver):
         started = time.monotonic()
 
         model_name = (self.settings.wave2_model or self.settings.model
-                      if wave == 2 else self.settings.model)
-        model = self._wave2_model if wave == 2 else self._model
+                      if wave > 1 else self.settings.model)
+        model = self._wave2_model if wave > 1 else self._model
         reply = await self._call_model(
             state.messages, max_tokens=max_tokens, model=model
         )
@@ -417,7 +425,7 @@ class BashAgentSolver(Solver):
         if answer_info.text is not None:
             state.answer = answer_info.text
             state.answer_kind = answer_info.kind
-        if wave == 2 and answer_info.text is None and state.answer is not None:
+        if wave > 1 and answer_info.text is None and state.answer is not None:
             # The retry did not improve on the previous answer; restore it.
             try:
                 task.write_answer(state.answer)
@@ -481,7 +489,7 @@ class BashAgentSolver(Solver):
 
         if wave == 1:
             state.wave1_done = True
-        else:
+        elif wave == 2:
             state.wave2_done = True
 
         turn = {
@@ -556,21 +564,28 @@ class BashAgentSolver(Solver):
         )
         if wave == 1:
             state.wave1_done = True
-        else:
+        elif wave == 2:
             state.wave2_done = True
         self._save_state(state, task)
 
-    def _prepare_wave2(self, task: Task, state: TaskState) -> None:
-        if state.wave2_done:
+    def _prepare_followup(self, task: Task, state: TaskState, wave: int) -> None:
+        if state.wave_done(wave):
             return
         state.selected_wave2 = True
         self._delete_answers(task)
-        warning = self._wave2_warning(state)
+        warning = self._followup_warning(
+            state, final=wave >= self.settings.max_waves
+        )
         state.messages.append({"role": "user", "content": warning})
         self._save_state(state, task)
 
     @staticmethod
     def _wave2_warning(state: TaskState) -> str:
+        """Backward-compatible name for tests and callers."""
+        return BashAgentSolver._followup_warning(state, final=False)
+
+    @staticmethod
+    def _followup_warning(state: TaskState, *, final: bool) -> str:
         lines = ["The previous attempt did not produce a usable final answer."]
         last = state.turns[-1] if state.turns else {}
         features = last.get("features") or {}
@@ -611,6 +626,12 @@ class BashAgentSolver(Solver):
             "Continue from the current workspace state. Reply with one bash "
             "script and nothing else."
         )
+        if final:
+            lines.append(
+                "This is the final attempt: combine every remaining command into "
+                "one script and write answer.txt at the end. Do not spend it on a "
+                "single grep, ls or cat."
+            )
         return "\n".join(lines)
 
     def _run_script(
@@ -769,15 +790,16 @@ class BashAgentSolver(Solver):
     # ------------------------------------------------------------------
     # Wave selection and result
     # ------------------------------------------------------------------
-    def select_wave2(
+    def select_followups(
         self,
         tasks: list[Task],
         states: dict[str, TaskState],
+        wave: int,
     ) -> list[tuple[Task, TaskState]]:
         candidates: list[tuple[float, Task, TaskState]] = []
         for task in tasks:
             state = states.get(task.task_id)
-            if state is None or state.wave2_done:
+            if state is None or state.wave_done(wave):
                 continue
             if state.answer_kind in {"done", "value"}:
                 continue
@@ -805,6 +827,14 @@ class BashAgentSolver(Solver):
             candidates = candidates[: self.settings.wave2_max_tasks]
         return [(task, state) for _, task, state in candidates]
 
+    def select_wave2(
+        self,
+        tasks: list[Task],
+        states: dict[str, TaskState],
+    ) -> list[tuple[Task, TaskState]]:
+        """Compatibility wrapper for the second wave."""
+        return self.select_followups(tasks, states, 2)
+
     def result_for(self, task: Task, state: TaskState) -> SolveResult:
         usable = state.answer is not None and state.answer_kind in {"done", "value"}
         note_parts = [
@@ -812,7 +842,11 @@ class BashAgentSolver(Solver):
             f"attempts={len(state.turns)}",
         ]
         if state.wave2_done:
-            note_parts.append("wave2=yes")
+            waves = max(
+                (int(turn.get("wave", 0) or 0) for turn in state.turns),
+                default=2,
+            )
+            note_parts.append(f"waves={max(2, waves)}")
         if state.impossible_declared:
             note_parts.append("impossible_declared")
         if state.promise:
@@ -834,10 +868,15 @@ class BashAgentSolver(Solver):
     async def solve(self, task: Task) -> SolveResult:
         state = await self.prepare(task)
         await self.run_turn(task, state, 1)
-        if state.answer_kind not in {"done", "value"}:
-            candidates = self.select_wave2([task], {task.task_id: state})
-            if candidates:
-                await self.run_turn(task, state, 2)
+        for wave in range(2, self.settings.max_waves + 1):
+            if state.answer_kind in {"done", "value"}:
+                break
+            candidates = self.select_followups(
+                [task], {task.task_id: state}, wave
+            )
+            if not candidates:
+                break
+            await self.run_turn(task, state, wave)
         return self.result_for(task, state)
 
 
