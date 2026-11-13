@@ -8,11 +8,11 @@ from harness.infrastructure.logging_setup import configure_logging
 
 configure_logging()
 
-from harness.application.rails.answer import AnswerRail  # noqa: E402
-from harness.application.rails.budget import BudgetRail  # noqa: E402
-from harness.application.rails.failure import FailureRail  # noqa: E402
-from harness.application.rails.features import FeatureRail  # noqa: E402
-from harness.application.rails.followup import FollowUpRail  # noqa: E402
+from harness.agents.rails.answer import AnswerRail  # noqa: E402
+from harness.agents.rails.budget import BudgetRail  # noqa: E402
+from harness.agents.rails.failure import FailureRail  # noqa: E402
+from harness.agents.rails.features import FeatureRail  # noqa: E402
+from harness.agents.rails.followup import FollowUpRail  # noqa: E402
 
 __all__ = [
     "AnswerRail",

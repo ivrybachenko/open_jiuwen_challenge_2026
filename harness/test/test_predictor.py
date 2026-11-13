@@ -5,8 +5,9 @@ from __future__ import annotations
 import unittest
 from unittest import mock
 
-from harness.infrastructure.predictor import available, predict_success
 from harness.application import waves as waves_module
+from harness.success_predictors import estimate_success
+from harness.success_predictors.model import available, predict_success
 
 
 def _sample_features() -> dict:
@@ -77,13 +78,13 @@ class OnlinePredictorTest(unittest.TestCase):
     def test_promise_uses_model_probability(self) -> None:
         sample = _sample_features()
         with mock.patch.object(
-            waves_module, "predict_success", return_value=0.9
+            waves_module, "estimate_success", return_value=0.9
         ):
             high = waves_module.promise_score(
                 reward=5, features=sample, spent_cost=300, wave2_max_tokens=4000
             )
         with mock.patch.object(
-            waves_module, "predict_success", return_value=0.1
+            waves_module, "estimate_success", return_value=0.1
         ):
             low = waves_module.promise_score(
                 reward=5, features=sample, spent_cost=300, wave2_max_tokens=4000
@@ -97,12 +98,10 @@ class OnlinePredictorTest(unittest.TestCase):
             answer_present=False,
             answer_chars=0,
         )
-        with mock.patch.object(
-            waves_module, "predict_success", return_value=None
+        with mock.patch(
+            "harness.success_predictors.predict_success", return_value=None
         ):
-            value = waves_module.promise_score(
-                reward=5, features=sample, spent_cost=300, wave2_max_tokens=4000
-            )
+            value = estimate_success(sample)
         self.assertGreater(value, 0.0)
 
 

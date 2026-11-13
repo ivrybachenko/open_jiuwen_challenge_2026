@@ -1,1 +1,1 @@
-"""Infrastructure: process, files, model clients and persistence."""
+"""Infrastructure adapters: processes, files, logs and persistence."""

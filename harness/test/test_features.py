@@ -7,12 +7,10 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from harness.infrastructure.attempts import (
-    AttemptLogger,
-    classify_answer,
-    extract_features,
-)
-from harness.application.waves import promise_score, success_probability
+from harness.application.waves import promise_score
+from harness.domain.attempts import classify_answer, extract_features
+from harness.infrastructure.attempt_log import AttemptLogger
+from harness.success_predictors.heuristic import success_probability
 
 
 class AnswerClassificationTest(unittest.TestCase):

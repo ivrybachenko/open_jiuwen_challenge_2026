@@ -9,18 +9,17 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from harness.application.rails.followup import followup_warning
-from harness.application.script_agent import (
+from harness.agents.rails.followup import followup_warning
+from harness.agents.script_agent import (
     SYSTEM_PROMPT,
     ScriptAgent,
     execution_message,
     extract_script,
 )
-from harness.application.state import TaskState
-from harness.config import Settings
-from harness.infrastructure.llm import DEFAULT_MODEL
+from harness.config import DEFAULT_MODEL, Settings
+from harness.domain.state import TaskState
+from harness.domain.tasks import Task
 from harness.infrastructure.shell import ProcessResult
-from harness.infrastructure.tasks import Task
 from harness.application.waves import FollowUpSelector
 
 

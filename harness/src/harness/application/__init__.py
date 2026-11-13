@@ -1,1 +1,1 @@
-"""Application layer: task loop, wave policy, agent turn and rails."""
+"""Application layer: the task loop and follow-up wave policy."""

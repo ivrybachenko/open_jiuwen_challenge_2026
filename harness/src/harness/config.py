@@ -23,7 +23,13 @@ import os
 from dataclasses import dataclass
 from pathlib import Path
 
-from harness.infrastructure.llm import DEFAULT_MODEL
+MODELS = (
+    "qwen3.8-27b",
+    "qwen3.8-27b-noreason",
+    "qwen3.6-35b-a3b",
+    "qwen3.6-35b-a3b-noreason",
+)
+DEFAULT_MODEL = "qwen3.6-35b-a3b-noreason"
 
 DEFAULT_TASKS_DIR = Path("/data/tasks")
 DEFAULT_OUT = Path("/tmp/out/solutions.json")

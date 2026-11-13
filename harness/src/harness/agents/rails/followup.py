@@ -11,7 +11,7 @@ from openjiuwen.core.single_agent.rail.base import (
     AgentRail,
 )
 
-from harness.application.state import TaskState
+from harness.domain.state import TaskState
 
 
 def followup_warning(state: TaskState, *, final: bool) -> str:

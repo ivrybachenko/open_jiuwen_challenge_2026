@@ -18,14 +18,16 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from harness.config import Settings
-from harness.infrastructure.attempts import AnswerInfo, AttemptLogger, classify_answer
-from harness.infrastructure.llm import MODELS, TokenLedger
+from harness.config import MODELS, Settings
+from harness.domain.attempts import AnswerInfo, classify_answer
+from harness.domain.budget import TokenLedger
+from harness.domain.state import TaskState
+from harness.domain.tasks import Task
+from harness.infrastructure.attempt_log import AttemptLogger
 from harness.infrastructure.logging_setup import configure_logging
 from harness.infrastructure.overview import OverviewLimits, build_overview
 from harness.infrastructure.shell import ProcessResult, run_process
-from harness.application.state import StateStore, TaskState
-from harness.infrastructure.tasks import Task
+from harness.infrastructure.state_store import StateStore
 
 # openJiuwen installs its logger on the first import.  Configure it before the
 # agent/rail imports so the read-only container root is never used for logs.
@@ -41,7 +43,7 @@ from openjiuwen.core.single_agent.rail.base import (  # noqa: E402
 )
 from openjiuwen.core.single_agent.schema.agent_card import AgentCard  # noqa: E402
 
-from harness.application.rails import (  # noqa: E402
+from harness.agents.rails import (  # noqa: E402
     AnswerRail,
     BudgetRail,
     FailureRail,

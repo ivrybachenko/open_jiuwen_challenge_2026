@@ -8,24 +8,24 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from harness.application.rails import (
+from harness.agents.rails import (
     AnswerRail,
     BudgetRail,
     FailureRail,
     FeatureRail,
     FollowUpRail,
 )
-from harness.application.script_agent import (
+from harness.agents.script_agent import (
     SYSTEM_PROMPT,
     ModelReply,
     ScriptAgent,
 )
-from harness.application.state import TaskState
-from harness.config import Settings
-from harness.infrastructure.attempts import classify_answer
-from harness.infrastructure.llm import DEFAULT_MODEL, TokenLedger
+from harness.config import DEFAULT_MODEL, Settings
+from harness.domain.attempts import classify_answer
+from harness.domain.budget import TokenLedger
+from harness.domain.state import TaskState
+from harness.domain.tasks import Task
 from harness.infrastructure.shell import ProcessResult
-from harness.infrastructure.tasks import Task
 
 # Imported after the harness modules: importing them configures the openJiuwen
 # logger before the SDK modules are touched, matching the production order.

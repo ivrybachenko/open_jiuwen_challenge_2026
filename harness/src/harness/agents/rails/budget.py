@@ -13,7 +13,7 @@ from openjiuwen.core.single_agent.rail.base import (
     AgentRail,
 )
 
-from harness.infrastructure.llm import BudgetExceeded, TokenLedger, token_cost
+from harness.domain.budget import BudgetExceeded, TokenLedger, token_cost
 
 log = logging.getLogger(__name__)
 

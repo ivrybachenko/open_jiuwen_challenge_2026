@@ -7,53 +7,64 @@
 
 ```
 src/harness/
-  run_agent.py                  # entrypoint: main + logging + python -m harness.run_agent
+  run_agent.py                  # entrypoint: main + logging
   cli.py                        # только argparse
-  config.py                     # Settings из CLI и окружения
+  config.py                     # Settings, список моделей
+
+  domain/                       # чистые данные и правила
+    tasks.py                    # Task, answer.txt
+    state.py                    # TaskState
+    attempts.py                 # AnswerInfo, classify_answer, extract_features
+    budget.py                   # token_cost, TokenLedger
+
   application/                  # сценарии: что и в каком порядке делать
     runner.py                   # цикл задач, волны, solutions.json
-    waves.py                    # выбор следующей волны и promise-модель
-    script_agent.py             # ScriptAgent(BaseAgent), SYSTEM_PROMPT, один ход
-    state.py                    # TaskState и state.json
+    waves.py                    # выбор следующей волны и expected value
+
+  agents/                       # как выполняется один ход
+    script_agent.py             # ScriptAgent(BaseAgent), SYSTEM_PROMPT
     rails/
-      budget.py                 # расход и лимит бюджета
-      failure.py                # три ошибки модели подряд -> стоп
-      followup.py               # follow-up warning и подготовка волны
-      answer.py                 # ответ, IMPOSSIBLE, восстановление ответа
-      features.py               # признаки хода для предиктора
-  infrastructure/               # адаптеры: процессы, файлы, модели, логи
-    attempts.py                 # признаки попытки и AttemptLogger
-    llm.py                      # модели, token_cost, TokenLedger
+      budget.py
+      failure.py
+      followup.py               # follow-up warning
+      answer.py
+      features.py
+
+  success_predictors/           # оценка вероятности успеха
+    heuristic.py                # success_probability
+    model.py                    # онлайн-модель; данные в models/
+    __init__.py                 # estimate_success: модель -> эвристика
+
+  infrastructure/               # адаптеры к ОС, диску и логам
+    attempt_log.py              # AttemptLogger (JSONL + YAML)
     logging_setup.py            # настройка логов openJiuwen до импорта SDK
     overview.py                 # обзор рабочей директории
-    predictor.py                # онлайн-модель вероятности успеха
     shell.py                    # процессы с таймаутом и обрезкой вывода
-    solutions.py                # запись solutions.json
-    tasks.py                    # чтение task.json и запись answer.txt
+    solutions.py                # solutions.json
+    state_store.py              # атомарный state.json
+    tasks.py                    # чтение task.json
 ```
 
 Поток одного прогона:
 
 ```
 cli -> application.runner
-          -> application.script_agent.invoke
+          -> agents.script_agent.invoke
                -> Model.invoke
                -> bash-скрипт в workspace
-               -> application.rails (budget / failure / followup / answer / features)
-          -> application.waves.select -> следующий invoke
+               -> agents.rails (budget / failure / followup / answer / features)
+          -> application.waves.select
           -> infrastructure.solutions.record после каждого хода
 ```
 
-Границы:
+Принцип разделения:
 
-- `cli.py` не знает про задачи и волны.
-- `application/` решает, что запускать и как выполнять один ход.
-- `application/rails/` не выбирает задачи и не вызывает модель; это
-  наблюдатели lifecycle.
-- `infrastructure/` не импортирует `application/`.
-- Промпты лежат там, где используются: `SYSTEM_PROMPT` — в
-  `application/script_agent.py`, follow-up warning — в
-  `application/rails/followup.py`.
+- `domain/` не знает про файлы и openJiuwen;
+- `application/` решает, что запускать дальше;
+- `agents/` выполняет один ход и содержит только его промпты;
+- `success_predictors/` изолирует две стратегии оценки вероятности;
+- `infrastructure/` реализует I/O: процессы, файлы, логи, JSON-хранилища;
+- `cli.py` и `run_agent.py` — интерфейс, без бизнес-логики.
 
 ## Проверка
 

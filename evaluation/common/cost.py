@@ -1,6 +1,6 @@
 """Token accounting used by the evaluators.
 
-This is a copy of ``harness.infrastructure.llm.token_cost``.  The evaluation
+This is a copy of ``harness.domain.budget.token_cost``.  The evaluation
 package deliberately does not import the harness package: the evaluator may run
 with a different interpreter (for example the system Python) while the harness
 runs from ``harness/.venv``.  Keep the formula in sync with the harness:

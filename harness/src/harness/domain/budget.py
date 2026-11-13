@@ -16,14 +16,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-MODELS = (
-    "qwen3.8-27b",
-    "qwen3.8-27b-noreason",
-    "qwen3.6-35b-a3b",
-    "qwen3.6-35b-a3b-noreason",
-)
-DEFAULT_MODEL = "qwen3.6-35b-a3b-noreason"
-
 INPUT_TOKENS_PER_OUTPUT_TOKEN = 10
 
 
