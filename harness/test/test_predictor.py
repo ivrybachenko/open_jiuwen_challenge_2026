@@ -90,13 +90,13 @@ class OnlinePredictorTest(unittest.TestCase):
             scheduler_module, "estimate_success", return_value=0.9
         ):
             high = scheduler_module.promise_score(
-                reward=5, features=sample, spent_cost=300, wave2_max_tokens=4000
+                reward=5, features=sample, spent_cost=300, turns=1
             )
         with mock.patch.object(
             scheduler_module, "estimate_success", return_value=0.1
         ):
             low = scheduler_module.promise_score(
-                reward=5, features=sample, spent_cost=300, wave2_max_tokens=4000
+                reward=5, features=sample, spent_cost=300, turns=1
             )
         self.assertGreater(high, low)
 

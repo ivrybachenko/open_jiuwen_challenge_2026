@@ -288,6 +288,8 @@ def _read_dataset_head(
     max_chars: int,
 ) -> tuple[str, str] | None:
     path = workspace / rel
+    if not _inside(workspace, path):
+        return None
     try:
         with path.open("rb") as stream:
             data = stream.read(4096)
@@ -378,10 +380,25 @@ def find_test_files(workspace: Path, limits: OverviewLimits) -> list[Path]:
         )
         for name in sorted(files):
             if name.startswith("test") and name.endswith(".py"):
-                found.append(Path(root) / name)
+                candidate = Path(root) / name
+                if not _inside(workspace, candidate):
+                    continue
+                found.append(candidate)
                 if len(found) >= limits.max_test_files * 3:
                     break
     return found
+
+
+def _inside(workspace: Path, path: Path) -> bool:
+    """True when ``path`` resolves inside the workspace.
+
+    The overview must not read a dataset or execute a test through a symlink
+    that points outside the task directory.
+    """
+    try:
+        return path.resolve().is_relative_to(workspace.resolve())
+    except (OSError, RuntimeError):
+        return False
 
 
 def _task_section(instruction: str, max_chars: int) -> str:

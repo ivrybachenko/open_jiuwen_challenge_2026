@@ -16,7 +16,7 @@ from pathlib import Path
 from harness.solving.agents.script_agent import ScriptAgent, SolveResult
 from harness.config import Settings
 from harness.accounting import Solution, SolutionsStore
-from harness.solving.scheduler import WaveScheduler
+from harness.solving.scheduler import WaveScheduler, order_tasks_for_wave1
 from harness.tasks import TaskState
 from harness.tasks import Task, load_tasks
 
@@ -100,7 +100,7 @@ async def _run(args: argparse.Namespace) -> int:
         model_timeout=args.model_timeout,
         resume=args.resume,
     )
-    tasks = load_tasks(settings.tasks_dir)
+    tasks = order_tasks_for_wave1(load_tasks(settings.tasks_dir))
     log.info(
         "loaded %d tasks from %s (model=%s, budget=%s, out=%s, trajectories=%s, "
         "run_id=%s, waves=%d/%d tokens)",

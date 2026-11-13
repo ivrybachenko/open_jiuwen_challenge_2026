@@ -612,17 +612,12 @@ class ScriptAgent(BaseAgent):
                     log.debug("cannot remove workspace script", exc_info=True)
 
     def _read_answer(self, task: Task) -> AnswerInfo:
-        for path in task.answer_paths:
-            try:
-                with path.open("r", encoding="utf-8", errors="replace") as stream:
-                    text = stream.read(MAX_ANSWER_CHARS + 1)
-            except OSError:
-                continue
-            if len(text) > MAX_ANSWER_CHARS:
-                text = text[:MAX_ANSWER_CHARS] + "\n...[answer truncated]"
-            if text.strip():
-                return classify_answer(text)
-        return classify_answer(None)
+        text = task.read_answer(MAX_ANSWER_CHARS)
+        if text is None:
+            return classify_answer(None)
+        if len(text) > MAX_ANSWER_CHARS:
+            text = text[:MAX_ANSWER_CHARS] + "\n...[answer truncated]"
+        return classify_answer(text)
 
     async def _call_model(
         self,

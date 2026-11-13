@@ -8,6 +8,7 @@ the output bounded and always returns a result instead of raising.
 from __future__ import annotations
 
 import os
+import re
 import signal
 import subprocess
 import threading
@@ -15,6 +16,45 @@ import time
 from collections import deque
 from dataclasses import dataclass, field
 from pathlib import Path
+
+# The agent script and task tests are arbitrary code.  They need the normal
+# shell environment, but not the jury key, the budget or the harness settings.
+_PRIVATE_ENV_NAMES = {"BUDGET", "TASKS", "OUT"}
+_PRIVATE_ENV_PREFIXES = ("LLM_", "HARNESS_")
+_SECRET_ENV = re.compile(
+    r"(API[_-]?KEY|(?:^|_)KEY(?:_|$)|TOKEN|SECRET|PASSWORD|PASSWD|"
+    r"CREDENTIAL|PRIVATE[_-]?KEY)",
+    re.IGNORECASE,
+)
+
+
+def _is_private_env(name: str) -> bool:
+    upper = name.upper()
+    return (
+        upper in _PRIVATE_ENV_NAMES
+        or upper.startswith(_PRIVATE_ENV_PREFIXES)
+        or bool(_SECRET_ENV.search(upper))
+    )
+
+
+def _child_environment(extra: dict[str, str] | None) -> dict[str, str]:
+    child_env = {
+        key: value
+        for key, value in os.environ.items()
+        if not _is_private_env(key)
+    }
+    if extra:
+        child_env.update(
+            {
+                str(key): str(value)
+                for key, value in extra.items()
+                if not _is_private_env(str(key))
+            }
+        )
+    child_env.setdefault("PYTHONUNBUFFERED", "1")
+    child_env.setdefault("PYTHONDONTWRITEBYTECODE", "1")
+    child_env.setdefault("MPLBACKEND", "Agg")
+    return child_env
 
 
 @dataclass
@@ -106,12 +146,7 @@ def run_process(
 ) -> ProcessResult:
     """Run ``command`` with a hard timeout and bounded output."""
     started = time.monotonic()
-    child_env = dict(os.environ)
-    child_env.setdefault("PYTHONUNBUFFERED", "1")
-    child_env.setdefault("PYTHONDONTWRITEBYTECODE", "1")
-    child_env.setdefault("MPLBACKEND", "Agg")
-    if env:
-        child_env.update({str(key): str(value) for key, value in env.items()})
+    child_env = _child_environment(env)
 
     max_bytes = max(1000, int(max_output_chars) * 4)
     head_limit = int(max_bytes * 0.4)

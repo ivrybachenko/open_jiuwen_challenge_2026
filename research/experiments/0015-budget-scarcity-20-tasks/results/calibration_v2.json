@@ -1,0 +1,522 @@
+{
+  "task_set": "budget20",
+  "source": "/Users/zbr174/dev/open_jiuwen_challenge_2026/data/task_set/budget20.yaml",
+  "random_seed": 42,
+  "summary": {
+    "score": 79.0,
+    "max_score": 106.0,
+    "solved_tasks": 15,
+    "total_tasks": 20,
+    "input_tokens": 66517,
+    "output_tokens": 8760,
+    "cost": 15433
+  },
+  "time_seconds": 152.385,
+  "time_minutes": 2.54,
+  "harness": {
+    "command": [
+      "/Users/zbr174/dev/open_jiuwen_challenge_2026/harness/.venv/bin/python",
+      "-m",
+      "harness.run_agent",
+      "--tasks-dir",
+      "/private/var/folders/jw/9_8gnqsd7x349_k55pcsy3rc0000gn/T/ojw-eval-rlvygznd/tasks",
+      "--out",
+      "/private/var/folders/jw/9_8gnqsd7x349_k55pcsy3rc0000gn/T/ojw-eval-rlvygznd/out/solutions.json",
+      "--model",
+      "qwen3.6-35b-a3b-noreason",
+      "--budget",
+      "100000",
+      "--trajectories-dir",
+      "/Users/zbr174/dev/open_jiuwen_challenge_2026/data/trajectories",
+      "--run-id",
+      "1ed5a8b3-6e4c-46f5-a990-c4014aad5183"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "stdout_tail": "",
+    "stderr_tail": "... solved=True reward=8 cost=86 spent=5770 total=75\n2026-11-14 01:36:29,011 INFO harness: task search_0210 wave1 kind=none solved=False reward=8 cost=171 spent=5941 total=75\n2026-11-14 01:36:30,196 INFO harness: wave 2: 5 promising task(s) selected (max 50)\n2026-11-14 01:36:31,507 INFO harness: task search_0210 wave2 kind=value solved=True reward=8 cost=352 spent=6122 total=83\n2026-11-14 01:36:33,873 INFO harness: task search_0102 wave2 kind=none solved=False reward=6 cost=484 spent=6396 total=83\n2026-11-14 01:36:38,832 INFO harness: task data_analysis_0114 wave2 kind=impossible solved=False reward=7 cost=1691 spent=7176 total=83\n2026-11-14 01:36:41,647 INFO harness: task search_0119 wave2 kind=none solved=False reward=4 cost=183 spent=7273 total=83\n2026-11-14 01:36:42,739 INFO harness: task coding_0108 wave2 kind=none solved=False reward=6 cost=336 spent=7441 total=83\n2026-11-14 01:36:42,793 INFO harness: wave 3: 4 promising task(s) selected (max 50)\n2026-11-14 01:36:49,126 INFO harness: task search_0102 wave3 kind=value solved=True reward=6 cost=1404 spent=8361 total=89\n2026-11-14 01:36:50,010 INFO harness: task coding_0108 wave3 kind=none solved=False reward=6 cost=542 spent=8567 total=89\n2026-11-14 01:36:53,206 INFO harness: task data_analysis_0114 wave3 kind=impossible solved=False reward=7 cost=2204 spent=9080 total=89\n2026-11-14 01:36:55,002 INFO harness: task search_0119 wave3 kind=none solved=False reward=4 cost=286 spent=9183 total=89\n2026-11-14 01:36:55,057 INFO harness: wave 4: 3 promising task(s) selected (max 50)\n2026-11-14 01:36:56,173 INFO harness: task coding_0108 wave4 kind=none solved=False reward=6 cost=799 spent=9440 total=89\n2026-11-14 01:36:59,048 INFO harness: task data_analysis_0114 wave4 kind=impossible solved=False reward=7 cost=2758 spent=9994 total=89\n2026-11-14 01:37:00,111 INFO harness: task search_0119 wave4 kind=none solved=False reward=4 cost=437 spent=10145 total=89\n2026-11-14 01:37:00,164 INFO harness: wave 5: 3 promising task(s) selected (max 50)\n2026-11-14 01:37:09,307 INFO harness: task coding_0108 wave5 kind=none solved=False reward=6 cost=1084 spent=10430 total=89\n2026-11-14 01:37:15,827 INFO harness: task data_analysis_0114 wave5 kind=impossible solved=False reward=7 cost=3353 spent=11025 total=89\n2026-11-14 01:37:18,040 INFO harness: task search_0119 wave5 kind=impossible solved=False reward=4 cost=680 spent=11268 total=89\n2026-11-14 01:37:18,096 INFO harness: wave 6: 3 promising task(s) selected (max 50)\n2026-11-14 01:37:19,382 INFO harness: task coding_0108 wave6 kind=none solved=False reward=6 cost=1400 spent=11584 total=89\n2026-11-14 01:37:21,464 INFO harness: task search_0119 wave6 kind=impossible solved=False reward=4 cost=1040 spent=11944 total=89\n2026-11-14 01:37:26,842 INFO harness: task data_analysis_0114 wave6 kind=impossible solved=False reward=7 cost=3989 spent=12580 total=89\n2026-11-14 01:37:26,884 INFO harness: wave 7: 3 promising task(s) selected (max 50)\n2026-11-14 01:37:29,401 INFO harness: task coding_0108 wave7 kind=none solved=False reward=6 cost=1747 spent=12927 total=89\n2026-11-14 01:37:30,620 INFO harness: task search_0119 wave7 kind=impossible solved=False reward=4 cost=1338 spent=13225 total=89\n2026-11-14 01:37:32,901 INFO harness: task data_analysis_0114 wave7 kind=impossible solved=False reward=7 cost=4667 spent=13903 total=89\n2026-11-14 01:37:32,945 INFO harness: wave 8: 3 promising task(s) selected (max 50)\n2026-11-14 01:37:35,912 INFO harness: task coding_0108 wave8 kind=none solved=False reward=6 cost=2129 spent=14285 total=89\n2026-11-14 01:37:40,061 INFO harness: task search_0119 wave8 kind=impossible solved=False reward=4 cost=1763 spent=14710 total=89\n2026-11-14 01:37:42,774 INFO harness: task data_analysis_0114 wave8 kind=impossible solved=False reward=7 cost=5390 spent=15433 total=89\n2026-11-14 01:37:42,775 INFO harness: done: score=89 spent=15433 solutions=/private/var/folders/jw/9_8gnqsd7x349_k55pcsy3rc0000gn/T/ojw-eval-rlvygznd/out/solutions.json\n"
+  },
+  "tasks": [
+    {
+      "task_id": "search_0119",
+      "task_path": "search/impossible/0003",
+      "task_type": "search",
+      "reward": 4.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "search_0119",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": "IMPOSSIBLE\nNorthstar Analytics is not mentioned in any of the knowledge base files.",
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 10573,
+        "output": 702,
+        "cost": 1763
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "data_analysis_0101",
+      "task_path": "data_analysis/solvable/0003",
+      "task_type": "data_analysis",
+      "reward": 4.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 4.0,
+      "verdict": {
+        "task_id": "data_analysis_0101",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "118",
+        "actual": "118",
+        "detail": "matched integer 118"
+      },
+      "tokens": {
+        "input": 753,
+        "output": 276,
+        "cost": 352
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "math_0213",
+      "task_path": "math/solvable/0019",
+      "task_type": "math",
+      "reward": 6.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 6.0,
+      "verdict": {
+        "task_id": "math_0213",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "568701031",
+        "actual": "568701031",
+        "detail": "matched integer 568701031"
+      },
+      "tokens": {
+        "input": 664,
+        "output": 78,
+        "cost": 145
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "coding_0101",
+      "task_path": "coding/solvable/0003",
+      "task_type": "coding",
+      "reward": 4.0,
+      "check": "unittest",
+      "solvable": true,
+      "solved": true,
+      "score": 4.0,
+      "verdict": {
+        "task_id": "coding_0101",
+        "check": "unittest",
+        "solved": true,
+        "expected": "tests_pass",
+        "actual": "DONE",
+        "detail": "1 test file(s) passed"
+      },
+      "tokens": {
+        "input": 1106,
+        "output": 348,
+        "cost": 459
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "data_analysis_0222",
+      "task_path": "data_analysis/solvable/0028",
+      "task_type": "data_analysis",
+      "reward": 7.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 7.0,
+      "verdict": {
+        "task_id": "data_analysis_0222",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "2",
+        "actual": "2",
+        "detail": "matched integer 2"
+      },
+      "tokens": {
+        "input": 669,
+        "output": 214,
+        "cost": 281
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "data_analysis_0218",
+      "task_path": "data_analysis/solvable/0024",
+      "task_type": "data_analysis",
+      "reward": 3.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "data_analysis_0218",
+        "check": "exact_int",
+        "solved": false,
+        "expected": "1543",
+        "actual": "1543.00",
+        "detail": "answer is not an integer"
+      },
+      "tokens": {
+        "input": 769,
+        "output": 354,
+        "cost": 431
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "search_0221",
+      "task_path": "search/solvable/0027",
+      "task_type": "search",
+      "reward": 6.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": true,
+      "score": 6.0,
+      "verdict": {
+        "task_id": "search_0221",
+        "check": "exact_str",
+        "solved": true,
+        "expected": "a7f3c9",
+        "actual": "a7f3c9",
+        "detail": "matched 'a7f3c9'"
+      },
+      "tokens": {
+        "input": 670,
+        "output": 154,
+        "cost": 221
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "math_0106",
+      "task_path": "math/impossible/0002",
+      "task_type": "math",
+      "reward": 7.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "math_0106",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": "NO_SOLUTION",
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 662,
+        "output": 544,
+        "cost": 611
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "math_0210",
+      "task_path": "math/solvable/0016",
+      "task_type": "math",
+      "reward": 2.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 2.0,
+      "verdict": {
+        "task_id": "math_0210",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "185",
+        "actual": "185",
+        "detail": "matched integer 185"
+      },
+      "tokens": {
+        "input": 648,
+        "output": 147,
+        "cost": 212
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "coding_0231",
+      "task_path": "coding/solvable/0037",
+      "task_type": "coding",
+      "reward": 1.0,
+      "check": "hidden_unittest",
+      "solvable": true,
+      "solved": true,
+      "score": 1.0,
+      "verdict": {
+        "task_id": "coding_0231",
+        "check": "hidden_unittest",
+        "solved": true,
+        "expected": "tests_pass",
+        "actual": "DONE",
+        "detail": "1 hidden test file(s) passed"
+      },
+      "tokens": {
+        "input": 654,
+        "output": 407,
+        "cost": 473
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "data_analysis_0114",
+      "task_path": "data_analysis/impossible/0006",
+      "task_type": "data_analysis",
+      "reward": 7.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "data_analysis_0114",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": "IMPOSSIBLE",
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 23235,
+        "output": 3062,
+        "cost": 5390
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "math_0228",
+      "task_path": "math/solvable/0034",
+      "task_type": "math",
+      "reward": 6.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": true,
+      "score": 6.0,
+      "verdict": {
+        "task_id": "math_0228",
+        "check": "exact_str",
+        "solved": true,
+        "expected": "2025-03-10 17:05",
+        "actual": "2025-03-10 17:05",
+        "detail": "matched '2025-03-10 17:05'"
+      },
+      "tokens": {
+        "input": 680,
+        "output": 174,
+        "cost": 242
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "data_analysis_0206",
+      "task_path": "data_analysis/solvable/0012",
+      "task_type": "data_analysis",
+      "reward": 5.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 5.0,
+      "verdict": {
+        "task_id": "data_analysis_0206",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "6",
+        "actual": "6",
+        "detail": "matched integer 6"
+      },
+      "tokens": {
+        "input": 685,
+        "output": 155,
+        "cost": 224
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "search_0102",
+      "task_path": "search/solvable/0004",
+      "task_type": "search",
+      "reward": 6.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": true,
+      "score": 6.0,
+      "verdict": {
+        "task_id": "search_0102",
+        "check": "exact_str",
+        "solved": true,
+        "expected": "Lena Fischer",
+        "actual": "Lena Fischer",
+        "detail": "matched 'lena fischer'"
+      },
+      "tokens": {
+        "input": 3758,
+        "output": 1026,
+        "cost": 1404
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "math_0214",
+      "task_path": "math/solvable/0020",
+      "task_type": "math",
+      "reward": 6.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 6.0,
+      "verdict": {
+        "task_id": "math_0214",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "155117520",
+        "actual": "155117520",
+        "detail": "matched integer 155117520"
+      },
+      "tokens": {
+        "input": 655,
+        "output": 114,
+        "cost": 180
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "coding_0108",
+      "task_path": "coding/impossible/0004",
+      "task_type": "coding",
+      "reward": 6.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "coding_0108",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": null,
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 16428,
+        "output": 482,
+        "cost": 2129
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "search_0208",
+      "task_path": "search/solvable/0014",
+      "task_type": "search",
+      "reward": 4.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": true,
+      "score": 4.0,
+      "verdict": {
+        "task_id": "search_0208",
+        "check": "exact_str",
+        "solved": true,
+        "expected": "tangerine",
+        "actual": "tangerine",
+        "detail": "matched 'tangerine'"
+      },
+      "tokens": {
+        "input": 641,
+        "output": 52,
+        "cost": 117
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "coding_0209",
+      "task_path": "coding/solvable/0015",
+      "task_type": "coding",
+      "reward": 6.0,
+      "check": "unittest",
+      "solvable": true,
+      "solved": true,
+      "score": 6.0,
+      "verdict": {
+        "task_id": "coding_0209",
+        "check": "unittest",
+        "solved": true,
+        "expected": "tests_pass",
+        "actual": "DONE",
+        "detail": "1 test file(s) passed"
+      },
+      "tokens": {
+        "input": 1059,
+        "output": 255,
+        "cost": 361
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "coding_0201",
+      "task_path": "coding/solvable/0007",
+      "task_type": "coding",
+      "reward": 8.0,
+      "check": "hidden_unittest",
+      "solvable": true,
+      "solved": true,
+      "score": 8.0,
+      "verdict": {
+        "task_id": "coding_0201",
+        "check": "hidden_unittest",
+        "solved": true,
+        "expected": "tests_pass",
+        "actual": "42",
+        "detail": "1 hidden test file(s) passed"
+      },
+      "tokens": {
+        "input": 637,
+        "output": 22,
+        "cost": 86
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "search_0210",
+      "task_path": "search/solvable/0016",
+      "task_type": "search",
+      "reward": 8.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 8.0,
+      "verdict": {
+        "task_id": "search_0210",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "60",
+        "actual": "60",
+        "detail": "matched integer 60"
+      },
+      "tokens": {
+        "input": 1571,
+        "output": 194,
+        "cost": 352
+      },
+      "test_files_modified": []
+    }
+  ],
+  "work_dir": null
+}

@@ -1,0 +1,23 @@
+dataset:
+  random_seed: 42
+  tasks:
+    - search/impossible/0003
+    - data_analysis/solvable/0003
+    - math/solvable/0019
+    - coding/solvable/0003
+    - data_analysis/solvable/0028
+    - data_analysis/solvable/0024
+    - search/solvable/0027
+    - math/impossible/0002
+    - math/solvable/0016
+    - coding/solvable/0037
+    - data_analysis/impossible/0006
+    - math/solvable/0034
+    - data_analysis/solvable/0012
+    - search/solvable/0004
+    - math/solvable/0020
+    - coding/impossible/0004
+    - search/solvable/0014
+    - coding/solvable/0015
+    - coding/solvable/0007
+    - search/solvable/0016

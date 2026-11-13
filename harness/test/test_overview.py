@@ -119,6 +119,32 @@ class OverviewTest(unittest.TestCase):
             self.assertLess(time.monotonic() - started, 4.0)
             self.assertIn("TIMEOUT", text)
 
+    def test_dataset_symlink_outside_is_not_read(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "workspace"
+            root.mkdir()
+            outside = Path(tmp) / "outside.csv"
+            outside.write_text("secret_column,value\nhidden,1\n", encoding="utf-8")
+            (root / "leak.csv").symlink_to(outside)
+            text = build_overview(root, "inspect")
+            self.assertNotIn("secret_column", text)
+            self.assertNotIn("hidden", text)
+
+    def test_test_symlink_outside_is_not_executed(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "workspace"
+            root.mkdir()
+            marker = Path(tmp) / "marker.txt"
+            outside = Path(tmp) / "outside_test.py"
+            outside.write_text(
+                f"open({str(marker)!r}, 'w').write('ran')\n",
+                encoding="utf-8",
+            )
+            (root / "test_leak.py").symlink_to(outside)
+            text = build_overview(root, "inspect")
+            self.assertFalse(marker.exists())
+            self.assertNotIn("test_leak.py: PASS", text)
+
 
 if __name__ == "__main__":
     unittest.main()

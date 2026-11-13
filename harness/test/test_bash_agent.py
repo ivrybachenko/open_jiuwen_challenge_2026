@@ -20,7 +20,11 @@ from harness.config import DEFAULT_MODEL, Settings
 from harness.tasks import TaskState
 from harness.tasks import Task
 from harness.solving.workspace import ProcessResult
-from harness.solving.scheduler import WaveScheduler
+from harness.solving.scheduler import (
+    WaveScheduler,
+    estimate_retry_cost,
+    order_tasks_for_wave1,
+)
 
 
 def make_settings(tmp: Path, *, resume: bool = True) -> Settings:
@@ -274,6 +278,50 @@ class WaveSelectionTest(unittest.TestCase):
                 [task], {task.task_id: state}, 2, remaining=100
             )
             self.assertEqual(selected, [])
+
+    def test_estimate_retry_cost_uses_average_turn_cost(self) -> None:
+        self.assertEqual(estimate_retry_cost(900, turns=1), 1080)
+        self.assertEqual(estimate_retry_cost(1200, turns=3), 480)
+        self.assertEqual(estimate_retry_cost(0, turns=0), 300)
+
+    def test_budget_allows_a_retry_that_fits_remaining(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            settings = make_settings(tmp_path)
+            task = make_task(tmp_path, reward=10)
+            features = {
+                "answer_kind": "none",
+                "hit_token_limit": False,
+                "script_error": "",
+                "script_timed_out": False,
+                "exit_code": 0,
+                "reasoning_keyword_impossible": 0,
+                "reasoning_keyword_give_up": 0,
+                "reasoning_words": 100,
+                "script_has_write_answer": True,
+                "script_has_python": True,
+                "output_chars": 10,
+                "tests_in_overview": False,
+            }
+            state = make_state(
+                task,
+                wave1_done=True,
+                cost=900,
+                turns=[{"features": features}],
+            )
+            selected = WaveScheduler(settings).select_candidates(
+                [task], {task.task_id: state}, 2, remaining=1500
+            )
+            self.assertEqual([item[0].task_id for item in selected], [task.task_id])
+
+    def test_wave1_order_by_reward_then_task_id(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            task_b = make_task(tmp_path, task_id="b", reward=10)
+            task_a = make_task(tmp_path, task_id="a", reward=10)
+            task_c = make_task(tmp_path, task_id="c", reward=1)
+            ordered = order_tasks_for_wave1([task_c, task_b, task_a])
+            self.assertEqual([task.task_id for task in ordered], ["a", "b", "c"])
 
     def test_higher_reward_wins_when_probability_is_equal(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

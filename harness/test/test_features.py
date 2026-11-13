@@ -91,10 +91,10 @@ class FeatureExtractionTest(unittest.TestCase):
             "tests_in_overview": False,
         }
         cheap = promise_score(
-            reward=10, features=features, spent_cost=100, wave2_max_tokens=4000
+            reward=10, features=features, spent_cost=100, turns=1
         )
         expensive = promise_score(
-            reward=10, features=features, spent_cost=10000, wave2_max_tokens=4000
+            reward=10, features=features, spent_cost=10000, turns=1
         )
         self.assertGreater(cheap, expensive)
 

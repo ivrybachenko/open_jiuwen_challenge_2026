@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
+import os
 import tempfile
 import time
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from harness.solving.workspace import run_process
 
@@ -59,6 +61,46 @@ class RunProcessTest(unittest.TestCase):
             result = run_process(["bash", str(script)], cwd=root, timeout=5)
             self.assertTrue(result.ok)
             self.assertEqual((root / "answer.txt").read_text().strip(), "42")
+
+    def test_sensitive_environment_is_not_passed_to_children(self) -> None:
+        secret_env = {
+            "LLM_API_KEY": "secret-key",
+            "LLM_BASE_URL": "http://secret.invalid/v1",
+            "BUDGET": "12345",
+            "TASKS": "/data/tasks",
+            "OUT": "/tmp/out.json",
+            "HARNESS_RUN_ID": "run-1",
+            "NEURAL_DEEP_API_KEY": "another-secret",
+            "SOME_SERVICE_TOKEN": "token",
+            "GPG_KEY": "base-image-key",
+        }
+        with patch.dict(os.environ, secret_env):
+            result = run_process(
+                [
+                    "bash",
+                    "-c",
+                    "printf '%s|%s|%s|%s|%s|%s|%s|%s|%s' "
+                    '"${LLM_API_KEY-unset}" "${LLM_BASE_URL-unset}" '
+                    '"${BUDGET-unset}" "${TASKS-unset}" "${OUT-unset}" '
+                    '"${HARNESS_RUN_ID-unset}" "${NEURAL_DEEP_API_KEY-unset}" '
+                    '"${SOME_SERVICE_TOKEN-unset}" "${GPG_KEY-unset}"',
+                ],
+                cwd=".",
+                timeout=5,
+            )
+        self.assertTrue(result.ok)
+        self.assertEqual(
+            result.output.strip().splitlines()[-1], "|".join(["unset"] * 9)
+        )
+
+    def test_ordinary_environment_is_still_passed(self) -> None:
+        with patch.dict(os.environ, {"AUDIT_VALUE": "kept"}):
+            result = run_process(
+                ["bash", "-c", 'printf "%s" "${AUDIT_VALUE-unset}"'],
+                cwd=".",
+                timeout=5,
+            )
+        self.assertEqual(result.output.strip().splitlines()[-1], "kept")
 
 
 if __name__ == "__main__":
