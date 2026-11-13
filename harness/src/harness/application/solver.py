@@ -62,8 +62,14 @@ script. A script that only inspects files is a wasted turn.
 The script itself must write only the final answer to answer.txt in the current
 directory: one number or one short string for math, data and search tasks, and
 DONE for coding tasks after the tests pass. Printing the answer or showing the
-file content is not a submission. Never put reasoning or intermediate results
-in answer.txt.
+file content is not a submission. Writing answer.txt is the only way to submit:
+even if the tests already pass when the turn starts, the script must still
+write answer.txt, and it must do so after the work and verification, as the
+last step. Never put reasoning or intermediate results in answer.txt.
+
+If the reply contains more than one fenced bash block, the blocks are joined in
+order and executed as one script, so the block that writes answer.txt must come
+last.
 
 If the task is impossible, write IMPOSSIBLE as the first line of answer.txt
 and briefly explain why on the following lines. If the requested value does
@@ -597,6 +603,10 @@ class BashAgentSolver(Solver):
             lines.append(
                 "The previous script did not create a non-empty answer.txt."
             )
+            lines.append(
+                "Even if the tests already pass, this turn must end by writing "
+                "answer.txt (DONE for coding tasks)."
+            )
         lines.append(
             "Continue from the current workspace state. Reply with one bash "
             "script and nothing else."
@@ -616,33 +626,40 @@ class BashAgentSolver(Solver):
         removed afterwards; the archive copy stays in the agent directory.
         """
         bash = shutil.which("bash") or "/bin/sh"
-        workspace_script = task.workspace / f".harness_step_{turn_index:02d}.sh"
-        run_path = script_path
+        workspace = task.workspace.resolve()
+        # ``script_path`` may be relative (relative --tasks-dir or
+        # --agent-workspace) while ``cwd`` is the task workspace, so bash would
+        # look for it in the wrong directory.  Always execute an absolute path.
+        run_path = script_path.resolve()
+        workspace_script = workspace / f".harness_step_{turn_index:02d}.sh"
+        placed = False
         try:
-            workspace_script.write_text(script_path.read_text(encoding="utf-8"), encoding="utf-8")
-            run_path = workspace_script
+            workspace_script.write_text(
+                run_path.read_text(encoding="utf-8"), encoding="utf-8"
+            )
+            placed = True
         except OSError:
             log.debug("cannot place script in workspace for %s", task.task_id, exc_info=True)
         try:
             return run_process(
-                [bash, str(run_path)],
-                cwd=task.workspace,
+                [bash, str(workspace_script if placed else run_path)],
+                cwd=workspace,
                 timeout=self.settings.turn_timeout,
                 max_output_chars=self.settings.script_output_max_chars,
             )
         except Exception as exc:  # noqa: BLE001 - an execution bug is not fatal
             log.warning("script execution failed for %s", task.task_id, exc_info=True)
             return ProcessResult(
-                command=[bash, str(run_path)],
+                command=[bash, str(workspace_script if placed else run_path)],
                 exit_code=None,
                 output="",
                 error=f"{type(exc).__name__}: {exc}",
-                script_path=str(run_path),
+                script_path=str(workspace_script if placed else run_path),
             )
         finally:
-            if run_path != script_path:
+            if placed:
                 try:
-                    run_path.unlink(missing_ok=True)
+                    workspace_script.unlink(missing_ok=True)
                 except OSError:
                     log.debug("cannot remove workspace script", exc_info=True)
 
@@ -857,11 +874,11 @@ def _message_text(content: Any) -> str:
 def extract_script(content: str) -> str:
     """Return the intended bash script.
 
-    The system prompt asks for exactly one fenced bash block.  As a defensive
-    fallback, providers sometimes put reasoning into ``content`` together with
-    several Markdown blocks: the whole reply is executed as-is only when there
-    is no fenced block, otherwise the last block is used.  A single wrapping
-    fence is therefore handled automatically.
+    The system prompt asks for exactly one fenced bash block.  Providers and
+    models still sometimes return several blocks (``cat``, then an edit, then
+    the tests, then the submission).  Running only the last block loses the
+    work, so every bash block is joined in order into one script; the fallback
+    is the whole reply when there is no fenced block at all.
     """
     text = (content or "").strip()
     if not text:
@@ -872,7 +889,7 @@ def extract_script(content: str) -> str:
         flags=re.IGNORECASE | re.DOTALL,
     )
     if blocks:
-        return blocks[-1].strip()
+        return "\n".join(block.strip() for block in blocks if block.strip())
     lines = text.splitlines()
     if len(lines) >= 2 and lines[0].strip().startswith("```"):
         if lines[-1].strip() == "```":

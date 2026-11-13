@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -96,7 +97,14 @@ class PromptTest(unittest.TestCase):
         self.assertIn("do not write any text before or after", lowered)
         self.assertNotIn("without markdown fences", lowered)
 
-    def test_extract_script_takes_the_last_fenced_block(self) -> None:
+    def test_prompt_requires_answer_even_when_tests_pass(self) -> None:
+        lowered = SYSTEM_PROMPT.lower()
+        self.assertIn("even if the tests already pass", lowered)
+        self.assertIn("joined in", lowered)
+        self.assertIn("executed as one script", lowered)
+        self.assertIn("must come\nlast", lowered)
+
+    def test_extract_script_joins_all_fenced_blocks_in_order(self) -> None:
         self.assertEqual(
             extract_script("```bash\necho 42\n```"),
             "echo 42",
@@ -105,10 +113,23 @@ class PromptTest(unittest.TestCase):
         content = (
             "I will inspect first.\n"
             "```bash\ncat data.txt\n```\n"
-            "Then I will submit.\n"
+            "Then I will fix and submit.\n"
             "```bash\necho 42 > answer.txt\n```\n"
         )
-        self.assertEqual(extract_script(content), "echo 42 > answer.txt")
+        self.assertEqual(
+            extract_script(content),
+            "cat data.txt\necho 42 > answer.txt",
+        )
+
+    def test_extract_script_keeps_the_submission_last(self) -> None:
+        content = (
+            "```bash\nsed -i 's/a/b/' mylib.py\n```\n"
+            "```bash\npython3 test_mylib.py\n```\n"
+            "```bash\necho DONE > answer.txt\n```\n"
+        )
+        script = extract_script(content)
+        self.assertTrue(script.endswith("echo DONE > answer.txt"))
+        self.assertIn("sed -i", script)
 
     def test_execution_message_has_exit_code(self) -> None:
         message = execution_message(
@@ -288,6 +309,54 @@ class WaveSelectionTest(unittest.TestCase):
             value = make_state(task, answer="42", answer_kind="value")
             self.assertFalse(solver.result_for(task, impossible).solved)
             self.assertTrue(solver.result_for(task, value).solved)
+
+    def test_wave2_warning_requires_submission(self) -> None:
+        state = TaskState(
+            task_id="coding_0003",
+            task_root="/data/tasks/coding_0003",
+            model=DEFAULT_MODEL,
+            turns=[{"wave": 1, "answer": None, "exit_code": 0, "features": {}}],
+        )
+        warning = BashAgentSolver._wave2_warning(state).lower()
+        self.assertIn("did not create a non-empty answer.txt", warning)
+        self.assertIn("even if the tests already pass", warning)
+
+
+class ScriptExecutionTest(unittest.TestCase):
+    def test_relative_script_and_task_paths_still_execute(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            previous = os.getcwd()
+            os.chdir(tmp)
+            try:
+                root = Path("tasks") / "math_0000"
+                workspace = root / "workspace"
+                workspace.mkdir(parents=True)
+                task = Task(
+                    task_id="math_0000",
+                    task_type="math",
+                    instruction="write 42",
+                    reward=1.0,
+                    expected="42",
+                    check="exact_int",
+                    root=root,
+                )
+                agent_dir = Path("agent")
+                agent_dir.mkdir()
+                script = agent_dir / "turn_01.sh"
+                script.write_text("echo hello; echo 42 > answer.txt\n", encoding="utf-8")
+
+                solver = BashAgentSolver(make_settings(Path(tmp)))
+                result = solver._run_script(task, script, 1)
+
+                self.assertEqual(result.exit_code, 0)
+                self.assertIn("hello", result.output)
+                self.assertEqual(
+                    (workspace / "answer.txt").read_text(encoding="utf-8").strip(),
+                    "42",
+                )
+                self.assertFalse((workspace / ".harness_step_01.sh").exists())
+            finally:
+                os.chdir(previous)
 
 
 if __name__ == "__main__":

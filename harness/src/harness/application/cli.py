@@ -147,7 +147,16 @@ async def _run(args: argparse.Namespace) -> int:
         settings.wave2_max_tokens,
     )
 
-    store = SolutionsStore(settings.out)
+    # OUT may be set but not mounted (the run command in the regulation does
+    # not mount it).  Keep the run alive: fall back to the writable tasks mount
+    # and then to the tmpfs copy.
+    store = SolutionsStore(
+        settings.out,
+        fallbacks=(
+            settings.tasks_dir / "solutions.json",
+            Path("/tmp/solutions.json"),
+        ),
+    )
     solver = build_solver(settings)
     if isinstance(solver, BashAgentSolver):
         solver.restore_budget(
