@@ -52,7 +52,7 @@ mkdir -p "$OUT" && chmod 777 "$OUT"
 
 timeout -k 1000s 1h docker run --rm --name "run-${TEAM}" \
   --network hack-net \
-  -e LLM_BASE_URL -e LLM_API_KEY \
+  -e LLM_BASE_URL -e LLM_API_KEY -e BUDGET \
   -v "$TASKS:/data/tasks:rw" \
   --read-only --tmpfs /tmp:rw,size=2g -e HOME=/tmp \
   --cap-drop ALL --security-opt no-new-privileges \
@@ -62,11 +62,12 @@ timeout -k 1000s 1h docker run --rm --name "run-${TEAM}" \
   /app/run_agent.py --tasks-dir /data/tasks
 ```
 
-`TASKS`, `OUT`, `LLM_BASE_URL` и `LLM_API_KEY` передаёт проверяющая система.
-Ключ живёт только в окружении и в образ не попадает. Ответы пишутся в
+`TASKS`, `OUT`, `BUDGET`, `LLM_BASE_URL` и `LLM_API_KEY` передаёт проверяющая
+система. Ключ живёт только в окружении и в образ не попадает. Ответы пишутся в
 `answer.txt` каталога задачи; сводка — в `solutions.json` (по умолчанию в
 каталоге задач, `--out` или `OUT` меняют путь). Бюджет задаётся флагом
-`--budget` или переменной `TOKEN_BUDGET`; без него лимита нет.
+`--budget` или переменной `BUDGET`; если бюджет не задан, лимит — 100 000
+выходных токенов.
 
 Локальный прогон и тесты:
 

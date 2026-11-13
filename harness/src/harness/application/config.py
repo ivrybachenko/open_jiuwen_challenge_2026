@@ -8,7 +8,7 @@ environment variables passed by the jury:
     LLM_BASE_URL  - OpenAI-compatible proxy endpoint
     LLM_API_KEY   - proxy key (never baked into the image)
     LLM_MODEL     - one of the four allowed model names
-    TOKEN_BUDGET  - optional output-token budget
+    BUDGET        - output-token budget (default 100000)
     TRAJECTORIES_DIR - optional directory for attempt logs
     HARNESS_RUN_ID - optional run identifier stored in the attempt log
 
@@ -38,8 +38,9 @@ DEFAULT_OVERVIEW_MAX_TOKENS = 1500
 DEFAULT_SCRIPT_OUTPUT_MAX_CHARS = 4000
 DEFAULT_TURN_TIMEOUT = 120.0
 DEFAULT_MODEL_TIMEOUT = 180.0
+DEFAULT_TOKEN_BUDGET = 100_000
 
-_BUDGET_ENV_VARS = ("TOKEN_BUDGET", "BUDGET", "LLM_TOKEN_BUDGET")
+_BUDGET_ENV_VARS = ("BUDGET",)
 
 
 def _resolve_out(raw: str | None) -> Path:
@@ -93,7 +94,7 @@ class Settings:
     llm_base_url: str | None
     llm_api_key: str | None
     model: str
-    budget: int | None
+    budget: int
     max_iterations: int
     agent_workspace: Path
     trajectories_dir: Path | None
@@ -139,6 +140,8 @@ class Settings:
 
         if budget is None:
             budget = _first_int(env, _BUDGET_ENV_VARS)
+        if budget is None:
+            budget = DEFAULT_TOKEN_BUDGET
         if max_iterations is None:
             max_iterations = _int_or_none(env.get("MAX_ITERATIONS")) or DEFAULT_MAX_ITERATIONS
 

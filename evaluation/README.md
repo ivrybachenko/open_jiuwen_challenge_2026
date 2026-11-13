@@ -33,7 +33,7 @@
 - `LLM_BASE_URL` оценщики подставляют сами: `https://api.neuraldeep.ru/v1`
   захардкожен в `evaluation/common/runner.py`. В самом харнессе URL нет — он
   по-прежнему читает `LLM_BASE_URL` из окружения.
-- `TASKS`, `OUT`, `TOKEN_BUDGET`, `LLM_MODEL` — необязательны; чекеры передают
+- `TASKS`, `OUT`, `BUDGET`, `LLM_MODEL` — необязательны; чекеры передают
   соответствующие значения флагами.
 - Docker — только для `dockerfile_checker`.
 

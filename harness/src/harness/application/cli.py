@@ -20,7 +20,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(prog="run_agent.py")
     parser.add_argument("--tasks-dir", type=Path, default=None)
     parser.add_argument("--out", type=Path, default=None)
-    parser.add_argument("--budget", type=int, default=None)
+    parser.add_argument(
+        "--budget",
+        type=int,
+        default=None,
+        help="output-token budget; BUDGET is used when absent, then 100000.",
+    )
     parser.add_argument("--model", default=None)
     parser.add_argument("--wave2-model", default=None,
                         help="model for the second wave; defaults to --model")

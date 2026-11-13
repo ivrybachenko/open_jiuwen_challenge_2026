@@ -117,8 +117,40 @@ class WaveSettingsTest(unittest.TestCase):
         self.assertFalse(settings.resume)
 
 
-if __name__ == "__main__":
-    unittest.main()
+class BudgetSettingsTest(unittest.TestCase):
+    def test_default_budget_is_100k(self) -> None:
+        with patch.dict(os.environ, {}, clear=True):
+            settings = Settings.from_env(tasks_dir="/tmp/tasks")
+        self.assertEqual(settings.budget, 100_000)
+
+    def test_budget_env_is_used(self) -> None:
+        with patch.dict(os.environ, {"BUDGET": "55000"}, clear=True):
+            settings = Settings.from_env(tasks_dir="/tmp/tasks")
+        self.assertEqual(settings.budget, 55_000)
+
+    def test_flag_overrides_budget_env(self) -> None:
+        with patch.dict(os.environ, {"BUDGET": "55000"}, clear=True):
+            settings = Settings.from_env(tasks_dir="/tmp/tasks", budget=8000)
+        self.assertEqual(settings.budget, 8_000)
+
+    def test_legacy_env_names_are_ignored(self) -> None:
+        with patch.dict(
+            os.environ,
+            {"TOKEN_BUDGET": "123", "LLM_TOKEN_BUDGET": "456"},
+            clear=True,
+        ):
+            settings = Settings.from_env(tasks_dir="/tmp/tasks")
+        self.assertEqual(settings.budget, 100_000)
+
+    def test_invalid_budget_env_falls_back_to_default(self) -> None:
+        with patch.dict(os.environ, {"BUDGET": "not-a-number"}, clear=True):
+            settings = Settings.from_env(tasks_dir="/tmp/tasks")
+        self.assertEqual(settings.budget, 100_000)
+
+    def test_zero_budget_is_kept(self) -> None:
+        with patch.dict(os.environ, {"BUDGET": "0"}, clear=True):
+            settings = Settings.from_env(tasks_dir="/tmp/tasks")
+        self.assertEqual(settings.budget, 0)
 
 
 class Wave2ModelTest(unittest.TestCase):
@@ -144,3 +176,7 @@ class Wave2ModelTest(unittest.TestCase):
                 tasks_dir="/tmp/tasks", wave2_model="qwen3.8-27b"
             )
         self.assertEqual(settings.wave2_model, "qwen3.8-27b")
+
+
+if __name__ == "__main__":
+    unittest.main()
