@@ -11,8 +11,8 @@ from dataclasses import asdict, dataclass, field, fields
 from pathlib import Path
 from typing import Any
 
-from harness.application.config import Settings
-from harness.application.tasks import Task
+from harness.config import Settings
+from harness.infrastructure.tasks import Task
 
 log = logging.getLogger(__name__)
 

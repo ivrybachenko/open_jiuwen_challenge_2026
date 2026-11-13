@@ -5,8 +5,8 @@ from __future__ import annotations
 import unittest
 from unittest import mock
 
+from harness.infrastructure.predictor import available, predict_success
 from harness.application import waves as waves_module
-from harness.application.predictor import available, predict_success
 
 
 def _sample_features() -> dict:

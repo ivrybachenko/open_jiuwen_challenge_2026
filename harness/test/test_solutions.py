@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from harness.application.solutions import Solution, SolutionsStore
+from harness.infrastructure.solutions import Solution, SolutionsStore
 
 
 def make_solution(task_id: str = "math_0000", reward: float = 5.0) -> Solution:

@@ -18,19 +18,14 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from harness.application.config import Settings
-from harness.application.features import AnswerInfo, AttemptLogger, classify_answer
-from harness.application.llm import MODELS, TokenLedger
-from harness.application.ojw import configure_logging
-from harness.application.overview import OverviewLimits, build_overview
-from harness.application.prompts import (
-    SYSTEM_PROMPT,
-    execution_message,
-    followup_warning,
-)
-from harness.application.shell import ProcessResult, run_process
+from harness.config import Settings
+from harness.infrastructure.attempts import AnswerInfo, AttemptLogger, classify_answer
+from harness.infrastructure.llm import MODELS, TokenLedger
+from harness.infrastructure.logging_setup import configure_logging
+from harness.infrastructure.overview import OverviewLimits, build_overview
+from harness.infrastructure.shell import ProcessResult, run_process
 from harness.application.state import StateStore, TaskState
-from harness.application.tasks import Task
+from harness.infrastructure.tasks import Task
 
 # openJiuwen installs its logger on the first import.  Configure it before the
 # agent/rail imports so the read-only container root is never used for logs.
@@ -57,6 +52,62 @@ from harness.application.rails import (  # noqa: E402
 log = logging.getLogger(__name__)
 
 MAX_ANSWER_CHARS = 20_000
+
+SYSTEM_PROMPT = """You are a program generator, not an interactive shell.
+For each task, reply with exactly one fenced bash block. The block must contain
+one complete self-contained bash script that solves the whole task in a single
+execution. Do not write any text before or after the block. The harness runs
+the contents of that block as:
+    cd <current directory> && bash <script>
+and sends you the script output in the next message.
+
+The script is executed once. You will not get a chance to run a second command
+in the same turn. Never output only `ls`, `cat`, `grep`, `find` or another
+single exploratory command: inspect, compute, edit files and submit in the same
+script. A script that only inspects files is a wasted turn.
+
+The script itself must write only the final answer to answer.txt in the current
+directory: one number or one short string for math, data and search tasks, and
+DONE for coding tasks after the tests pass. Printing the answer or showing the
+file content is not a submission. Writing answer.txt is the only way to submit:
+even if the tests already pass when the turn starts, the script must still
+write answer.txt, and it must do so after the work and verification, as the
+last step. Never put reasoning or intermediate results in answer.txt.
+
+If the reply contains more than one fenced bash block, the blocks are joined in
+order and executed as one script, so the block that writes answer.txt must come
+last.
+
+If the task is impossible, write IMPOSSIBLE as the first line of answer.txt
+and briefly explain why on the following lines. If the requested value does
+not exist or the conditions contradict each other, do not invent an
+approximate or fractional answer. Do not ask questions and do not describe
+the script.
+
+Before writing answer.txt, check that the values you extracted are non-empty
+and plausible. If a lookup returned nothing, fix the parsing instead of
+computing with a default or zero.
+
+The task may be impossible or ambiguous. That is a valid outcome; say so in
+answer.txt instead of guessing silently."""
+
+
+def execution_message(script_name: str, result: ProcessResult) -> str:
+    """Render one script observation for the next model turn."""
+    if result.timed_out:
+        code = "timeout"
+    elif result.exit_code is None:
+        code = "unknown"
+    else:
+        code = result.exit_code
+    lines = [f"$ bash {script_name}"]
+    if result.output:
+        lines.append(result.output.rstrip())
+    if result.error:
+        lines.append(f"[error: {result.error}]")
+    lines.append(f"[exit code {code}]")
+    return "\n".join(lines)
+
 
 
 @dataclass
@@ -145,6 +196,11 @@ class ScriptAgent(BaseAgent):
     @property
     def abort_requested(self) -> bool:
         return self._failure_rail.abort_requested
+
+    @property
+    def state_store(self) -> StateStore:
+        """Expose persistence so a rail can own its state transition."""
+        return self._state
 
     def restore_budget(self, input_tokens: int, output_tokens: int, spent: int) -> None:
         """Continue a previous process without losing the budget state."""
@@ -273,17 +329,6 @@ class ScriptAgent(BaseAgent):
     # ------------------------------------------------------------------
     # Turns
     # ------------------------------------------------------------------
-    def prepare_followup(self, task: Task, state: TaskState, wave: int) -> None:
-        if state.wave_done(wave):
-            return
-        state.selected_wave2 = True
-        self._state.clear_answers(task)
-        warning = followup_warning(
-            state, final=wave >= self.settings.max_waves
-        )
-        state.messages.append({"role": "user", "content": warning})
-        self._state.save(task, state)
-
     async def invoke(self, inputs: Any, session: Any = None) -> Any:
         """Run one turn through the openJiuwen ``BaseAgent`` entry point.
 

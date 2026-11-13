@@ -1,8 +1,8 @@
-"""Turn features for the future difficulty predictor.
+"""Attempt features and the attempt journal.
 
-The harness v0003 does not train a model yet.  It records the same signals the
-predictor will need -- reasoning, usage, script shape, execution result and the
-submitted answer -- and ranks wave-2 candidates with a transparent heuristic.
+The predictor consumes these fields; wave selection lives in
+``harness.application.waves``.  The journal is append-only JSONL plus a
+readable YAML projection.
 """
 
 from __future__ import annotations

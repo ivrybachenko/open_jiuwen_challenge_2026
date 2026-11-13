@@ -23,7 +23,7 @@ import os
 from dataclasses import dataclass
 from pathlib import Path
 
-from harness.application.llm import DEFAULT_MODEL
+from harness.infrastructure.llm import DEFAULT_MODEL
 
 DEFAULT_TASKS_DIR = Path("/data/tasks")
 DEFAULT_OUT = Path("/tmp/out/solutions.json")

@@ -7,7 +7,7 @@ from openjiuwen.core.single_agent.rail.base import (
     AgentRail,
 )
 
-from harness.application.features import extract_features
+from harness.infrastructure.attempts import extract_features
 
 
 class FeatureRail(AgentRail):

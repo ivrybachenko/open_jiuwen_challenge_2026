@@ -11,7 +11,23 @@ is exposed as ``/app/run_agent.py``.
 
 from __future__ import annotations
 
-from harness.application.cli import main
+import logging
+
+from harness.cli import parse_args
+
+
+def main(argv: list[str] | None = None) -> int:
+    """Parse arguments, set up logging and run the orchestration."""
+    args = parse_args(argv)
+    logging.basicConfig(
+        level=str(args.log_level).upper(),
+        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+    )
+    # Import after parsing so --help does not initialize openJiuwen.
+    from harness.application.runner import run
+
+    return run(args)
+
 
 if __name__ == "__main__":
     raise SystemExit(main())

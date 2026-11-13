@@ -12,11 +12,11 @@ import logging
 from datetime import datetime, timezone
 from pathlib import Path
 
-from harness.application.config import Settings
+from harness.config import Settings
 from harness.application.script_agent import ScriptAgent, SolveResult
-from harness.application.solutions import Solution, SolutionsStore
+from harness.infrastructure.solutions import Solution, SolutionsStore
 from harness.application.state import TaskState
-from harness.application.tasks import Task, load_tasks
+from harness.infrastructure.tasks import Task, load_tasks
 from harness.application.waves import FollowUpSelector
 
 log = logging.getLogger("harness")

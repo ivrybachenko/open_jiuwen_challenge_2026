@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from harness.application.features import (
+from harness.infrastructure.attempts import (
     AttemptLogger,
     classify_answer,
     extract_features,

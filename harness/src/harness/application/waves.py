@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from typing import Any
 
-from harness.application.config import Settings
-from harness.application.predictor import predict_success
+from harness.config import Settings
+from harness.infrastructure.predictor import predict_success
 from harness.application.state import TaskState
-from harness.application.tasks import Task
+from harness.infrastructure.tasks import Task
 
 
 def success_probability(features: dict[str, Any]) -> float:

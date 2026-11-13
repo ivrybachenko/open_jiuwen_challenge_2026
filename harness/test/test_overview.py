@@ -7,7 +7,7 @@ import time
 import unittest
 from pathlib import Path
 
-from harness.application.overview import OverviewLimits, build_overview
+from harness.infrastructure.overview import OverviewLimits, build_overview
 
 
 class OverviewTest(unittest.TestCase):

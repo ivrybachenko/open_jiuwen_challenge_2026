@@ -1,13 +1,13 @@
-"""Command-line interface for the harness.
+"""Command-line arguments for the harness.
 
-This module only parses arguments and delegates to :mod:`harness.application.
-runner`.  Wave scheduling, solutions persistence and the task loop live there.
+This module only parses arguments.  ``harness.run_agent.main`` owns the
+process entrypoint; wave scheduling and the task loop live in
+:mod:`harness.application.runner`.
 """
 
 from __future__ import annotations
 
 import argparse
-import logging
 from pathlib import Path
 
 
@@ -74,15 +74,3 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     parser.add_argument("--log-level", default="INFO")
     return parser.parse_args(argv)
-
-
-def main(argv: list[str] | None = None) -> int:
-    args = parse_args(argv)
-    logging.basicConfig(
-        level=str(args.log_level).upper(),
-        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
-    )
-    # Import after parsing so --help does not initialize openJiuwen.
-    from harness.application.runner import run
-
-    return run(args)

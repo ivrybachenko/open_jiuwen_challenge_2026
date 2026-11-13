@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from harness.application.config import Settings
+from harness.config import Settings
 
 
 class ModelDefaultTest(unittest.TestCase):

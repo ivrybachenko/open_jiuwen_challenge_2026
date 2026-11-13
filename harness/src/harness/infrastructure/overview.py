@@ -13,7 +13,7 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from harness.application.shell import run_process
+from harness.infrastructure.shell import run_process
 
 IGNORED_DIRS = {
     ".git",

@@ -7,7 +7,7 @@ import time
 import unittest
 from pathlib import Path
 
-from harness.application.shell import run_process
+from harness.infrastructure.shell import run_process
 
 
 class RunProcessTest(unittest.TestCase):
