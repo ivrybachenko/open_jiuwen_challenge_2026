@@ -10,7 +10,7 @@ from pathlib import Path
 
 from harness.application.config import Settings
 from harness.application.solutions import Solution, SolutionsStore
-from harness.application.solver import BashAgentSolver, SolveResult, build_solver
+from harness.application.solver import SolveResult, build_solver
 from harness.application.tasks import Task, load_tasks
 
 log = logging.getLogger("harness")
@@ -168,12 +168,11 @@ async def _run(args: argparse.Namespace) -> int:
         ),
     )
     solver = build_solver(settings)
-    if isinstance(solver, BashAgentSolver):
-        solver.restore_budget(
-            store.total_input_tokens,
-            store.total_output_tokens,
-            store.total_cost,
-        )
+    solver.restore_budget(
+        store.total_input_tokens,
+        store.total_output_tokens,
+        store.total_cost,
+    )
     if args.max_tasks is not None:
         tasks = tasks[: args.max_tasks]
 
@@ -200,7 +199,7 @@ async def _run(args: argparse.Namespace) -> int:
                 _record(store, solver, task, state, "wave1-resumed")
             else:
                 try:
-                    await solver.run_turn(task, state, 1)
+                    await solver.invoke({"task": task, "state": state, "wave": 1})
                 except Exception as exc:  # noqa: BLE001 - keep the run alive
                     log.exception("wave 1 crashed for %s", task.task_id)
                     solver.record_failure(task, state, 1, f"{type(exc).__name__}: {exc}")
@@ -234,7 +233,9 @@ async def _run(args: argparse.Namespace) -> int:
                     log.warning("too many model errors; stopping wave %d", wave)
                     break
                 try:
-                    await solver.run_turn(task, state, wave)
+                    await solver.invoke(
+                        {"task": task, "state": state, "wave": wave}
+                    )
                 except Exception as exc:  # noqa: BLE001 - keep the run alive
                     log.exception("wave %d crashed for %s", wave, task.task_id)
                     solver.record_failure(

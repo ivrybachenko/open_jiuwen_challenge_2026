@@ -17,6 +17,12 @@
 - Таймаут одного вызова — `--model-timeout` (180 секунд), `temperature=0`.
 - `max_tokens` задаётся отдельно для волн: 1000 в первой и 4000 во второй.
 - В журнале попыток поле `model` содержит фактическую модель хода.
+- Агент реализован как `ScriptAgent(BaseAgent)`; учёт бюджета, ошибки модели,
+  подготовка follow-up, ответ и признаки хода вынесены в rails openJiuwen
+  (`BudgetRail`, `FailureRail`, `FollowUpRail`, `AnswerRail`,
+  `FeatureRail`). Rails не добавляют новых инструкций в промпт и не вызывают
+  модель; текст follow-up warning остаётся прежним, поэтому расход токенов не
+  меняется.
 
 ## Формат ответа
 
@@ -117,7 +123,7 @@
 
 | ID | Уровень | Что подтверждает | Проверка | Ожидаемо |
 | --- | --- | --- | --- | --- |
-| V-1 | быстрая | промпт без инструментов и бюджета, модель по умолчанию, выбор модели второй волны, скрипт исполняется | `cd harness && uv run python -m unittest test.test_bash_agent test.test_config test.test_shell test.test_predictor` | все тесты OK |
+| V-1 | быстрая | промпт без инструментов и бюджета, модель по умолчанию, выбор модели второй волны, скрипт исполняется, rails не добавляют инструментов | `cd harness && uv run python -m unittest test.test_bash_agent test.test_script_agent test.test_config test.test_shell test.test_predictor` | все тесты OK |
 | V-2 | быстрая | обзор ограничен и обрабатывает ловушки | `cd harness && uv run python -m unittest test.test_overview` | все тесты OK |
 | V-3 | интеграционная | агент решает задачу через bash и `answer.txt` | `python -m evaluation.harness_task_checker --task math/solvable/0001 --keep` | `solved=yes`, в отчёте есть токены и время |
 | V-4 | интеграционная | coding-задача решается правкой файла | `python -m evaluation.harness_task_checker --task coding/solvable/0001 --keep` | `solved=yes`, тесты проходят |
