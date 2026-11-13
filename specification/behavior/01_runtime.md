@@ -44,6 +44,7 @@ docker run ... hack:latest /app/run_agent.py --tasks-dir /data/tasks
 | Файл решений | `--out` | `OUT` | `<tasks-dir>/solutions.json` |
 | Бюджет | `--budget` | `BUDGET` | `100000` |
 | Модель | `--model` | `LLM_MODEL` | `qwen3.6-35b-a3b-noreason` |
+| Модели на волну | — | `HARNESS_WAVE_MODELS` | включены (`1`) |
 | Лимит волны 1 | `--wave1-max-tokens` | `HARNESS_WAVE1_MAX_TOKENS` | `1000` |
 | Лимит волны 2 | `--wave2-max-tokens` | `HARNESS_WAVE2_MAX_TOKENS` | `4000` |
 | Число задач волны 2 | `--wave2-max-tasks` | `HARNESS_WAVE2_MAX_TASKS` | `50` |

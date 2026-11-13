@@ -2082,7 +2082,7 @@ wheels = [
 
 [[package]]
 name = "openjiuwen-harness"
-version = "5"
+version = "6"
 source = { editable = "." }
 dependencies = [
     { name = "filelock" },

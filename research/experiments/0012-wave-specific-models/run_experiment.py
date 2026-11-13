@@ -66,6 +66,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     parser.add_argument("--repeats", type=int, default=2)
     parser.add_argument("--max-tasks", type=int, default=None)
+    parser.add_argument("--budget", type=int, default=None)
     parser.add_argument("--max-waves", type=int, default=6)
     parser.add_argument("--wave2-max-tasks", type=int, default=0)
     parser.add_argument("--timeout", type=float, default=3600.0)
@@ -107,6 +108,7 @@ def main(argv: list[str] | None = None) -> int:
             repo_root=REPO_ROOT,
             python=args.python,
             model=args.model,
+            budget=args.budget,
             run_id=run_id,
             save_trajectories=True,
             trajectories_dir=traj_dir,

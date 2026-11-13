@@ -41,10 +41,10 @@
 
 - Регламент: `challenge_info/problem_statement.md`, разделы «Модели и учёт
   токенов», «Наборы задач», «Порядок оценки».
-- Код: `harness/src/harness/application/solutions.py`,
+- Код: `harness/src/harness/accounting/solutions.py`,
   `evaluation/answer_evaluator/evaluator.py`,
-  `harness/src/harness/application/features.py`,
-  `harness/src/harness/application/solver.py`.
+  `harness/src/harness/accounting/attempts.py`,
+  `harness/src/harness/solving/agents/script_agent.py`.
 - Данные:
   - `research/experiments/0007-.../results/online_fresh_predictions.csv` —
     240 задач, OOF `prob_correct`, `correct`, `reward`, `cost`,

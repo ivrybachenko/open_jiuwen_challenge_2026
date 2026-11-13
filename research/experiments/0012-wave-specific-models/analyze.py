@@ -34,8 +34,8 @@ HERE = Path(__file__).resolve().parent
 OUT = HERE / "results"
 TURNS = OUT / "turns.csv"
 MODEL_META = (
-    ROOT / "harness" / "src" / "harness" / "application" / "models"
-    / "online_model.json"
+    ROOT / "harness" / "src" / "harness" / "solving" / "success_predictors"
+    / "models" / "online_model.json"
 )
 META = json.loads(MODEL_META.read_text(encoding="utf-8"))
 NUMERIC = META["numeric_features"]
@@ -231,8 +231,8 @@ def _utility(
 def _shipped_predictions(frame: pd.DataFrame) -> np.ndarray | None:
     """Apply the model shipped in the harness to arbitrary candidate rows."""
     model_path = (
-        ROOT / "harness" / "src" / "harness" / "application" / "models"
-        / "online_correct_model.joblib"
+        ROOT / "harness" / "src" / "harness" / "solving" / "success_predictors"
+        / "models" / "online_correct_model.joblib"
     )
     try:
         import joblib

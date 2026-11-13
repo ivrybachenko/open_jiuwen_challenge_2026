@@ -34,8 +34,8 @@ RESULTS_0007 = (
     / "0007-predict-remaining-cost-during-solve" / "results"
 )
 MODEL_META = (
-    ROOT / "harness" / "src" / "harness" / "application" / "models"
-    / "online_model.json"
+    ROOT / "harness" / "src" / "harness" / "solving" / "success_predictors"
+    / "models" / "online_model.json"
 )
 
 NUMERIC = json.loads(MODEL_META.read_text(encoding="utf-8"))["numeric_features"]
@@ -59,14 +59,13 @@ def code_audit() -> dict[str, Any]:
     """Facts that decide whether real labels exist inside a run."""
     return {
         "harness_solved_field": (
-            "harness/src/harness/application/solver.py: "
+            "harness/src/harness/solving/agents/script_agent.py, result_for: "
             "usable = answer is not None and answer_kind in {done, value}; "
             "this is what solutions.json calls solved"
         ),
         "evaluator_runs_after_harness": (
-            "evaluation/harness_task_set_checker/checker.py runs "
-            "evaluate_suite after run_harness returns; the harness never calls "
-            "evaluation.answer_evaluator"
+            "evaluation/common/suite.py runs evaluate_suite after run_harness "
+            "returns; the harness never calls evaluation.answer_evaluator"
         ),
         "evaluator_does_not_trust_solved": (
             "evaluation/answer_evaluator/evaluator.py docstring: solved in "

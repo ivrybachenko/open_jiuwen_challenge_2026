@@ -1,0 +1,168 @@
+{
+  "target": "P(final answer accepted | features of the current turn)",
+  "models": {
+    "2": {
+      "train_wave": 2,
+      "kind": "rf",
+      "train_rows": 95,
+      "train_tasks": 12
+    },
+    "3": {
+      "train_wave": 2,
+      "kind": "ensemble",
+      "train_rows": 95,
+      "train_tasks": 12
+    },
+    "4": {
+      "train_wave": 4,
+      "kind": "logreg",
+      "train_rows": 40,
+      "train_tasks": 7
+    }
+  },
+  "numeric_features": [
+    "reward",
+    "input_tokens",
+    "output_tokens",
+    "cost",
+    "reasoning_chars",
+    "reasoning_words",
+    "output_chars",
+    "output_lines",
+    "script_chars",
+    "script_lines",
+    "script_words",
+    "answer_chars",
+    "overview_chars",
+    "overview_lines",
+    "hit_token_limit",
+    "timed_out",
+    "tests_in_overview",
+    "reasoning_keyword_impossible",
+    "reasoning_keyword_give_up",
+    "script_has_python",
+    "script_has_tests",
+    "script_has_file_ops",
+    "script_has_write_answer",
+    "script_mentions_impossible",
+    "answer_present",
+    "answer_impossible",
+    "exit_bad",
+    "n_cat",
+    "n_grep",
+    "n_find",
+    "n_ls",
+    "n_head",
+    "n_tail",
+    "n_awk",
+    "n_sed",
+    "n_sort",
+    "n_wc",
+    "n_python",
+    "n_test",
+    "n_for",
+    "n_while",
+    "n_if",
+    "n_pipe",
+    "n_semicolon",
+    "n_redirect",
+    "n_echo",
+    "n_impossible"
+  ],
+  "categorical_features": [
+    "task_type",
+    "answer_kind"
+  ],
+  "fallback": "wave 1 and waves without a model use online_correct_model.joblib; if it is unavailable, the heuristic is used",
+  "late_waves": "wave 4 model for waves 5+; only 21 wave-5 rows (one positive), so this is a calibrated extrapolation, not a dedicated model",
+  "oof": {
+    "2": {
+      "logreg": {
+        "n": 95,
+        "positive": 55,
+        "base_rate": 0.5789473684210527,
+        "auc": 0.5356818181818181,
+        "brier": 0.3397624573003141,
+        "ece": 0.2871257326406953,
+        "mean_prediction": 0.639102812404626
+      },
+      "rf": {
+        "n": 95,
+        "positive": 55,
+        "base_rate": 0.5789473684210527,
+        "auc": 0.5215909090909091,
+        "brier": 0.3084744599700575,
+        "ece": 0.25078134268542435,
+        "mean_prediction": 0.641111490851404
+      },
+      "ensemble": {
+        "n": 95,
+        "positive": 55,
+        "base_rate": 0.5789473684210527,
+        "auc": 0.5243181818181818,
+        "brier": 0.3160093918415369,
+        "ece": 0.264487524007913,
+        "mean_prediction": 0.6401071516280149
+      }
+    },
+    "3": {
+      "logreg": {
+        "n": 68,
+        "positive": 36,
+        "base_rate": 0.5294117647058824,
+        "auc": 0.6332465277777778,
+        "brier": 0.2914433184987856,
+        "ece": 0.2470228600732027,
+        "mean_prediction": 0.5443184684954037
+      },
+      "rf": {
+        "n": 68,
+        "positive": 36,
+        "base_rate": 0.5294117647058824,
+        "auc": 0.6167534722222222,
+        "brier": 0.2728284915943257,
+        "ece": 0.2330795854530709,
+        "mean_prediction": 0.5403850299012474
+      },
+      "ensemble": {
+        "n": 68,
+        "positive": 36,
+        "base_rate": 0.5294117647058824,
+        "auc": 0.66796875,
+        "brier": 0.27240879903544823,
+        "ece": 0.19846705735383094,
+        "mean_prediction": 0.5423517491983256
+      }
+    },
+    "4": {
+      "logreg": {
+        "n": 40,
+        "positive": 18,
+        "base_rate": 0.45,
+        "auc": 0.8257575757575757,
+        "brier": 0.20906089309371723,
+        "ece": 0.2166220327807191,
+        "mean_prediction": 0.3069474718052387
+      },
+      "rf": {
+        "n": 40,
+        "positive": 18,
+        "base_rate": 0.45,
+        "auc": 0.648989898989899,
+        "brier": 0.23597755338662826,
+        "ece": 0.12486040784033628,
+        "mean_prediction": 0.4029080045908658
+      },
+      "ensemble": {
+        "n": 40,
+        "positive": 18,
+        "base_rate": 0.45,
+        "auc": 0.7954545454545454,
+        "brier": 0.2174929731789212,
+        "ece": 0.2013836119136873,
+        "mean_prediction": 0.3549277381980522
+      }
+    }
+  },
+  "caveat": "Trained on synthetic tasks from experiment 0012; validate on a larger, more diverse set before trusting the absolute values."
+}

@@ -1,0 +1,810 @@
+{
+  "run_id": "ab-off-2-r1-20261113T175822",
+  "repeat": 1,
+  "model": "qwen3.6-35b-a3b-noreason",
+  "max_waves": 6,
+  "command": [
+    "/Users/zbr174/dev/open_jiuwen_challenge_2026/harness/.venv/bin/python",
+    "-m",
+    "harness.run_agent",
+    "--tasks-dir",
+    "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0014-wave-models-ab/results/off-2/run-01/work/tasks",
+    "--out",
+    "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0014-wave-models-ab/results/off-2/run-01/solutions.json",
+    "--model",
+    "qwen3.6-35b-a3b-noreason",
+    "--trajectories-dir",
+    "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0014-wave-models-ab/results/off-2/run-01/traj",
+    "--run-id",
+    "ab-off-2-r1-20261113T175822",
+    "--max-waves",
+    "6",
+    "--wave2-max-tasks",
+    "6",
+    "--log-level",
+    "WARNING"
+  ],
+  "returncode": 0,
+  "timed_out": false,
+  "duration_seconds": 5.20470770803513,
+  "summary": {
+    "score": 0.0,
+    "max_score": 137.0,
+    "solved_tasks": 0,
+    "total_tasks": 32,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cost": 0
+  },
+  "tasks": [
+    {
+      "task_id": "coding_0202",
+      "task_path": "coding/solvable/0008",
+      "task_type": "coding",
+      "reward": 8.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "coding_0202",
+        "check": "exact_str",
+        "solved": false,
+        "expected": "HELLO-42",
+        "actual": null,
+        "detail": "no answer was submitted"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "coding_0208",
+      "task_path": "coding/solvable/0014",
+      "task_type": "coding",
+      "reward": 2.0,
+      "check": "unittest",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "coding_0208",
+        "check": "unittest",
+        "solved": false,
+        "expected": "tests_pass",
+        "actual": null,
+        "detail": "test_vowels.py: exit 1\nFFF\n======================================================================\nFAIL: test_count (__main__.VowelTest.test_count)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0021-wave-models-ab/results/off-2/run-01/work/tasks/001_coding_0208/workspace/test_vowels.py\", line 7, in test_count\n    self.assertEqual(count_vowels(\"Observability\"), 5)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 13 != 5\n\n======================================================================\nFAIL: test_mixed (__main__.VowelTest.test_mixed)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0021-wave-models-ab/results/off-2/run-01/work/tasks/001_coding_0208/workspace/test_vowels.py\", line 13, in test_mixed\n    self.assertEqual(count_vowels(\"AEiou x\"), 5)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 7 != 5\n\n======================================================================\nFAIL: test_none (__main__.VowelTest.test_none)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0021-wave-models-ab/results/off-2/run-01/work/tasks/001_coding_0208/workspace/test_vowels.py\", line 10, in test_none\n    self.assertEqual(count_vowels(\"rhythm\"), 0)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 6 != 0\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nFAILED (failures=3)"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "coding_0210",
+      "task_path": "coding/solvable/0016",
+      "task_type": "coding",
+      "reward": 3.0,
+      "check": "unittest",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "coding_0210",
+        "check": "unittest",
+        "solved": false,
+        "expected": "tests_pass",
+        "actual": null,
+        "detail": "test_brackets.py: exit 1\nF.\n======================================================================\nFAIL: test_invalid (__main__.BracketTest.test_invalid)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0021-wave-models-ab/results/off-2/run-01/work/tasks/002_coding_0210/workspace/test_brackets.py\", line 12, in test_invalid\n    self.assertFalse(balanced(text), text)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: True is not false : (\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nFAILED (failures=1)"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "coding_0219",
+      "task_path": "coding/solvable/0025",
+      "task_type": "coding",
+      "reward": 3.0,
+      "check": "unittest",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "coding_0219",
+        "check": "unittest",
+        "solved": false,
+        "expected": "tests_pass",
+        "actual": null,
+        "detail": "test_top_products.py: exit 1\nFF\n======================================================================\nFAIL: test_default_top (__main__.TopProductsTest.test_default_top)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0021-wave-models-ab/results/off-2/run-01/work/tasks/003_coding_0219/workspace/test_top_products.py\", line 18, in test_default_top\n    self.assertEqual(completed.stdout, \"bag 10\\nbook 10\\npen 10\\n\")\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: '\\n' != 'bag 10\\nbook 10\\npen 10\\n'\n- \n+ bag 10\n+ book 10\n+ pen 10\n\n\n======================================================================\nFAIL: test_explicit_top (__main__.TopProductsTest.test_explicit_top)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0021-wave-models-ab/results/off-2/run-01/work/tasks/003_coding_0219/workspace/test_top_products.py\", line 23, in test_explicit_top\n    self.assertEqual(completed.stdout, \"bag 10\\nbook 10\\n\")\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: '\\n' != 'bag 10\\nbook 10\\n'\n- \n+ bag 10\n+ book 10\n\n\n----------------------------------------------------------------------\nRan 2 tests in 0.034s\n\nFAILED (failures=2)"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "coding_0227",
+      "task_path": "coding/solvable/0033",
+      "task_type": "coding",
+      "reward": 8.0,
+      "check": "hidden_unittest",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "coding_0227",
+        "check": "hidden_unittest",
+        "solved": false,
+        "expected": "tests_pass",
+        "actual": null,
+        "detail": "test_program.py: exit 1\n...~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: '' != '3'\n+ 3\n\n\n======================================================================\nFAIL: test_cases (__main__.ProgramTest.test_cases) (stdin='\\nabc\\n')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0021-wave-models-ab/results/off-2/run-01/work/tasks/004_coding_0227/tests/test_program.py\", line 25, in test_cases\n    self.assertEqual(completed.stdout.strip(), expected.strip())\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: '' != '3'\n+ 3\n\n\n======================================================================\nFAIL: test_cases (__main__.ProgramTest.test_cases) (stdin='same\\nsame\\n')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0021-wave-models-ab/results/off-2/run-01/work/tasks/004_coding_0227/tests/test_program.py\", line 25, in test_cases\n    self.assertEqual(completed.stdout.strip(), expected.strip())\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: '' != '0'\n+ 0\n\n\n======================================================================\nFAIL: test_cases (__main__.ProgramTest.test_cases) (stdin='flaw\\nlawn\\n')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0021-wave-models-ab/results/off-2/run-01/work/tasks/004_coding_0227/tests/test_program.py\", line 25, in test_cases\n    self.assertEqual(completed.stdout.strip(), expected.strip())\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: '' != '2'\n+ 2\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.064s\n\nFAILED (failures=4)"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "coding_0234",
+      "task_path": "coding/solvable/0040",
+      "task_type": "coding",
+      "reward": 6.0,
+      "check": "hidden_unittest",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "coding_0234",
+        "check": "hidden_unittest",
+        "solved": false,
+        "expected": "tests_pass",
+        "actual": null,
+        "detail": "test_program.py: exit 1\n...^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: '' != '14'\n+ 14\n\n\n======================================================================\nFAIL: test_cases (__main__.ProgramTest.test_cases) (stdin='(2 + 3) * 4\\n')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0021-wave-models-ab/results/off-2/run-01/work/tasks/005_coding_0234/tests/test_program.py\", line 25, in test_cases\n    self.assertEqual(completed.stdout.strip(), expected.strip())\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: '' != '20'\n+ 20\n\n\n======================================================================\nFAIL: test_cases (__main__.ProgramTest.test_cases) (stdin='100 - 20 - 5\\n')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0021-wave-models-ab/results/off-2/run-01/work/tasks/005_coding_0234/tests/test_program.py\", line 25, in test_cases\n    self.assertEqual(completed.stdout.strip(), expected.strip())\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: '' != '75'\n+ 75\n\n\n======================================================================\nFAIL: test_cases (__main__.ProgramTest.test_cases) (stdin='2 * (3 + (4 - 1)) * 5\\n')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0021-wave-models-ab/results/off-2/run-01/work/tasks/005_coding_0234/tests/test_program.py\", line 25, in test_cases\n    self.assertEqual(completed.stdout.strip(), expected.strip())\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: '' != '60'\n+ 60\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.064s\n\nFAILED (failures=4)"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "coding_0124",
+      "task_path": "coding/impossible/0008",
+      "task_type": "coding",
+      "reward": 3.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "coding_0124",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": null,
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "coding_0314",
+      "task_path": "coding/impossible/0014",
+      "task_type": "coding",
+      "reward": 6.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "coding_0314",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": null,
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "data_analysis_0206",
+      "task_path": "data_analysis/solvable/0012",
+      "task_type": "data_analysis",
+      "reward": 5.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "data_analysis_0206",
+        "check": "exact_int",
+        "solved": false,
+        "expected": "6",
+        "actual": null,
+        "detail": "no answer was submitted"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "data_analysis_0208",
+      "task_path": "data_analysis/solvable/0014",
+      "task_type": "data_analysis",
+      "reward": 2.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "data_analysis_0208",
+        "check": "exact_str",
+        "solved": false,
+        "expected": "adapter",
+        "actual": null,
+        "detail": "no answer was submitted"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "data_analysis_0209",
+      "task_path": "data_analysis/solvable/0015",
+      "task_type": "data_analysis",
+      "reward": 7.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "data_analysis_0209",
+        "check": "exact_int",
+        "solved": false,
+        "expected": "975",
+        "actual": null,
+        "detail": "no answer was submitted"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "data_analysis_0217",
+      "task_path": "data_analysis/solvable/0023",
+      "task_type": "data_analysis",
+      "reward": 2.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "data_analysis_0217",
+        "check": "exact_int",
+        "solved": false,
+        "expected": "6",
+        "actual": null,
+        "detail": "no answer was submitted"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "data_analysis_0225",
+      "task_path": "data_analysis/solvable/0031",
+      "task_type": "data_analysis",
+      "reward": 3.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "data_analysis_0225",
+        "check": "exact_str",
+        "solved": false,
+        "expected": "2020-06-15",
+        "actual": null,
+        "detail": "no answer was submitted"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "data_analysis_0229",
+      "task_path": "data_analysis/solvable/0035",
+      "task_type": "data_analysis",
+      "reward": 1.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "data_analysis_0229",
+        "check": "exact_int",
+        "solved": false,
+        "expected": "5",
+        "actual": null,
+        "detail": "no answer was submitted"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "data_analysis_0314",
+      "task_path": "data_analysis/impossible/0014",
+      "task_type": "data_analysis",
+      "reward": 7.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "data_analysis_0314",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": null,
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "data_analysis_0316",
+      "task_path": "data_analysis/impossible/0016",
+      "task_type": "data_analysis",
+      "reward": 2.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "data_analysis_0316",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": null,
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "math_0004",
+      "task_path": "math/solvable/0002",
+      "task_type": "math",
+      "reward": 2.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "math_0004",
+        "check": "exact_int",
+        "solved": false,
+        "expected": "1735",
+        "actual": null,
+        "detail": "no answer was submitted"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "math_0104",
+      "task_path": "math/solvable/0006",
+      "task_type": "math",
+      "reward": 6.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "math_0104",
+        "check": "exact_int",
+        "solved": false,
+        "expected": "27872",
+        "actual": null,
+        "detail": "no answer was submitted"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "math_0214",
+      "task_path": "math/solvable/0020",
+      "task_type": "math",
+      "reward": 6.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "math_0214",
+        "check": "exact_int",
+        "solved": false,
+        "expected": "155117520",
+        "actual": null,
+        "detail": "no answer was submitted"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "math_0222",
+      "task_path": "math/solvable/0028",
+      "task_type": "math",
+      "reward": 1.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "math_0222",
+        "check": "exact_str",
+        "solved": false,
+        "expected": "17/4",
+        "actual": null,
+        "detail": "no answer was submitted"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "math_0228",
+      "task_path": "math/solvable/0034",
+      "task_type": "math",
+      "reward": 6.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "math_0228",
+        "check": "exact_str",
+        "solved": false,
+        "expected": "2025-03-10 17:05",
+        "actual": null,
+        "detail": "no answer was submitted"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "math_0232",
+      "task_path": "math/solvable/0038",
+      "task_type": "math",
+      "reward": 8.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "math_0232",
+        "check": "exact_int",
+        "solved": false,
+        "expected": "302",
+        "actual": null,
+        "detail": "no answer was submitted"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "math_0116",
+      "task_path": "math/impossible/0004",
+      "task_type": "math",
+      "reward": 6.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "math_0116",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": null,
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "math_0132",
+      "task_path": "math/impossible/0008",
+      "task_type": "math",
+      "reward": 5.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "math_0132",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": null,
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "search_0005",
+      "task_path": "search/solvable/0002",
+      "task_type": "search",
+      "reward": 2.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "search_0005",
+        "check": "exact_str",
+        "solved": false,
+        "expected": "Osaka",
+        "actual": null,
+        "detail": "no answer was submitted"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "search_0201",
+      "task_path": "search/solvable/0007",
+      "task_type": "search",
+      "reward": 3.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "search_0201",
+        "check": "exact_str",
+        "solved": false,
+        "expected": "3.7.2",
+        "actual": null,
+        "detail": "no answer was submitted"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "search_0207",
+      "task_path": "search/solvable/0013",
+      "task_type": "search",
+      "reward": 3.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "search_0207",
+        "check": "exact_int",
+        "solved": false,
+        "expected": "8443",
+        "actual": null,
+        "detail": "no answer was submitted"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "search_0215",
+      "task_path": "search/solvable/0021",
+      "task_type": "search",
+      "reward": 4.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "search_0215",
+        "check": "exact_str",
+        "solved": false,
+        "expected": "Lisbon",
+        "actual": null,
+        "detail": "no answer was submitted"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "search_0216",
+      "task_path": "search/solvable/0022",
+      "task_type": "search",
+      "reward": 2.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "search_0216",
+        "check": "exact_str",
+        "solved": false,
+        "expected": "u-17",
+        "actual": null,
+        "detail": "no answer was submitted"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "search_0229",
+      "task_path": "search/solvable/0035",
+      "task_type": "search",
+      "reward": 4.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "search_0229",
+        "check": "exact_int",
+        "solved": false,
+        "expected": "7",
+        "actual": null,
+        "detail": "no answer was submitted"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "search_0313",
+      "task_path": "search/impossible/0013",
+      "task_type": "search",
+      "reward": 4.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "search_0313",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": null,
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "search_0314",
+      "task_path": "search/impossible/0014",
+      "task_type": "search",
+      "reward": 7.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "search_0314",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": null,
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "cost": 0
+      },
+      "test_files_modified": []
+    }
+  ],
+  "work_dir": "research/experiments/0021-wave-models-ab/results/off-2/run-01/work"
+}

@@ -38,8 +38,8 @@ ROOT = Path(__file__).resolve().parents[3]
 OUT_DIR = Path(__file__).resolve().parent
 
 MODEL_META = (
-    ROOT / "harness" / "src" / "harness" / "application" / "models"
-    / "online_model.json"
+    ROOT / "harness" / "src" / "harness" / "solving" / "success_predictors"
+    / "models" / "online_model.json"
 )
 NUMERIC = json.loads(MODEL_META.read_text(encoding="utf-8"))["numeric_features"]
 CATEGORICAL = json.loads(MODEL_META.read_text(encoding="utf-8"))[
@@ -78,6 +78,22 @@ def _parse_int(text: str | None) -> int | None:
 def _norm_str(text: str | None) -> str:
     value = " ".join(_clean_text(text).split())
     return value.strip(".,;:!?").casefold()
+
+
+def numeric_value(features: dict[str, Any], name: str) -> float:
+    """Mirror the adapter in ``success_predictors.model``."""
+    if name == "timed_out":
+        value = features.get("timed_out", features.get("script_timed_out", 0.0))
+    elif name == "script_error":
+        value = features.get("script_error", 0.0)
+        if isinstance(value, str):
+            value = len(value)
+    else:
+        value = features.get(name, 0.0)
+    try:
+        return float(value) if value is not None else 0.0
+    except (TypeError, ValueError):
+        return 0.0
 
 
 def exact_correct(meta: dict[str, Any], answer: str | None) -> bool | None:
@@ -375,11 +391,7 @@ def build() -> pd.DataFrame:
                     ),
                 }
                 for name in NUMERIC:
-                    value = features.get(name, 0.0)
-                    try:
-                        record[name] = float(value) if value is not None else 0.0
-                    except (TypeError, ValueError):
-                        record[name] = 0.0
+                    record[name] = numeric_value(features, name)
                 for name in CATEGORICAL:
                     value = features.get(name, "none")
                     record[name] = (

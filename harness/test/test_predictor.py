@@ -2,12 +2,21 @@
 
 from __future__ import annotations
 
+import json
+import os
 import unittest
 from unittest import mock
 
 from harness.solving import scheduler as scheduler_module
 from harness.solving.success_predictors import estimate_success
-from harness.solving.success_predictors.model import available, predict_success
+from harness.solving.success_predictors.model import (
+    WAVE_META_PATH,
+    _load,
+    _numeric_value,
+    available,
+    available_wave,
+    predict_success,
+)
 
 
 def _sample_features() -> dict:
@@ -103,6 +112,117 @@ class OnlinePredictorTest(unittest.TestCase):
         ):
             value = estimate_success(sample)
         self.assertGreater(value, 0.0)
+
+    def test_numeric_feature_adapter(self) -> None:
+        features = {
+            "script_timed_out": True,
+            "script_error": "boom",
+            "cost": 12,
+        }
+        self.assertEqual(_numeric_value(features, "timed_out"), 1.0)
+        self.assertEqual(_numeric_value(features, "script_error"), 4.0)
+        self.assertEqual(_numeric_value(features, "cost"), 12.0)
+        self.assertEqual(_numeric_value({}, "cost"), 0.0)
+
+    def test_wave_models_are_loaded(self) -> None:
+        if not WAVE_META_PATH.is_file():
+            self.skipTest("wave model artefacts are not present")
+        self.assertTrue(available_wave(2))
+        for wave in (2, 3, 4, 5):
+            sample = dict(
+                _sample_features(),
+                wave=wave,
+                answer_kind="none",
+                answer_present=False,
+                answer_chars=0,
+            )
+            probability = predict_success(sample)
+            self.assertIsNotNone(probability)
+            assert probability is not None
+            self.assertGreaterEqual(probability, 0.0)
+            self.assertLessEqual(probability, 1.0)
+
+    def test_wave_selection_and_late_fallback(self) -> None:
+        if not WAVE_META_PATH.is_file():
+            self.skipTest("wave model artefacts are not present")
+        base = dict(
+            _sample_features(),
+            answer_kind="none",
+            answer_present=False,
+            answer_chars=0,
+        )
+        probabilities = {
+            wave: predict_success(dict(base, wave=wave))
+            for wave in (1, 2, 3, 4, 5)
+        }
+        self.assertNotEqual(probabilities[1], probabilities[2])
+        self.assertNotEqual(probabilities[2], probabilities[3])
+        self.assertNotEqual(probabilities[3], probabilities[4])
+        # Waves 5+ deliberately reuse the wave-4 model.
+        self.assertEqual(probabilities[4], probabilities[5])
+
+    def test_wave_models_can_be_disabled(self) -> None:
+        with mock.patch.dict(os.environ, {"HARNESS_WAVE_MODELS": "0"}):
+            base = dict(
+                _sample_features(),
+                answer_kind="none",
+                answer_present=False,
+                answer_chars=0,
+            )
+            wave1 = predict_success(dict(base, wave=1))
+            wave2 = predict_success(dict(base, wave=2))
+        self.assertEqual(wave1, wave2)
+
+    def test_missing_wave_models_fall_back_to_global(self) -> None:
+        global_loaded = _load()
+        self.assertIsNotNone(global_loaded)
+        with mock.patch(
+            "harness.solving.success_predictors.model._load_wave_models",
+            return_value=None,
+        ):
+            base = dict(
+                _sample_features(),
+                answer_kind="none",
+                answer_present=False,
+                answer_chars=0,
+            )
+            wave1 = predict_success(dict(base, wave=1))
+            wave2 = predict_success(dict(base, wave=2))
+        self.assertEqual(wave1, wave2)
+
+    def test_broken_wave_model_falls_back_to_global(self) -> None:
+        global_loaded = _load()
+        self.assertIsNotNone(global_loaded)
+        assert global_loaded is not None
+        _, meta = global_loaded
+        broken = mock.Mock()
+        broken.predict_proba.side_effect = RuntimeError("broken model")
+        with mock.patch(
+            "harness.solving.success_predictors.model._load_wave_models",
+            return_value=({"2": broken}, meta),
+        ):
+            sample = dict(
+                _sample_features(),
+                wave=2,
+                answer_kind="none",
+                answer_present=False,
+                answer_chars=0,
+            )
+            probability = predict_success(sample)
+        self.assertIsNotNone(probability)
+        assert probability is not None
+        self.assertGreaterEqual(probability, 0.0)
+        self.assertLessEqual(probability, 1.0)
+
+    def test_wave_metadata_lists_features(self) -> None:
+        if not WAVE_META_PATH.is_file():
+            self.skipTest("wave model artefacts are not present")
+        meta = json.loads(WAVE_META_PATH.read_text(encoding="utf-8"))
+        self.assertIn("2", meta["models"])
+        self.assertIn("3", meta["models"])
+        self.assertIn("4", meta["models"])
+        self.assertIn("numeric_features", meta)
+        self.assertIn("categorical_features", meta)
 
 
 if __name__ == "__main__":
