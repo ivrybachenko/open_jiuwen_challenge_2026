@@ -11,9 +11,8 @@ from harness.application.features import (
     AttemptLogger,
     classify_answer,
     extract_features,
-    promise_score,
-    success_probability,
 )
+from harness.application.waves import promise_score, success_probability
 
 
 class AnswerClassificationTest(unittest.TestCase):

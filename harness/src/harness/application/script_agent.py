@@ -2,41 +2,34 @@
 
 The model has no tool schema.  Its whole reply is a bash script; the harness
 executes it in the task workspace and returns the output.  ``ScriptAgent`` is
-an openJiuwen ``BaseAgent`` and ``invoke`` is exactly one turn; the CLI keeps
-the cross-task wave selection outside the agent.
+an openJiuwen ``BaseAgent`` and ``invoke`` is exactly one turn; the run
+orchestrator keeps the cross-task wave selection outside the agent.
 """
 
 from __future__ import annotations
 
 import json
 import logging
-import os
 import re
 import shutil
 import time
-from dataclasses import asdict, dataclass, field, fields
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 from harness.application.config import Settings
-from harness.application.features import (
-    AnswerInfo,
-    AttemptLogger,
-    classify_answer,
-    estimate_retry_cost,
-    extract_features,
-    promise_score,
-)
-from harness.application.llm import (
-    MODELS,
-    BudgetExceeded,
-    TokenLedger,
-    token_cost,
-)
+from harness.application.features import AnswerInfo, AttemptLogger, classify_answer
+from harness.application.llm import MODELS, TokenLedger
 from harness.application.ojw import configure_logging
 from harness.application.overview import OverviewLimits, build_overview
+from harness.application.prompts import (
+    SYSTEM_PROMPT,
+    execution_message,
+    followup_warning,
+)
 from harness.application.shell import ProcessResult, run_process
+from harness.application.state import StateStore, TaskState
 from harness.application.tasks import Task
 
 # openJiuwen installs its logger on the first import.  Configure it before the
@@ -53,49 +46,17 @@ from openjiuwen.core.single_agent.rail.base import (  # noqa: E402
 )
 from openjiuwen.core.single_agent.schema.agent_card import AgentCard  # noqa: E402
 
+from harness.application.rails import (  # noqa: E402
+    AnswerRail,
+    BudgetRail,
+    FailureRail,
+    FeatureRail,
+    FollowUpRail,
+)
+
 log = logging.getLogger(__name__)
 
-STATE_FILE = "state.json"
-STATE_VERSION = 2
 MAX_ANSWER_CHARS = 20_000
-
-SYSTEM_PROMPT = """You are a program generator, not an interactive shell.
-For each task, reply with exactly one fenced bash block. The block must contain
-one complete self-contained bash script that solves the whole task in a single
-execution. Do not write any text before or after the block. The harness runs
-the contents of that block as:
-    cd <current directory> && bash <script>
-and sends you the script output in the next message.
-
-The script is executed once. You will not get a chance to run a second command
-in the same turn. Never output only `ls`, `cat`, `grep`, `find` or another
-single exploratory command: inspect, compute, edit files and submit in the same
-script. A script that only inspects files is a wasted turn.
-
-The script itself must write only the final answer to answer.txt in the current
-directory: one number or one short string for math, data and search tasks, and
-DONE for coding tasks after the tests pass. Printing the answer or showing the
-file content is not a submission. Writing answer.txt is the only way to submit:
-even if the tests already pass when the turn starts, the script must still
-write answer.txt, and it must do so after the work and verification, as the
-last step. Never put reasoning or intermediate results in answer.txt.
-
-If the reply contains more than one fenced bash block, the blocks are joined in
-order and executed as one script, so the block that writes answer.txt must come
-last.
-
-If the task is impossible, write IMPOSSIBLE as the first line of answer.txt
-and briefly explain why on the following lines. If the requested value does
-not exist or the conditions contradict each other, do not invent an
-approximate or fractional answer. Do not ask questions and do not describe
-the script.
-
-Before writing answer.txt, check that the values you extracted are non-empty
-and plausible. If a lookup returned nothing, fix the parsing instead of
-computing with a default or zero.
-
-The task may be impossible or ambiguous. That is a valid outcome; say so in
-answer.txt instead of guessing silently."""
 
 
 @dataclass
@@ -124,209 +85,6 @@ class ModelReply:
     error: str = ""
 
 
-@dataclass
-class TaskState:
-    task_id: str
-    task_root: str
-    model: str
-    wave2_model: str = ""
-    overview: str = ""
-    messages: list[dict[str, Any]] = field(default_factory=list)
-    turns: list[dict[str, Any]] = field(default_factory=list)
-    answer: str | None = None
-    answer_kind: str = "none"
-    wave1_done: bool = False
-    wave2_done: bool = False
-    impossible_declared: bool = False
-    input_tokens: int = 0
-    output_tokens: int = 0
-    cost: int = 0
-    last_error: str = ""
-    selected_wave2: bool = False
-    promise: float = 0.0
-
-    def wave_done(self, wave: int) -> bool:
-        """True when this wave already produced a turn."""
-        if wave == 1 and self.wave1_done:
-            return True
-        if wave == 2 and self.wave2_done:
-            return True
-        return any(
-            int(turn.get("wave", 0) or 0) == wave for turn in self.turns
-        )
-
-    def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
-
-    @classmethod
-    def from_dict(cls, payload: dict[str, Any]) -> "TaskState":
-        known = {item.name for item in fields(cls)}
-        return cls(**{key: value for key, value in payload.items() if key in known})
-
-
-class BudgetRail(AgentRail):
-    """Charge the contest ledger after every model call.
-
-    The rail adds no prompt text and makes no model calls: it only reads the
-    response usage and updates the per-task state and the run ledger.
-    """
-
-    priority = 95
-
-    def __init__(self, ledger: TokenLedger) -> None:
-        self.ledger = ledger
-        self.budget_exceeded = False
-
-    async def after_model_call(self, ctx: AgentCallbackContext) -> None:
-        reply = getattr(ctx.inputs, "response", None)
-        state = ctx.extra.get("state")
-        if reply is None or state is None:
-            return
-        input_tokens = int(getattr(reply, "input_tokens", 0) or 0)
-        output_tokens = int(getattr(reply, "output_tokens", 0) or 0)
-        state.input_tokens += input_tokens
-        state.output_tokens += output_tokens
-        state.cost += token_cost(input_tokens, output_tokens)
-        try:
-            self.ledger.charge(input_tokens, output_tokens)
-        except BudgetExceeded:
-            self.budget_exceeded = True
-            log.warning("token budget exceeded after %s", state.task_id)
-
-
-class FailureRail(AgentRail):
-    """Stop the run after three consecutive failed model calls."""
-
-    priority = 96
-
-    def __init__(self) -> None:
-        self.failures = 0
-        self.abort_requested = False
-
-    async def after_model_call(self, ctx: AgentCallbackContext) -> None:
-        reply = getattr(ctx.inputs, "response", None)
-        if reply is None:
-            return
-        # A missing configuration is a harness bug, not a provider outage; the
-        # old code did not count it either.
-        if (
-            getattr(ctx.agent, "_model", None) is None
-            and getattr(ctx.agent, "_wave2_model", None) is None
-        ):
-            return
-        error = str(getattr(reply, "error", "") or "")
-        if error:
-            self.failures += 1
-            if self.failures >= 3:
-                self.abort_requested = True
-            log.warning(
-                "model call failed (%d in a row): %s", self.failures, error
-            )
-        else:
-            self.failures = 0
-
-
-class FollowUpRail(AgentRail):
-    """Prepare the conversation before a follow-up wave.
-
-    The warning text and the stale-answer cleanup are unchanged; the rail only
-    moves them onto the openJiuwen before-invoke lifecycle.
-    """
-
-    priority = 90
-
-    async def before_invoke(self, ctx: AgentCallbackContext) -> None:
-        wave = int(ctx.extra.get("wave", 1) or 1)
-        if wave <= 1:
-            return
-        task = ctx.extra.get("task")
-        state = ctx.extra.get("state")
-        if task is None or state is None:
-            return
-        ctx.agent._prepare_followup(task, state, wave)
-
-
-class AnswerRail(AgentRail):
-    """Record the submitted answer and restore it when a retry improves nothing."""
-
-    priority = 80
-
-    async def after_invoke(self, ctx: AgentCallbackContext) -> None:
-        task = ctx.extra.get("task")
-        state = ctx.extra.get("state")
-        answer_info = ctx.extra.get("answer_info")
-        wave = int(ctx.extra.get("wave", 1) or 1)
-        if task is None or state is None or answer_info is None:
-            return
-        if answer_info.kind == "impossible":
-            state.impossible_declared = True
-        if answer_info.text is not None:
-            state.answer = answer_info.text
-            state.answer_kind = answer_info.kind
-        if wave > 1 and answer_info.text is None and state.answer is not None:
-            # The retry did not improve on the previous answer; restore it.
-            try:
-                task.write_answer(state.answer)
-            except OSError:
-                log.debug(
-                    "cannot restore answer for %s", task.task_id, exc_info=True
-                )
-
-
-class FeatureRail(AgentRail):
-    """Fill the per-turn feature record used by the success predictor."""
-
-    priority = 70
-
-    async def after_invoke(self, ctx: AgentCallbackContext) -> None:
-        turn = ctx.extra.get("turn")
-        task = ctx.extra.get("task")
-        state = ctx.extra.get("state")
-        reply = ctx.extra.get("reply")
-        execution = ctx.extra.get("execution")
-        answer_info = ctx.extra.get("answer_info")
-        if (
-            turn is None
-            or task is None
-            or state is None
-            or reply is None
-            or execution is None
-            or answer_info is None
-        ):
-            return
-        script = str(ctx.extra.get("script", "") or "")
-        turn["features"] = extract_features(
-            task_type=task.task_type,
-            reward=task.reward,
-            wave=int(ctx.extra.get("wave", 1) or 1),
-            turn=int(turn.get("turn", 1) or 1),
-            reasoning=str(getattr(reply, "reasoning", "") or ""),
-            model_duration_seconds=float(
-                getattr(reply, "duration_seconds", 0.0) or 0.0
-            ),
-            input_tokens=int(getattr(reply, "input_tokens", 0) or 0),
-            output_tokens=int(getattr(reply, "output_tokens", 0) or 0),
-            reasoning_tokens=int(getattr(reply, "reasoning_tokens", 0) or 0),
-            finish_reason=str(getattr(reply, "finish_reason", "") or ""),
-            max_tokens=int(ctx.extra.get("max_tokens", 0) or 0),
-            script=script,
-            exit_code=execution.exit_code,
-            script_duration_seconds=execution.duration_seconds,
-            script_timed_out=execution.timed_out,
-            script_error=execution.error,
-            output_chars=len(execution.output),
-            answer=answer_info,
-            tests_in_overview="$ tests" in state.overview,
-            output_lines=(
-                execution.output.count("\n") + (1 if execution.output else 0)
-            ),
-            overview_chars=len(state.overview),
-            overview_lines=(
-                state.overview.count("\n") + (1 if state.overview else 0)
-            ),
-        )
-
-
 class ScriptAgent(BaseAgent):
     """Bash-as-action agent built on the openJiuwen ``BaseAgent`` contract.
 
@@ -351,6 +109,7 @@ class ScriptAgent(BaseAgent):
         )
         self.settings = settings
         self.ledger = TokenLedger(settings.budget)
+        self._state = StateStore(settings)
         self._budget_rail = BudgetRail(self.ledger)
         self._failure_rail = FailureRail()
         self._rails: list[AgentRail] = [
@@ -387,6 +146,12 @@ class ScriptAgent(BaseAgent):
     def abort_requested(self) -> bool:
         return self._failure_rail.abort_requested
 
+    def restore_budget(self, input_tokens: int, output_tokens: int, spent: int) -> None:
+        """Continue a previous process without losing the budget state."""
+        self.ledger.input_tokens = max(0, int(input_tokens))
+        self.ledger.output_tokens = max(0, int(output_tokens))
+        self.ledger.spent = max(0, int(spent))
+
     async def _ensure_rails(self) -> None:
         """Register the lifecycle rails once, before the first turn."""
         if self._rails_registered:
@@ -394,12 +159,6 @@ class ScriptAgent(BaseAgent):
         for rail in self._rails:
             await self.register_rail(rail)
         self._rails_registered = True
-
-    def restore_budget(self, input_tokens: int, output_tokens: int, spent: int) -> None:
-        """Continue a previous process without losing the budget state."""
-        self.ledger.input_tokens = max(0, int(input_tokens))
-        self.ledger.output_tokens = max(0, int(output_tokens))
-        self.ledger.spent = max(0, int(spent))
 
     async def start(self) -> None:
         configure_logging()
@@ -467,64 +226,10 @@ class ScriptAgent(BaseAgent):
     # ------------------------------------------------------------------
     # State
     # ------------------------------------------------------------------
-    def _task_agent_dir(self, task: Task) -> Path:
-        return self.settings.agent_workspace / _safe_name(task.task_id)
-
-    def _state_path(self, task: Task) -> Path:
-        return self._task_agent_dir(task) / STATE_FILE
-
-    def _load_state(self, task: Task) -> TaskState | None:
-        if not self.settings.resume:
-            return None
-        path = self._state_path(task)
-        try:
-            payload = json.loads(path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
-            return None
-        if payload.get("version") != STATE_VERSION:
-            return None
-        raw = payload.get("state")
-        if not isinstance(raw, dict):
-            return None
-        if raw.get("task_root") != str(task.root):
-            return None
-        if raw.get("model") != self.settings.model:
-            return None
-        state_wave2 = raw.get("wave2_model") or raw.get("model")
-        if state_wave2 != (self.settings.wave2_model or self.settings.model):
-            return None
-        try:
-            state = TaskState.from_dict(raw)
-        except (TypeError, ValueError):
-            return None
-        if not state.messages:
-            return None
-        return state
-
-    def _save_state(self, state: TaskState, task: Task) -> None:
-        path = self._state_path(task)
-        try:
-            path.parent.mkdir(parents=True, exist_ok=True)
-            tmp = path.with_name(f".{path.name}.tmp")
-            tmp.write_text(
-                json.dumps(
-                    {"version": STATE_VERSION, "state": state.to_dict()},
-                    ensure_ascii=False,
-                    indent=2,
-                )
-                + "\n",
-                encoding="utf-8",
-            )
-            os.replace(tmp, path)
-        except (OSError, TypeError, ValueError):
-            log.warning("cannot save state for %s", state.task_id, exc_info=True)
-
     async def prepare(self, task: Task) -> TaskState:
-        state = self._load_state(task)
-        agent_dir = self._task_agent_dir(task)
+        state = self._state.load(task)
         if state is None:
-            shutil.rmtree(agent_dir, ignore_errors=True)
-            agent_dir.mkdir(parents=True, exist_ok=True)
+            self._state.reset(task)
             state = TaskState(
                 task_id=task.task_id,
                 task_root=str(task.root),
@@ -532,9 +237,9 @@ class ScriptAgent(BaseAgent):
                 wave2_model=(self.settings.wave2_model
                              or self.settings.model),
             )
-            self._delete_answers(task)
+            self._state.clear_answers(task)
         else:
-            agent_dir.mkdir(parents=True, exist_ok=True)
+            self._state.ensure_dir(task)
 
         if not state.overview:
             state.overview = self._build_overview(task)
@@ -548,7 +253,7 @@ class ScriptAgent(BaseAgent):
                 task.write_answer(state.answer)
             except OSError:
                 log.debug("cannot restore answer for %s", task.task_id, exc_info=True)
-        self._save_state(state, task)
+        self._state.save(task, state)
         return state
 
     def _build_overview(self, task: Task) -> str:
@@ -565,17 +270,20 @@ class ScriptAgent(BaseAgent):
                 f"$ cat task.txt\n{task.instruction[:2500]}"
             )
 
-    @staticmethod
-    def _delete_answers(task: Task) -> None:
-        for path in task.answer_paths:
-            try:
-                path.unlink(missing_ok=True)
-            except OSError:
-                log.debug("cannot remove stale %s", path, exc_info=True)
-
     # ------------------------------------------------------------------
     # Turns
     # ------------------------------------------------------------------
+    def prepare_followup(self, task: Task, state: TaskState, wave: int) -> None:
+        if state.wave_done(wave):
+            return
+        state.selected_wave2 = True
+        self._state.clear_answers(task)
+        warning = followup_warning(
+            state, final=wave >= self.settings.max_waves
+        )
+        state.messages.append({"role": "user", "content": warning})
+        self._state.save(task, state)
+
     async def invoke(self, inputs: Any, session: Any = None) -> Any:
         """Run one turn through the openJiuwen ``BaseAgent`` entry point.
 
@@ -667,7 +375,7 @@ class ScriptAgent(BaseAgent):
             raw_content = reply.content
             script = extract_script(raw_content)
 
-            script_path = self._task_agent_dir(task) / f"turn_{turn_index:02d}.sh"
+            script_path = self._state.agent_dir(task) / f"turn_{turn_index:02d}.sh"
             write_error = ""
             try:
                 script_path.write_text(script, encoding="utf-8")
@@ -749,7 +457,7 @@ class ScriptAgent(BaseAgent):
         # AFTER_INVOKE rails have now recorded the answer and features.
         turn["duration_seconds"] = round(time.monotonic() - started, 3)
         state.turns.append(turn)
-        self._save_state(state, task)
+        self._state.save(task, state)
         self._log_turn(task, state, turn)
         return turn
 
@@ -798,74 +506,11 @@ class ScriptAgent(BaseAgent):
             state.wave1_done = True
         elif wave == 2:
             state.wave2_done = True
-        self._save_state(state, task)
+        self._state.save(task, state)
 
-    def _prepare_followup(self, task: Task, state: TaskState, wave: int) -> None:
-        if state.wave_done(wave):
-            return
-        state.selected_wave2 = True
-        self._delete_answers(task)
-        warning = self._followup_warning(
-            state, final=wave >= self.settings.max_waves
-        )
-        state.messages.append({"role": "user", "content": warning})
-        self._save_state(state, task)
-
-    @staticmethod
-    def _wave2_warning(state: TaskState) -> str:
-        """Backward-compatible name for tests and callers."""
-        return ScriptAgent._followup_warning(state, final=False)
-
-    @staticmethod
-    def _followup_warning(state: TaskState, *, final: bool) -> str:
-        lines = ["The previous attempt did not produce a usable final answer."]
-        last = state.turns[-1] if state.turns else {}
-        features = last.get("features") or {}
-        if last.get("model_error"):
-            lines.append("The previous model call failed before producing a script.")
-        if state.answer_kind == "impossible":
-            lines.append(
-                "Your previous answer declared this task IMPOSSIBLE. Re-check that "
-                "conclusion; if a reasonable approach exists, try it. If it is "
-                "still impossible, write IMPOSSIBLE again."
-            )
-        elif features.get("script_mentions_impossible") or features.get(
-            "reasoning_keyword_impossible"
-        ):
-            lines.append(
-                "Your previous reply suggested that the task might be impossible. "
-                "Either solve it or write IMPOSSIBLE to answer.txt."
-            )
-        if features.get("hit_token_limit"):
-            lines.append("The previous reply was cut off before it was complete.")
-        if last.get("script_timed_out"):
-            lines.append("The previous script timed out.")
-        elif last.get("script_error"):
-            lines.append("The previous script could not be started.")
-        elif last.get("exit_code") not in (0, None):
-            lines.append(
-                f"The previous script exited with code {last.get('exit_code')}."
-            )
-        if not last.get("answer"):
-            lines.append(
-                "The previous script did not create a non-empty answer.txt."
-            )
-            lines.append(
-                "Even if the tests already pass, this turn must end by writing "
-                "answer.txt (DONE for coding tasks)."
-            )
-        lines.append(
-            "Continue from the current workspace state. Reply with one bash "
-            "script and nothing else."
-        )
-        if final:
-            lines.append(
-                "This is the final attempt: combine every remaining command into "
-                "one script and write answer.txt at the end. Do not spend it on a "
-                "single grep, ls or cat."
-            )
-        return "\n".join(lines)
-
+    # ------------------------------------------------------------------
+    # Script execution
+    # ------------------------------------------------------------------
     def _run_script(
         self,
         task: Task,
@@ -1015,54 +660,6 @@ class ScriptAgent(BaseAgent):
             }
         )
 
-    # ------------------------------------------------------------------
-    # Wave selection and result
-    # ------------------------------------------------------------------
-    def select_followups(
-        self,
-        tasks: list[Task],
-        states: dict[str, TaskState],
-        wave: int,
-    ) -> list[tuple[Task, TaskState]]:
-        candidates: list[tuple[float, Task, TaskState]] = []
-        for task in tasks:
-            state = states.get(task.task_id)
-            if state is None or state.wave_done(wave):
-                continue
-            if state.answer_kind in {"done", "value"}:
-                continue
-            last_features = (state.turns[-1].get("features") if state.turns else {}) or {}
-            promise = promise_score(
-                reward=task.reward,
-                features=last_features,
-                spent_cost=state.cost,
-                wave2_max_tokens=self.settings.wave2_max_tokens,
-            )
-            state.promise = round(promise, 8)
-            if promise <= 0:
-                continue
-            remaining = self.ledger.remaining
-            if remaining is not None:
-                estimated = estimate_retry_cost(
-                    state.cost, self.settings.wave2_max_tokens
-                )
-                if estimated > remaining:
-                    continue
-            candidates.append((promise, task, state))
-
-        candidates.sort(key=lambda item: (-item[0], -item[1].reward, item[1].task_id))
-        if self.settings.wave2_max_tasks > 0:
-            candidates = candidates[: self.settings.wave2_max_tasks]
-        return [(task, state) for _, task, state in candidates]
-
-    def select_wave2(
-        self,
-        tasks: list[Task],
-        states: dict[str, TaskState],
-    ) -> list[tuple[Task, TaskState]]:
-        """Compatibility wrapper for the second wave."""
-        return self.select_followups(tasks, states, 2)
-
     def result_for(self, task: Task, state: TaskState) -> SolveResult:
         usable = state.answer is not None and state.answer_kind in {"done", "value"}
         note_parts = [
@@ -1092,20 +689,6 @@ class ScriptAgent(BaseAgent):
             attempts=len(state.turns),
             promise=state.promise,
         )
-
-    async def solve(self, task: Task) -> SolveResult:
-        state = await self.prepare(task)
-        await self.invoke({"task": task, "state": state, "wave": 1})
-        for wave in range(2, self.settings.max_waves + 1):
-            if state.answer_kind in {"done", "value"}:
-                break
-            candidates = self.select_followups(
-                [task], {task.task_id: state}, wave
-            )
-            if not candidates:
-                break
-            await self.invoke({"task": task, "state": state, "wave": wave})
-        return self.result_for(task, state)
 
 
 def _usage_int(usage: Any, name: str) -> int:
@@ -1164,27 +747,6 @@ def extract_script(content: str) -> str:
     return text
 
 
-def execution_message(script_name: str, result: ProcessResult) -> str:
-    if result.timed_out:
-        code = "timeout"
-    elif result.exit_code is None:
-        code = "unknown"
-    else:
-        code = result.exit_code
-    lines = [f"$ bash {script_name}"]
-    if result.output:
-        lines.append(result.output.rstrip())
-    if result.error:
-        lines.append(f"[error: {result.error}]")
-    lines.append(f"[exit code {code}]")
-    return "\n".join(lines)
-
-
-def _safe_name(value: str) -> str:
-    stem = re.sub(r"[^A-Za-z0-9_.-]+", "_", str(value or "unknown")).strip("._-")
-    return stem or "unknown"
-
-
 def _task_path(task: Task) -> str:
     """Best-effort dataset path such as ``math/solvable/0001``."""
     try:
@@ -1195,11 +757,3 @@ def _task_path(task: Task) -> str:
     except (ValueError, AttributeError):
         pass
     return task.task_id
-
-
-# Backward-compatible name for callers and tests written before ScriptAgent.
-BashAgentSolver = ScriptAgent
-
-
-def build_solver(settings: Settings) -> ScriptAgent:
-    return ScriptAgent(settings)

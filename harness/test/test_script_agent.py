@@ -11,22 +11,21 @@ from pathlib import Path
 from harness.application.config import Settings
 from harness.application.features import classify_answer
 from harness.application.llm import DEFAULT_MODEL, TokenLedger
-from harness.application.shell import ProcessResult
-from harness.application.solver import (
+from harness.application.prompts import SYSTEM_PROMPT
+from harness.application.rails import (
     AnswerRail,
     BudgetRail,
     FailureRail,
     FeatureRail,
     FollowUpRail,
-    ModelReply,
-    ScriptAgent,
-    SYSTEM_PROMPT,
-    TaskState,
 )
+from harness.application.script_agent import ModelReply, ScriptAgent
+from harness.application.shell import ProcessResult
+from harness.application.state import TaskState
 from harness.application.tasks import Task
 
-# Imported after solver: importing solver configures the openJiuwen logger
-# before the SDK modules are touched, matching the production import order.
+# Imported after the harness modules: importing them configures the openJiuwen
+# logger before the SDK modules are touched, matching the production order.
 from openjiuwen.core.single_agent.base import BaseAgent
 from openjiuwen.core.single_agent.rail.base import (
     AgentCallbackContext,

@@ -20,9 +20,10 @@
 - Агент реализован как `ScriptAgent(BaseAgent)`; учёт бюджета, ошибки модели,
   подготовка follow-up, ответ и признаки хода вынесены в rails openJiuwen
   (`BudgetRail`, `FailureRail`, `FollowUpRail`, `AnswerRail`,
-  `FeatureRail`). Rails не добавляют новых инструкций в промпт и не вызывают
-  модель; текст follow-up warning остаётся прежним, поэтому расход токенов не
-  меняется.
+  `FeatureRail`); каждый rail — отдельный модуль в
+  `harness/src/harness/application/rails/`. Rails не добавляют новых
+  инструкций в промпт и не вызывают модель; текст follow-up warning остаётся
+  прежним, поэтому расход токенов не меняется.
 
 ## Формат ответа
 

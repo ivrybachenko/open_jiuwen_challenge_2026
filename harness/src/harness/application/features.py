@@ -17,8 +17,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from harness.application.predictor import predict_success
-
 log = logging.getLogger(__name__)
 
 ATTEMPTS_FILE = "bash_attempts.jsonl"
@@ -178,59 +176,6 @@ def extract_features(
         "tests_in_overview": bool(tests_in_overview),
         **{f"reasoning_keyword_{key}": value for key, value in keywords.items()},
     }
-
-
-def success_probability(features: dict[str, Any]) -> float:
-    """Heuristic chance that one more turn produces a usable answer."""
-    kind = features.get("answer_kind", "none")
-    if kind in {"done", "value"}:
-        return 0.0
-    probability = 0.50
-    if kind == "impossible":
-        probability = 0.18
-    if features.get("hit_token_limit"):
-        probability = min(probability, 0.30)
-    if features.get("script_error") or features.get("script_timed_out"):
-        probability -= 0.10
-    elif features.get("exit_code") not in (0, None):
-        probability -= 0.05
-    if features.get("reasoning_keyword_impossible"):
-        probability = min(probability, 0.22)
-    if features.get("reasoning_keyword_give_up"):
-        probability = min(probability, 0.20)
-    if features.get("reasoning_words", 0) > 300:
-        probability += 0.05
-    if features.get("script_has_write_answer"):
-        probability += 0.05
-    if features.get("script_has_python"):
-        probability += 0.03
-    if features.get("output_chars", 0) > 0:
-        probability += 0.03
-    if features.get("tests_in_overview"):
-        probability += 0.02
-    return max(0.02, min(0.92, probability))
-
-
-def estimate_retry_cost(spent_cost: int, wave2_max_tokens: int) -> int:
-    """Rough cost of one more turn, including the repeated context."""
-    return max(500, int(max(0, spent_cost) * 1.10) + int(wave2_max_tokens))
-
-
-def promise_score(
-    *,
-    reward: float,
-    features: dict[str, Any],
-    spent_cost: int,
-    wave2_max_tokens: int,
-) -> float:
-    probability = predict_success(features)
-    if probability is None:
-        probability = success_probability(features)
-    probability = max(0.0, min(1.0, float(probability)))
-    if probability <= 0:
-        return 0.0
-    cost = estimate_retry_cost(spent_cost, wave2_max_tokens)
-    return probability * float(reward) / max(1, cost)
 
 
 def _safe_stem(value: str) -> str:

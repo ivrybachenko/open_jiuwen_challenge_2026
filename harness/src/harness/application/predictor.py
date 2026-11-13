@@ -5,7 +5,7 @@ scikit-learn pipeline.  It runs after the first turn and predicts the
 probability that the final answer will be accepted.  Loading is lazy: the
 harness must start and solve tasks even if the model file or scikit-learn is
 missing.  In that case ``predict_success`` returns ``None`` and the caller
-falls back to the hand-written heuristic in ``features.py``.
+falls back to the hand-written heuristic in ``waves.py``.
 """
 
 from __future__ import annotations
