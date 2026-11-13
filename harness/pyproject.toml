@@ -8,6 +8,7 @@ dependencies = [
     "openjiuwen==0.1.19",
     "opentelemetry-exporter-otlp-proto-common>=1.25.0",
     "pyyaml>=6.0",
+    "scikit-learn==1.9.1",
 ]
 
 [build-system]

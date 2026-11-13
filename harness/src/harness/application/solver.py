@@ -94,6 +94,7 @@ class SolveResult:
 
 @dataclass
 class ModelReply:
+    model: str = ""
     content: str = ""
     reasoning: str = ""
     input_tokens: int = 0
@@ -109,6 +110,7 @@ class TaskState:
     task_id: str
     task_root: str
     model: str
+    wave2_model: str = ""
     overview: str = ""
     messages: list[dict[str, Any]] = field(default_factory=list)
     turns: list[dict[str, Any]] = field(default_factory=list)
@@ -171,6 +173,7 @@ class BashAgentSolver(Solver):
         super().__init__(settings)
         self._runner_started = False
         self._model = None
+        self._wave2_model = None
         self._model_failures = 0
         self._abort_requested = False
         self._logger = AttemptLogger(settings.trajectories_dir, settings.run_id)
@@ -193,6 +196,11 @@ class BashAgentSolver(Solver):
             raise ValueError(
                 f"unsupported model {self.settings.model!r}; allowed: {', '.join(MODELS)}"
             )
+        if self.settings.wave2_model and self.settings.wave2_model not in MODELS:
+            raise ValueError(
+                f"unsupported wave2 model {self.settings.wave2_model!r}; "
+                f"allowed: {', '.join(MODELS)}"
+            )
 
         from openjiuwen.core.foundation.llm import init_model
         from openjiuwen.core.runner import Runner
@@ -208,6 +216,19 @@ class BashAgentSolver(Solver):
             max_retries=1,
             verify_ssl=True,
         )
+        if (self.settings.wave2_model
+                and self.settings.wave2_model != self.settings.model):
+            self._wave2_model = init_model(
+                provider="OpenAI",
+                model_name=self.settings.wave2_model,
+                api_key=self.settings.llm_api_key or "",
+                api_base=self.settings.llm_base_url or "",
+                timeout=self.settings.model_timeout,
+                max_retries=1,
+                verify_ssl=True,
+            )
+        else:
+            self._wave2_model = self._model
         self.settings.agent_workspace.mkdir(parents=True, exist_ok=True)
 
     async def close(self) -> None:
@@ -248,6 +269,9 @@ class BashAgentSolver(Solver):
             return None
         if raw.get("model") != self.settings.model:
             return None
+        state_wave2 = raw.get("wave2_model") or raw.get("model")
+        if state_wave2 != (self.settings.wave2_model or self.settings.model):
+            return None
         try:
             state = TaskState.from_dict(raw)
         except (TypeError, ValueError):
@@ -284,6 +308,8 @@ class BashAgentSolver(Solver):
                 task_id=task.task_id,
                 task_root=str(task.root),
                 model=self.settings.model,
+                wave2_model=(self.settings.wave2_model
+                             or self.settings.model),
             )
             self._delete_answers(task)
         else:
@@ -351,7 +377,12 @@ class BashAgentSolver(Solver):
         started_at = datetime.now(timezone.utc).isoformat()
         started = time.monotonic()
 
-        reply = await self._call_model(state.messages, max_tokens=max_tokens)
+        model_name = (self.settings.wave2_model or self.settings.model
+                      if wave == 2 else self.settings.model)
+        model = self._wave2_model if wave == 2 else self._model
+        reply = await self._call_model(
+            state.messages, max_tokens=max_tokens, model=model
+        )
         raw_content = reply.content
         script = extract_script(raw_content)
 
@@ -407,6 +438,11 @@ class BashAgentSolver(Solver):
             output_chars=len(execution.output),
             answer=answer_info,
             tests_in_overview="$ tests" in state.overview,
+            output_lines=(execution.output.count("\n")
+                          + (1 if execution.output else 0)),
+            overview_chars=len(state.overview),
+            overview_lines=(state.overview.count("\n")
+                            + (1 if state.overview else 0)),
         )
 
         state.input_tokens += reply.input_tokens
@@ -443,6 +479,7 @@ class BashAgentSolver(Solver):
             state.wave2_done = True
 
         turn = {
+            "model": model_name,
             "wave": wave,
             "turn": turn_index,
             "started_at": started_at,
@@ -481,6 +518,8 @@ class BashAgentSolver(Solver):
         state.last_error = error[:500]
         state.turns.append(
             {
+                "model": (self.settings.wave2_model or self.settings.model
+                          if wave == 2 else self.settings.model),
                 "wave": wave,
                 "turn": len(state.turns) + 1,
                 "started_at": datetime.now(timezone.utc).isoformat(),
@@ -625,12 +664,16 @@ class BashAgentSolver(Solver):
         messages: list[dict[str, Any]],
         *,
         max_tokens: int,
+        model: Any | None = None,
     ) -> ModelReply:
-        if self._model is None:
+        active = model if model is not None else self._model
+        if active is None:
             return ModelReply(error="model is not initialized")
+        model_name = (self.settings.wave2_model or self.settings.model
+                      if self._wave2_model is active else self.settings.model)
         started = time.monotonic()
         try:
-            response = await self._model.invoke(
+            response = await active.invoke(
                 messages,
                 max_tokens=max_tokens,
                 temperature=0.0,
@@ -659,6 +702,7 @@ class BashAgentSolver(Solver):
                 1, (len(content) + len(reasoning)) // 4
             )
         return ModelReply(
+            model=model_name,
             content=content,
             reasoning=reasoning,
             input_tokens=input_tokens,
@@ -680,7 +724,7 @@ class BashAgentSolver(Solver):
                 "task_type": task.task_type,
                 "task_root": str(task.root),
                 "task_path": _task_path(task),
-                "model": self.settings.model,
+                "model": turn.get("model", self.settings.model),
                 "wave": turn.get("wave"),
                 "turn": turn.get("turn"),
                 "started_at": turn.get("started_at"),

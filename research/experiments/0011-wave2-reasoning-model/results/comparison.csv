@@ -1,0 +1,5 @@
+config,repeat,wave2_model,score,solved,cost,score_per_1k,wave2_turns,seconds
+nn,1,qwen3.6-35b-a3b-noreason,86.0,20,15043,5.71694475835937,13,193.4
+nn,2,qwen3.6-35b-a3b-noreason,87.0,20,14222,6.117283082548165,14,230.1
+nr,1,qwen3.6-35b-a3b,82.0,19,23753,3.4521955121458343,13,224.0
+nr,2,qwen3.6-35b-a3b,86.0,20,21710,3.9613081529249192,15,253.2

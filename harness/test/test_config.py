@@ -119,3 +119,28 @@ class WaveSettingsTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Wave2ModelTest(unittest.TestCase):
+    def test_defaults_to_main_model(self) -> None:
+        with patch.dict(os.environ, {}, clear=True):
+            settings = Settings.from_env(
+                tasks_dir="/tmp/tasks", model="qwen3.8-27b"
+            )
+        self.assertEqual(settings.wave2_model, "qwen3.8-27b")
+
+    def test_env_override(self) -> None:
+        with patch.dict(
+            os.environ, {"LLM_WAVE2_MODEL": "qwen3.6-35b-a3b"}, clear=True
+        ):
+            settings = Settings.from_env(tasks_dir="/tmp/tasks")
+        self.assertEqual(settings.wave2_model, "qwen3.6-35b-a3b")
+
+    def test_flag_overrides_env(self) -> None:
+        with patch.dict(
+            os.environ, {"LLM_WAVE2_MODEL": "qwen3.6-35b-a3b"}, clear=True
+        ):
+            settings = Settings.from_env(
+                tasks_dir="/tmp/tasks", wave2_model="qwen3.8-27b"
+            )
+        self.assertEqual(settings.wave2_model, "qwen3.8-27b")

@@ -30,11 +30,11 @@ def _is_rate_limit(error: str) -> bool:
     return "429" in text or "rate limit" in text or "ratelimit" in text
 
 
-async def _call_model_with_backoff(self, messages, *, max_tokens):
+async def _call_model_with_backoff(self, messages, *, max_tokens, model=None):
     delay = 15.0
     last: ModelReply | None = None
     for attempt in range(8):
-        reply = await _ORIGINAL(self, messages, max_tokens=max_tokens)
+        reply = await _ORIGINAL(self, messages, max_tokens=max_tokens, model=model)
         last = reply
         if not reply.error or not _is_rate_limit(reply.error):
             return reply

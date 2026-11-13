@@ -1,0 +1,2 @@
+{'config': 'nn', 'repeat': 1, 'wave2_model': 'qwen3.6-35b-a3b-noreason', 'score': 82.0, 'solved': 19, 'cost': 12467, 'score_per_1k': 6.577364241597818, 'wave2_turns': 15, 'seconds': 200.0}
+{'config': 'nr', 'repeat': 1, 'wave2_model': 'qwen3.6-35b-a3b', 'score': 86.0, 'solved': 20, 'cost': 22496, 'score_per_1k': 3.8229018492176388, 'wave2_turns': 14, 'seconds': 258.4}

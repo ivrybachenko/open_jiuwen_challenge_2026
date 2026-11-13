@@ -22,6 +22,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--out", type=Path, default=None)
     parser.add_argument("--budget", type=int, default=None)
     parser.add_argument("--model", default=None)
+    parser.add_argument("--wave2-model", default=None,
+                        help="model for the second wave; defaults to --model")
     parser.add_argument(
         "--max-iterations",
         type=int,
@@ -111,6 +113,7 @@ async def _run(args: argparse.Namespace) -> int:
         out=args.out,
         budget=args.budget,
         model=args.model,
+        wave2_model=args.wave2_model,
         max_iterations=args.max_iterations,
         agent_workspace=args.agent_workspace,
         trajectories_dir=args.trajectories_dir,

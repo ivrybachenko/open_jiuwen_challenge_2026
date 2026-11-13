@@ -98,6 +98,7 @@ class Settings:
     agent_workspace: Path
     trajectories_dir: Path | None
     run_id: str | None
+    wave2_model: str | None = None
     wave1_max_tokens: int = DEFAULT_WAVE1_MAX_TOKENS
     wave2_max_tokens: int = DEFAULT_WAVE2_MAX_TOKENS
     wave2_max_tasks: int = DEFAULT_WAVE2_MAX_TASKS
@@ -115,6 +116,7 @@ class Settings:
         out: Path | str | None = None,
         budget: int | None = None,
         model: str | None = None,
+        wave2_model: str | None = None,
         max_iterations: int | None = None,
         agent_workspace: Path | str | None = None,
         trajectories_dir: Path | str | None = None,
@@ -152,6 +154,12 @@ class Settings:
         )
         raw_run_id = (
             str(run_id) if run_id is not None else env.get("HARNESS_RUN_ID")
+        )
+        resolved_model = model or env.get("LLM_MODEL") or DEFAULT_MODEL
+        resolved_wave2_model = (
+            wave2_model
+            or env.get("LLM_WAVE2_MODEL")
+            or resolved_model
         )
 
         if wave1_max_tokens is None:
@@ -202,7 +210,8 @@ class Settings:
             out=resolved_out,
             llm_base_url=env.get("LLM_BASE_URL"),
             llm_api_key=env.get("LLM_API_KEY"),
-            model=model or env.get("LLM_MODEL") or DEFAULT_MODEL,
+            model=resolved_model,
+            wave2_model=resolved_wave2_model,
             budget=budget,
             max_iterations=max_iterations,
             agent_workspace=(

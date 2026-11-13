@@ -9,12 +9,15 @@ from __future__ import annotations
 
 import json
 import logging
+import math
 import os
 import re
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+from harness.application.predictor import predict_success
 
 log = logging.getLogger(__name__)
 
@@ -39,6 +42,31 @@ WRITE_PATTERN = re.compile(
     re.IGNORECASE,
 )
 TEST_PATTERN = re.compile(r"\b(pytest|unittest|test_[A-Za-z0-9_]+\.py)\b")
+
+# Counts used by the online success predictor (experiment 0007).  They are
+# intentionally simple and cheap: one regex pass over the script per pattern.
+SCRIPT_COUNT_PATTERNS = {
+    "n_cat": re.compile(r"\bcat\b"),
+    "n_grep": re.compile(r"\bgrep\b"),
+    "n_find": re.compile(r"\bfind\b"),
+    "n_ls": re.compile(r"\bls\b"),
+    "n_head": re.compile(r"\bhead\b"),
+    "n_tail": re.compile(r"\btail\b"),
+    "n_awk": re.compile(r"\bawk\b"),
+    "n_sed": re.compile(r"\bsed\b"),
+    "n_sort": re.compile(r"\bsort\b"),
+    "n_wc": re.compile(r"\bwc\b"),
+    "n_python": re.compile(r"\bpython3?\b"),
+    "n_test": re.compile(r"\b(?:pytest|unittest|test_)\b"),
+    "n_for": re.compile(r"\bfor\b"),
+    "n_while": re.compile(r"\bwhile\b"),
+    "n_if": re.compile(r"\bif\b"),
+    "n_pipe": re.compile(r"\|"),
+    "n_semicolon": re.compile(r";"),
+    "n_redirect": re.compile(r">"),
+    "n_echo": re.compile(r"\becho\b"),
+    "n_impossible": re.compile(r"(?i)\bimpossible\b"),
+}
 
 
 @dataclass(frozen=True)
@@ -89,6 +117,9 @@ def extract_features(
     output_chars: int,
     answer: AnswerInfo,
     tests_in_overview: bool,
+    output_lines: int = 0,
+    overview_chars: int = 0,
+    overview_lines: int = 0,
 ) -> dict[str, Any]:
     reasoning = reasoning or ""
     script = script or ""
@@ -108,6 +139,7 @@ def extract_features(
     return {
         "task_type": task_type,
         "reward": float(reward),
+        "cost": int(output_tokens) + math.ceil(max(0, int(input_tokens)) / 10),
         "wave": int(wave),
         "turn": int(turn),
         "reasoning_chars": len(reasoning),
@@ -131,7 +163,15 @@ def extract_features(
         "script_timed_out": bool(script_timed_out),
         "script_error": script_error,
         "output_chars": int(output_chars),
+        "output_lines": int(output_lines),
+        "overview_chars": int(overview_chars),
+        "overview_lines": int(overview_lines),
+        "script_words": len(script.split()),
         "answer_present": answer.present,
+        "answer_impossible": answer.kind == "impossible",
+        "exit_bad": exit_code not in (0, None),
+        **{name: _count(pattern, script)
+           for name, pattern in SCRIPT_COUNT_PATTERNS.items()},
         "answer_kind": answer.kind,
         "answer_chars": len(answer.text or ""),
         "answer_first_line": answer.first_line,
@@ -183,7 +223,10 @@ def promise_score(
     spent_cost: int,
     wave2_max_tokens: int,
 ) -> float:
-    probability = success_probability(features)
+    probability = predict_success(features)
+    if probability is None:
+        probability = success_probability(features)
+    probability = max(0.0, min(1.0, float(probability)))
     if probability <= 0:
         return 0.0
     cost = estimate_retry_cost(spent_cost, wave2_max_tokens)

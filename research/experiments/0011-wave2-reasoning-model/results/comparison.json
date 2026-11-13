@@ -1,0 +1,46 @@
+[
+  {
+    "config": "nn",
+    "repeat": 1,
+    "wave2_model": "qwen3.6-35b-a3b-noreason",
+    "score": 86.0,
+    "solved": 20,
+    "cost": 15043,
+    "score_per_1k": 5.71694475835937,
+    "wave2_turns": 13,
+    "seconds": 193.4
+  },
+  {
+    "config": "nn",
+    "repeat": 2,
+    "wave2_model": "qwen3.6-35b-a3b-noreason",
+    "score": 87.0,
+    "solved": 20,
+    "cost": 14222,
+    "score_per_1k": 6.117283082548165,
+    "wave2_turns": 14,
+    "seconds": 230.1
+  },
+  {
+    "config": "nr",
+    "repeat": 1,
+    "wave2_model": "qwen3.6-35b-a3b",
+    "score": 82.0,
+    "solved": 19,
+    "cost": 23753,
+    "score_per_1k": 3.4521955121458343,
+    "wave2_turns": 13,
+    "seconds": 224.0
+  },
+  {
+    "config": "nr",
+    "repeat": 2,
+    "wave2_model": "qwen3.6-35b-a3b",
+    "score": 86.0,
+    "solved": 20,
+    "cost": 21710,
+    "score_per_1k": 3.9613081529249192,
+    "wave2_turns": 15,
+    "seconds": 253.2
+  }
+]
