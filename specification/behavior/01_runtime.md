@@ -9,7 +9,7 @@
 Решение собирается в Docker-образ и запускается проверяющей системой с
 каталогом задач и ключом LLM-прокси. Версия `0004` использует bash-агента:
 ответ модели исполняется как скрипт, а не как вызов инструментов openJiuwen;
-незавершённые задачи получают до четырёх волн.
+незавершённые задачи получают до восьми волн.
 По умолчанию выбрана модель без ризонинга; явные `--model` и `LLM_MODEL`
 перекрывают её.
 
@@ -47,7 +47,7 @@ docker run ... hack:latest /app/run_agent.py --tasks-dir /data/tasks
 | Лимит волны 1 | `--wave1-max-tokens` | `HARNESS_WAVE1_MAX_TOKENS` | `1000` |
 | Лимит волны 2 | `--wave2-max-tokens` | `HARNESS_WAVE2_MAX_TOKENS` | `4000` |
 | Число задач волны 2 | `--wave2-max-tasks` | `HARNESS_WAVE2_MAX_TASKS` | `50` |
-| Число волн | `--max-waves` | `HARNESS_MAX_WAVES` | `4` |
+| Число волн | `--max-waves` | `HARNESS_MAX_WAVES` | `8` |
 | Лимит обзора | `--overview-max-tokens` | `HARNESS_OVERVIEW_MAX_TOKENS` | `1500` |
 | Лимит вывода скрипта | `--script-output-max-chars` | `HARNESS_SCRIPT_OUTPUT_MAX_CHARS` | `4000` |
 | Таймаут скрипта | `--turn-timeout` | `HARNESS_TURN_TIMEOUT` | `120` |

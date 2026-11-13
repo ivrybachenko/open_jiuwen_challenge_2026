@@ -79,10 +79,10 @@ class WaveSettingsTest(unittest.TestCase):
         self.assertEqual(settings.overview_max_tokens, 1500)
         self.assertTrue(settings.resume)
 
-    def test_max_waves_defaults_to_four(self) -> None:
+    def test_max_waves_defaults_to_eight(self) -> None:
         with patch.dict(os.environ, {}, clear=True):
             settings = Settings.from_env(tasks_dir="/tmp/tasks")
-        self.assertEqual(settings.max_waves, 4)
+        self.assertEqual(settings.max_waves, 8)
 
     def test_max_waves_from_env_and_flag(self) -> None:
         with patch.dict(os.environ, {"HARNESS_MAX_WAVES": "3"}, clear=True):

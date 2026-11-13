@@ -9,7 +9,7 @@ environment variables passed by the jury:
     LLM_API_KEY   - proxy key (never baked into the image)
     LLM_MODEL     - one of the four allowed model names
     BUDGET        - output-token budget (default 100000)
-    HARNESS_MAX_WAVES - wave 1 plus follow-up waves (default 4)
+    HARNESS_MAX_WAVES - wave 1 plus follow-up waves (default 8)
     TRAJECTORIES_DIR - optional directory for attempt logs
     HARNESS_RUN_ID - optional run identifier stored in the attempt log
 
@@ -35,7 +35,7 @@ DEFAULT_MAX_ITERATIONS = 12
 DEFAULT_WAVE1_MAX_TOKENS = 1000
 DEFAULT_WAVE2_MAX_TOKENS = 4000
 DEFAULT_WAVE2_MAX_TASKS = 50
-DEFAULT_MAX_WAVES = 4
+DEFAULT_MAX_WAVES = 8
 DEFAULT_OVERVIEW_MAX_TOKENS = 1500
 DEFAULT_SCRIPT_OUTPUT_MAX_CHARS = 4000
 DEFAULT_TURN_TIMEOUT = 120.0

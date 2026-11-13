@@ -63,7 +63,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         default=None,
         help=(
             "Wave 1 plus follow-up waves; HARNESS_MAX_WAVES is used when the "
-            "flag is absent, then 4."
+            "flag is absent, then 8."
         ),
     )
     parser.add_argument("--overview-max-tokens", type=int, default=None)
