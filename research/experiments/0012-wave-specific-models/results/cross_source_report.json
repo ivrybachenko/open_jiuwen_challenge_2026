@@ -1,0 +1,299 @@
+{
+  "target": "train on one source, test on the other",
+  "research_to_evaluation_wave2": {
+    "source": "research",
+    "target_source": "evaluation",
+    "target_wave": 2,
+    "train_wave": 2,
+    "train_rows": 65,
+    "train_tasks": 10,
+    "test_rows": 30,
+    "test_tasks": 3,
+    "test_tasks_list": [
+      "search_0001",
+      "search_0005",
+      "search_0103"
+    ],
+    "models": {
+      "logreg": {
+        "n": 30,
+        "positive": 22,
+        "base_rate": 0.7333333333333333,
+        "auc": 0.3664772727272727,
+        "brier": 0.27337184171534834,
+        "ece": 0.3146461377862617,
+        "mean_prediction": 0.865238627471036
+      },
+      "rf": {
+        "n": 30,
+        "positive": 22,
+        "base_rate": 0.7333333333333333,
+        "auc": 0.40625,
+        "brier": 0.3210094498219009,
+        "ece": 0.3746741605011412,
+        "mean_prediction": 0.8086656471737644
+      },
+      "ensemble": {
+        "n": 30,
+        "positive": 22,
+        "base_rate": 0.7333333333333333,
+        "auc": 0.36079545454545453,
+        "brier": 0.2923938501374082,
+        "ece": 0.3447875874680977,
+        "mean_prediction": 0.8369521373224001
+      },
+      "global": {
+        "n": 30,
+        "positive": 22,
+        "base_rate": 0.7333333333333333,
+        "auc": 0.6448863636363636,
+        "brier": 0.45307828230495006,
+        "ece": 0.5268015076438051,
+        "mean_prediction": 0.20653182568952821
+      }
+    }
+  },
+  "evaluation_to_research_wave2": {
+    "source": "evaluation",
+    "target_source": "research",
+    "target_wave": 2,
+    "train_wave": 2,
+    "train_rows": 30,
+    "train_tasks": 3,
+    "test_rows": 65,
+    "test_tasks": 10,
+    "test_tasks_list": [
+      "coding_0124",
+      "coding_0219",
+      "coding_0314",
+      "data_analysis_0316",
+      "math_0116",
+      "search_0005",
+      "search_0201",
+      "search_0215",
+      "search_0313",
+      "search_0314"
+    ],
+    "models": {
+      "logreg": {
+        "n": 65,
+        "positive": 33,
+        "base_rate": 0.5076923076923077,
+        "auc": 0.3096590909090909,
+        "brier": 0.42085621104315246,
+        "ece": 0.39060186174119127,
+        "mean_prediction": 0.5902199289816837
+      },
+      "rf": {
+        "n": 65,
+        "positive": 33,
+        "base_rate": 0.5076923076923077,
+        "auc": 0.1875,
+        "brier": 0.3706844527639133,
+        "ece": 0.4101450781998984,
+        "mean_prediction": 0.6333603945451333
+      },
+      "ensemble": {
+        "n": 65,
+        "positive": 33,
+        "base_rate": 0.5076923076923077,
+        "auc": 0.23579545454545453,
+        "brier": 0.3854095891750541,
+        "ece": 0.30203396743825295,
+        "mean_prediction": 0.6117901617634085
+      },
+      "global": {
+        "n": 65,
+        "positive": 33,
+        "base_rate": 0.5076923076923077,
+        "auc": 0.20928030303030304,
+        "brier": 0.407323997036337,
+        "ece": 0.3659686966364098,
+        "mean_prediction": 0.19433263796003664
+      }
+    }
+  },
+  "research_to_evaluation_wave3": {
+    "source": "research",
+    "target_source": "evaluation",
+    "target_wave": 3,
+    "train_wave": 2,
+    "train_rows": 65,
+    "train_tasks": 10,
+    "test_rows": 25,
+    "test_tasks": 3,
+    "test_tasks_list": [
+      "search_0001",
+      "search_0005",
+      "search_0103"
+    ],
+    "models": {
+      "logreg": {
+        "n": 25,
+        "positive": 17,
+        "base_rate": 0.68,
+        "auc": 0.5625,
+        "brier": 0.3024867000091701,
+        "ece": 0.2960227593895743,
+        "mean_prediction": 0.8756488120675534
+      },
+      "rf": {
+        "n": 25,
+        "positive": 17,
+        "base_rate": 0.68,
+        "auc": 0.5330882352941176,
+        "brier": 0.28163347558539553,
+        "ece": 0.23540162921239946,
+        "mean_prediction": 0.7607912962545571
+      },
+      "ensemble": {
+        "n": 25,
+        "positive": 17,
+        "base_rate": 0.68,
+        "auc": 0.5183823529411764,
+        "brier": 0.28693894897901306,
+        "ece": 0.2483117752159973,
+        "mean_prediction": 0.8182200541610556
+      },
+      "global": {
+        "n": 25,
+        "positive": 17,
+        "base_rate": 0.68,
+        "auc": 0.5183823529411764,
+        "brier": 0.4832672368963855,
+        "ece": 0.5177812868833253,
+        "mean_prediction": 0.16221871311667477
+      }
+    }
+  },
+  "evaluation_to_research_wave3": {
+    "source": "evaluation",
+    "target_source": "research",
+    "target_wave": 3,
+    "train_wave": 2,
+    "train_rows": 30,
+    "train_tasks": 3,
+    "test_rows": 43,
+    "test_tasks": 8,
+    "test_tasks_list": [
+      "coding_0124",
+      "coding_0219",
+      "coding_0314",
+      "data_analysis_0316",
+      "math_0116",
+      "search_0005",
+      "search_0201",
+      "search_0313"
+    ],
+    "models": {
+      "logreg": {
+        "n": 43,
+        "positive": 19,
+        "base_rate": 0.4418604651162791,
+        "auc": 0.24999999999999997,
+        "brier": 0.47139575088575303,
+        "ece": 0.38503125483016193,
+        "mean_prediction": 0.6565590471477069
+      },
+      "rf": {
+        "n": 43,
+        "positive": 19,
+        "base_rate": 0.4418604651162791,
+        "auc": 0.2214912280701754,
+        "brier": 0.4164290671184087,
+        "ece": 0.538667277212923,
+        "mean_prediction": 0.7080767710766653
+      },
+      "ensemble": {
+        "n": 43,
+        "positive": 19,
+        "base_rate": 0.4418604651162791,
+        "auc": 0.20614035087719298,
+        "brier": 0.43412749574949705,
+        "ece": 0.46995830172889597,
+        "mean_prediction": 0.682317909112186
+      },
+      "global": {
+        "n": 43,
+        "positive": 19,
+        "base_rate": 0.4418604651162791,
+        "auc": 0.38377192982456143,
+        "brier": 0.2912384053340264,
+        "ece": 0.1749594242933479,
+        "mean_prediction": 0.26690104082293126
+      }
+    }
+  },
+  "research_to_evaluation_wave4": {
+    "source": "research",
+    "target_source": "evaluation",
+    "target_wave": 4,
+    "train_wave": 4,
+    "train_rows": 34,
+    "train_tasks": 7,
+    "test_rows": 6,
+    "test_tasks": 1,
+    "test_tasks_list": [
+      "search_0005"
+    ],
+    "models": {
+      "logreg": {
+        "n": 6,
+        "positive": 6,
+        "base_rate": 1.0,
+        "auc": null,
+        "brier": 0.0034783543431091946,
+        "ece": 0.058275316833706126,
+        "mean_prediction": 0.9417246831662939
+      },
+      "rf": {
+        "n": 6,
+        "positive": 6,
+        "base_rate": 1.0,
+        "auc": null,
+        "brier": 0.0020865650780361763,
+        "ece": 0.04388283863958531,
+        "mean_prediction": 0.9561171613604147
+      },
+      "ensemble": {
+        "n": 6,
+        "positive": 6,
+        "base_rate": 1.0,
+        "auc": null,
+        "brier": 0.002725644366922721,
+        "ece": 0.05107907773664577,
+        "mean_prediction": 0.9489209222633542
+      },
+      "global": {
+        "n": 6,
+        "positive": 6,
+        "base_rate": 1.0,
+        "auc": null,
+        "brier": 0.7870084275705813,
+        "ece": 0.8867501905044642,
+        "mean_prediction": 0.11324980949553572
+      }
+    }
+  },
+  "evaluation_to_research_wave4": {
+    "source": "evaluation",
+    "target_source": "research",
+    "target_wave": 4,
+    "train_wave": 4,
+    "train_rows": 6,
+    "train_tasks": 1,
+    "test_rows": 34,
+    "test_tasks": 7,
+    "test_tasks_list": [
+      "coding_0124",
+      "coding_0219",
+      "coding_0314",
+      "data_analysis_0316",
+      "math_0116",
+      "search_0005",
+      "search_0313"
+    ],
+    "models": {},
+    "skipped": "too few rows"
+  }
+}

@@ -8,8 +8,9 @@ harness must start and solve tasks even if the model files or scikit-learn are
 missing.  In that case ``predict_success`` returns ``None`` and
 ``estimate_success`` falls back to ``heuristic.success_probability``.
 
-``HARNESS_WAVE_MODELS=0`` disables the per-wave models and uses the global
-model for every wave.
+Per-wave models are experimental and off by default; ``HARNESS_WAVE_MODELS=1``
+enables them.  The global model is used for every wave unless the variable is
+set.
 """
 
 from __future__ import annotations
@@ -29,7 +30,7 @@ META_PATH = MODEL_DIR / "online_model.json"
 WAVE_MODEL_PATH = MODEL_DIR / "wave_models.joblib"
 WAVE_META_PATH = MODEL_DIR / "wave_model.json"
 
-_DISABLED = {"0", "false", "off", "no"}
+_ENABLED = {"1", "true", "on", "yes"}
 
 _NUMERIC_DEFAULT = 0.0
 _CATEGORICAL_DEFAULT = "none"
@@ -110,8 +111,14 @@ def _load_wave_models() -> tuple[dict[str, Any], dict[str, Any]] | None:
 
 
 def _wave_models_enabled() -> bool:
-    """``HARNESS_WAVE_MODELS=0`` restores the single-model behaviour."""
-    return os.environ.get("HARNESS_WAVE_MODELS", "1").strip().lower() not in _DISABLED
+    """Per-wave models are experimental and off by default.
+
+    The cross-source check in experiment ``0012`` showed that the ranking did
+    not transfer to a different task family, so the proven global model stays
+    the default.  ``HARNESS_WAVE_MODELS=1`` enables the per-wave models for a
+    controlled run.
+    """
+    return os.environ.get("HARNESS_WAVE_MODELS", "0").strip().lower() in _ENABLED
 
 
 def available() -> bool:

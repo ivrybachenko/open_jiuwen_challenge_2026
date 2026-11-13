@@ -128,19 +128,20 @@ class OnlinePredictorTest(unittest.TestCase):
         if not WAVE_META_PATH.is_file():
             self.skipTest("wave model artefacts are not present")
         self.assertTrue(available_wave(2))
-        for wave in (2, 3, 4, 5):
-            sample = dict(
-                _sample_features(),
-                wave=wave,
-                answer_kind="none",
-                answer_present=False,
-                answer_chars=0,
-            )
-            probability = predict_success(sample)
-            self.assertIsNotNone(probability)
-            assert probability is not None
-            self.assertGreaterEqual(probability, 0.0)
-            self.assertLessEqual(probability, 1.0)
+        with mock.patch.dict(os.environ, {"HARNESS_WAVE_MODELS": "1"}):
+            for wave in (2, 3, 4, 5):
+                sample = dict(
+                    _sample_features(),
+                    wave=wave,
+                    answer_kind="none",
+                    answer_present=False,
+                    answer_chars=0,
+                )
+                probability = predict_success(sample)
+                self.assertIsNotNone(probability)
+                assert probability is not None
+                self.assertGreaterEqual(probability, 0.0)
+                self.assertLessEqual(probability, 1.0)
 
     def test_wave_selection_and_late_fallback(self) -> None:
         if not WAVE_META_PATH.is_file():
@@ -151,32 +152,48 @@ class OnlinePredictorTest(unittest.TestCase):
             answer_present=False,
             answer_chars=0,
         )
-        probabilities = {
-            wave: predict_success(dict(base, wave=wave))
-            for wave in (1, 2, 3, 4, 5)
-        }
+        with mock.patch.dict(os.environ, {"HARNESS_WAVE_MODELS": "1"}):
+            probabilities = {
+                wave: predict_success(dict(base, wave=wave))
+                for wave in (1, 2, 3, 4, 5)
+            }
         self.assertNotEqual(probabilities[1], probabilities[2])
         self.assertNotEqual(probabilities[2], probabilities[3])
         self.assertNotEqual(probabilities[3], probabilities[4])
         # Waves 5+ deliberately reuse the wave-4 model.
         self.assertEqual(probabilities[4], probabilities[5])
 
-    def test_wave_models_can_be_disabled(self) -> None:
-        with mock.patch.dict(os.environ, {"HARNESS_WAVE_MODELS": "0"}):
-            base = dict(
-                _sample_features(),
-                answer_kind="none",
-                answer_present=False,
-                answer_chars=0,
-            )
+    def test_wave_models_are_disabled_by_default(self) -> None:
+        base = dict(
+            _sample_features(),
+            answer_kind="none",
+            answer_present=False,
+            answer_chars=0,
+        )
+        with mock.patch.dict(os.environ, {}, clear=False):
+            os.environ.pop("HARNESS_WAVE_MODELS", None)
             wave1 = predict_success(dict(base, wave=1))
             wave2 = predict_success(dict(base, wave=2))
         self.assertEqual(wave1, wave2)
 
+    def test_wave_models_can_be_enabled(self) -> None:
+        if not WAVE_META_PATH.is_file():
+            self.skipTest("wave model artefacts are not present")
+        base = dict(
+            _sample_features(),
+            answer_kind="none",
+            answer_present=False,
+            answer_chars=0,
+        )
+        with mock.patch.dict(os.environ, {"HARNESS_WAVE_MODELS": "1"}):
+            wave1 = predict_success(dict(base, wave=1))
+            wave2 = predict_success(dict(base, wave=2))
+        self.assertNotEqual(wave1, wave2)
+
     def test_missing_wave_models_fall_back_to_global(self) -> None:
         global_loaded = _load()
         self.assertIsNotNone(global_loaded)
-        with mock.patch(
+        with mock.patch.dict(os.environ, {"HARNESS_WAVE_MODELS": "1"}), mock.patch(
             "harness.solving.success_predictors.model._load_wave_models",
             return_value=None,
         ):
@@ -197,7 +214,9 @@ class OnlinePredictorTest(unittest.TestCase):
         _, meta = global_loaded
         broken = mock.Mock()
         broken.predict_proba.side_effect = RuntimeError("broken model")
-        with mock.patch(
+        with mock.patch.dict(
+            os.environ, {"HARNESS_WAVE_MODELS": "1"}
+        ), mock.patch(
             "harness.solving.success_predictors.model._load_wave_models",
             return_value=({"2": broken}, meta),
         ):

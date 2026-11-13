@@ -3,7 +3,7 @@
 - Статус: implemented
 - Дата: 2026-11-13
 - Заменяет (Supersedes): —
-- Заменено (Superseded by): —
+- Заменено (Superseded by): 0022
 - Меняет поведение: `specification/behavior/01_runtime.md`,
   `specification/behavior/04_budget_and_selection.md`
 - Связанные эксперименты: `research/experiments/0012-wave-specific-models.md`

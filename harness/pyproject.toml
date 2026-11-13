@@ -1,6 +1,6 @@
 [project]
 name = "openjiuwen-harness"
-version = "0006"
+version = "0007"
 description = "Budget-aware harness for the OpenJiuwen Challenge 2026"
 requires-python = ">=3.11,<3.14"
 dependencies = [
