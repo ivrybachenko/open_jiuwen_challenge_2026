@@ -1,0 +1,810 @@
+{
+  "run_id": "exp0012-i-r1-20261113T165927",
+  "repeat": 1,
+  "model": "qwen3.6-35b-a3b-noreason",
+  "max_waves": 6,
+  "command": [
+    "/Users/zbr174/dev/open_jiuwen_challenge_2026/harness/.venv/bin/python",
+    "-m",
+    "harness.run_agent",
+    "--tasks-dir",
+    "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0012-wave-specific-models/results/repI/run-01/work/tasks",
+    "--out",
+    "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0012-wave-specific-models/results/repI/run-01/solutions.json",
+    "--model",
+    "qwen3.6-35b-a3b-noreason",
+    "--trajectories-dir",
+    "/Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0012-wave-specific-models/results/repI/run-01/traj",
+    "--run-id",
+    "exp0012-i-r1-20261113T165927",
+    "--max-waves",
+    "6",
+    "--wave2-max-tasks",
+    "0",
+    "--log-level",
+    "WARNING"
+  ],
+  "returncode": 0,
+  "timed_out": false,
+  "duration_seconds": 252.480793582974,
+  "summary": {
+    "score": 97.0,
+    "max_score": 137.0,
+    "solved_tasks": 24,
+    "total_tasks": 32,
+    "input_tokens": 79954,
+    "output_tokens": 14483,
+    "cost": 22505
+  },
+  "tasks": [
+    {
+      "task_id": "coding_0202",
+      "task_path": "coding/solvable/0008",
+      "task_type": "coding",
+      "reward": 8.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": true,
+      "score": 8.0,
+      "verdict": {
+        "task_id": "coding_0202",
+        "check": "exact_str",
+        "solved": true,
+        "expected": "HELLO-42",
+        "actual": "HELLO-42",
+        "detail": "matched 'hello-42'"
+      },
+      "tokens": {
+        "input": 616,
+        "output": 119,
+        "cost": 181
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "coding_0208",
+      "task_path": "coding/solvable/0014",
+      "task_type": "coding",
+      "reward": 2.0,
+      "check": "unittest",
+      "solvable": true,
+      "solved": true,
+      "score": 2.0,
+      "verdict": {
+        "task_id": "coding_0208",
+        "check": "unittest",
+        "solved": true,
+        "expected": "tests_pass",
+        "actual": "DONE",
+        "detail": "1 test file(s) passed"
+      },
+      "tokens": {
+        "input": 980,
+        "output": 74,
+        "cost": 172
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "coding_0210",
+      "task_path": "coding/solvable/0016",
+      "task_type": "coding",
+      "reward": 3.0,
+      "check": "unittest",
+      "solvable": true,
+      "solved": true,
+      "score": 3.0,
+      "verdict": {
+        "task_id": "coding_0210",
+        "check": "unittest",
+        "solved": true,
+        "expected": "tests_pass",
+        "actual": "DONE",
+        "detail": "1 test file(s) passed"
+      },
+      "tokens": {
+        "input": 3031,
+        "output": 1227,
+        "cost": 1531
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "coding_0219",
+      "task_path": "coding/solvable/0025",
+      "task_type": "coding",
+      "reward": 3.0,
+      "check": "unittest",
+      "solvable": true,
+      "solved": true,
+      "score": 3.0,
+      "verdict": {
+        "task_id": "coding_0219",
+        "check": "unittest",
+        "solved": true,
+        "expected": "tests_pass",
+        "actual": "DONE",
+        "detail": "1 test file(s) passed"
+      },
+      "tokens": {
+        "input": 8114,
+        "output": 402,
+        "cost": 1215
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "coding_0227",
+      "task_path": "coding/solvable/0033",
+      "task_type": "coding",
+      "reward": 8.0,
+      "check": "hidden_unittest",
+      "solvable": true,
+      "solved": true,
+      "score": 8.0,
+      "verdict": {
+        "task_id": "coding_0227",
+        "check": "hidden_unittest",
+        "solved": true,
+        "expected": "tests_pass",
+        "actual": "DONE",
+        "detail": "1 hidden test file(s) passed"
+      },
+      "tokens": {
+        "input": 636,
+        "output": 389,
+        "cost": 453
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "coding_0234",
+      "task_path": "coding/solvable/0040",
+      "task_type": "coding",
+      "reward": 6.0,
+      "check": "hidden_unittest",
+      "solvable": true,
+      "solved": true,
+      "score": 6.0,
+      "verdict": {
+        "task_id": "coding_0234",
+        "check": "hidden_unittest",
+        "solved": true,
+        "expected": "tests_pass",
+        "actual": "DONE",
+        "detail": "1 hidden test file(s) passed"
+      },
+      "tokens": {
+        "input": 640,
+        "output": 687,
+        "cost": 751
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "coding_0124",
+      "task_path": "coding/impossible/0008",
+      "task_type": "coding",
+      "reward": 3.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "coding_0124",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": null,
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 10249,
+        "output": 381,
+        "cost": 1407
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "coding_0314",
+      "task_path": "coding/impossible/0014",
+      "task_type": "coding",
+      "reward": 6.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "coding_0314",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": null,
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 11527,
+        "output": 1836,
+        "cost": 2993
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "data_analysis_0206",
+      "task_path": "data_analysis/solvable/0012",
+      "task_type": "data_analysis",
+      "reward": 5.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 5.0,
+      "verdict": {
+        "task_id": "data_analysis_0206",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "6",
+        "actual": "6",
+        "detail": "matched integer 6"
+      },
+      "tokens": {
+        "input": 683,
+        "output": 166,
+        "cost": 235
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "data_analysis_0208",
+      "task_path": "data_analysis/solvable/0014",
+      "task_type": "data_analysis",
+      "reward": 2.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": true,
+      "score": 2.0,
+      "verdict": {
+        "task_id": "data_analysis_0208",
+        "check": "exact_str",
+        "solved": true,
+        "expected": "adapter",
+        "actual": "adapter",
+        "detail": "matched 'adapter'"
+      },
+      "tokens": {
+        "input": 690,
+        "output": 178,
+        "cost": 247
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "data_analysis_0209",
+      "task_path": "data_analysis/solvable/0015",
+      "task_type": "data_analysis",
+      "reward": 7.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 7.0,
+      "verdict": {
+        "task_id": "data_analysis_0209",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "975",
+        "actual": "975",
+        "detail": "matched integer 975"
+      },
+      "tokens": {
+        "input": 736,
+        "output": 241,
+        "cost": 315
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "data_analysis_0217",
+      "task_path": "data_analysis/solvable/0023",
+      "task_type": "data_analysis",
+      "reward": 2.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 2.0,
+      "verdict": {
+        "task_id": "data_analysis_0217",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "6",
+        "actual": "6",
+        "detail": "matched integer 6"
+      },
+      "tokens": {
+        "input": 657,
+        "output": 141,
+        "cost": 207
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "data_analysis_0225",
+      "task_path": "data_analysis/solvable/0031",
+      "task_type": "data_analysis",
+      "reward": 3.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": true,
+      "score": 3.0,
+      "verdict": {
+        "task_id": "data_analysis_0225",
+        "check": "exact_str",
+        "solved": true,
+        "expected": "2020-06-15",
+        "actual": "2020-06-15",
+        "detail": "matched '2020-06-15'"
+      },
+      "tokens": {
+        "input": 680,
+        "output": 420,
+        "cost": 488
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "data_analysis_0229",
+      "task_path": "data_analysis/solvable/0035",
+      "task_type": "data_analysis",
+      "reward": 1.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 1.0,
+      "verdict": {
+        "task_id": "data_analysis_0229",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "5",
+        "actual": "5",
+        "detail": "matched integer 5"
+      },
+      "tokens": {
+        "input": 636,
+        "output": 208,
+        "cost": 272
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "data_analysis_0314",
+      "task_path": "data_analysis/impossible/0014",
+      "task_type": "data_analysis",
+      "reward": 7.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "data_analysis_0314",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": "7.0",
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 692,
+        "output": 165,
+        "cost": 235
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "data_analysis_0316",
+      "task_path": "data_analysis/impossible/0016",
+      "task_type": "data_analysis",
+      "reward": 2.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "data_analysis_0316",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": "alpha",
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 682,
+        "output": 353,
+        "cost": 422
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "math_0004",
+      "task_path": "math/solvable/0002",
+      "task_type": "math",
+      "reward": 2.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 2.0,
+      "verdict": {
+        "task_id": "math_0004",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "1735",
+        "actual": "1735",
+        "detail": "matched integer 1735"
+      },
+      "tokens": {
+        "input": 677,
+        "output": 47,
+        "cost": 115
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "math_0104",
+      "task_path": "math/solvable/0006",
+      "task_type": "math",
+      "reward": 6.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 6.0,
+      "verdict": {
+        "task_id": "math_0104",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "27872",
+        "actual": "27872",
+        "detail": "matched integer 27872"
+      },
+      "tokens": {
+        "input": 1560,
+        "output": 125,
+        "cost": 282
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "math_0214",
+      "task_path": "math/solvable/0020",
+      "task_type": "math",
+      "reward": 6.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 6.0,
+      "verdict": {
+        "task_id": "math_0214",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "155117520",
+        "actual": "155117520",
+        "detail": "matched integer 155117520"
+      },
+      "tokens": {
+        "input": 653,
+        "output": 114,
+        "cost": 180
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "math_0222",
+      "task_path": "math/solvable/0028",
+      "task_type": "math",
+      "reward": 1.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": true,
+      "score": 1.0,
+      "verdict": {
+        "task_id": "math_0222",
+        "check": "exact_str",
+        "solved": true,
+        "expected": "17/4",
+        "actual": "17/4",
+        "detail": "matched '17/4'"
+      },
+      "tokens": {
+        "input": 659,
+        "output": 436,
+        "cost": 502
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "math_0228",
+      "task_path": "math/solvable/0034",
+      "task_type": "math",
+      "reward": 6.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": true,
+      "score": 6.0,
+      "verdict": {
+        "task_id": "math_0228",
+        "check": "exact_str",
+        "solved": true,
+        "expected": "2025-03-10 17:05",
+        "actual": "2025-03-10 17:05",
+        "detail": "matched '2025-03-10 17:05'"
+      },
+      "tokens": {
+        "input": 678,
+        "output": 172,
+        "cost": 240
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "math_0232",
+      "task_path": "math/solvable/0038",
+      "task_type": "math",
+      "reward": 8.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 8.0,
+      "verdict": {
+        "task_id": "math_0232",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "302",
+        "actual": "302",
+        "detail": "matched integer 302"
+      },
+      "tokens": {
+        "input": 1805,
+        "output": 567,
+        "cost": 749
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "math_0116",
+      "task_path": "math/impossible/0004",
+      "task_type": "math",
+      "reward": 6.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "math_0116",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": "IMPOSSIBLE",
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 16352,
+        "output": 3401,
+        "cost": 5039
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "math_0132",
+      "task_path": "math/impossible/0008",
+      "task_type": "math",
+      "reward": 5.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "math_0132",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": "100",
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 659,
+        "output": 915,
+        "cost": 981
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "search_0005",
+      "task_path": "search/solvable/0002",
+      "task_type": "search",
+      "reward": 2.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": true,
+      "score": 2.0,
+      "verdict": {
+        "task_id": "search_0005",
+        "check": "exact_str",
+        "solved": true,
+        "expected": "Osaka",
+        "actual": "Osaka",
+        "detail": "matched 'osaka'"
+      },
+      "tokens": {
+        "input": 4994,
+        "output": 106,
+        "cost": 607
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "search_0201",
+      "task_path": "search/solvable/0007",
+      "task_type": "search",
+      "reward": 3.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": true,
+      "score": 3.0,
+      "verdict": {
+        "task_id": "search_0201",
+        "check": "exact_str",
+        "solved": true,
+        "expected": "3.7.2",
+        "actual": "3.7.2",
+        "detail": "matched '3.7.2'"
+      },
+      "tokens": {
+        "input": 2268,
+        "output": 79,
+        "cost": 307
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "search_0207",
+      "task_path": "search/solvable/0013",
+      "task_type": "search",
+      "reward": 3.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 3.0,
+      "verdict": {
+        "task_id": "search_0207",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "8443",
+        "actual": "8443",
+        "detail": "matched integer 8443"
+      },
+      "tokens": {
+        "input": 1403,
+        "output": 48,
+        "cost": 190
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "search_0215",
+      "task_path": "search/solvable/0021",
+      "task_type": "search",
+      "reward": 4.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": true,
+      "score": 4.0,
+      "verdict": {
+        "task_id": "search_0215",
+        "check": "exact_str",
+        "solved": true,
+        "expected": "Lisbon",
+        "actual": "Lisbon",
+        "detail": "matched 'lisbon'"
+      },
+      "tokens": {
+        "input": 2347,
+        "output": 142,
+        "cost": 378
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "search_0216",
+      "task_path": "search/solvable/0022",
+      "task_type": "search",
+      "reward": 2.0,
+      "check": "exact_str",
+      "solvable": true,
+      "solved": true,
+      "score": 2.0,
+      "verdict": {
+        "task_id": "search_0216",
+        "check": "exact_str",
+        "solved": true,
+        "expected": "u-17",
+        "actual": "u-17",
+        "detail": "matched 'u-17'"
+      },
+      "tokens": {
+        "input": 709,
+        "output": 203,
+        "cost": 274
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "search_0229",
+      "task_path": "search/solvable/0035",
+      "task_type": "search",
+      "reward": 4.0,
+      "check": "exact_int",
+      "solvable": true,
+      "solved": true,
+      "score": 4.0,
+      "verdict": {
+        "task_id": "search_0229",
+        "check": "exact_int",
+        "solved": true,
+        "expected": "7",
+        "actual": "7",
+        "detail": "matched integer 7"
+      },
+      "tokens": {
+        "input": 668,
+        "output": 516,
+        "cost": 583
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "search_0313",
+      "task_path": "search/impossible/0013",
+      "task_type": "search",
+      "reward": 4.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "search_0313",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": "Decoded bytes: b'{\"status\": \"ok\"'\nDecoded string: {\"status\": \"ok\"\nError: Expecting ',' delimiter: line 1 column 16 (char 15)",
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 1805,
+        "output": 562,
+        "cost": 744
+      },
+      "test_files_modified": []
+    },
+    {
+      "task_id": "search_0314",
+      "task_path": "search/impossible/0014",
+      "task_type": "search",
+      "reward": 7.0,
+      "check": "none",
+      "solvable": false,
+      "solved": false,
+      "score": 0.0,
+      "verdict": {
+        "task_id": "search_0314",
+        "check": "none",
+        "solved": false,
+        "expected": null,
+        "actual": "ma",
+        "detail": "task is marked unsolvable; no points are awarded"
+      },
+      "tokens": {
+        "input": 1468,
+        "output": 63,
+        "cost": 210
+      },
+      "test_files_modified": []
+    }
+  ],
+  "work_dir": "research/experiments/0012-wave-specific-models/results/repI/run-01/work"
+}
