@@ -1,0 +1,233 @@
+{
+  "tasks": 240,
+  "features": [
+    "reward",
+    "ins_chars",
+    "ins_words",
+    "ins_unique_words",
+    "ins_sentences",
+    "ins_clauses",
+    "ins_lines",
+    "ins_digits",
+    "ins_numbers",
+    "ins_max_number_digits",
+    "ins_backticks",
+    "ins_unique_backticks",
+    "ins_file_names",
+    "ins_question_marks",
+    "ins_commas",
+    "ins_semicolons",
+    "ins_parentheses",
+    "ins_uppercase_ratio",
+    "ins_avg_word_len",
+    "ins_kw_inspect",
+    "ins_kw_inspect_per100",
+    "ins_kw_compute",
+    "ins_kw_compute_per100",
+    "ins_kw_modify",
+    "ins_kw_modify_per100",
+    "ins_kw_verify",
+    "ins_kw_verify_per100",
+    "ins_kw_data",
+    "ins_kw_data_per100",
+    "ins_kw_logic",
+    "ins_kw_logic_per100",
+    "ins_kw_math",
+    "ins_kw_math_per100",
+    "ins_kw_step",
+    "ins_kw_step_per100",
+    "ins_chars_raw",
+    "ins_words_raw",
+    "ws_files",
+    "ws_dirs",
+    "ws_bytes",
+    "ws_text_bytes",
+    "ws_binary_files",
+    "ws_empty_files",
+    "ws_total_lines",
+    "ws_max_file_bytes",
+    "ws_max_file_lines",
+    "ws_mean_file_bytes",
+    "ws_max_depth",
+    "ws_top_entries",
+    "ws_py_files",
+    "ws_py_lines",
+    "ws_test_files",
+    "ws_test_bytes",
+    "ws_csv_files",
+    "ws_csv_rows",
+    "ws_csv_max_rows",
+    "ws_csv_max_cols",
+    "ws_json_files",
+    "ws_jsonl_files",
+    "ws_jsonl_lines",
+    "ws_md_files",
+    "ws_txt_files",
+    "ws_log_files",
+    "ws_data_files",
+    "ws_code_files",
+    "ws_has_tests",
+    "ws_text_words",
+    "ws_py_defs",
+    "ws_py_classes",
+    "ws_py_asserts",
+    "overview_chars",
+    "overview_lines",
+    "overview_fails",
+    "overview_passes",
+    "overview_notimplemented",
+    "overview_asserts",
+    "overview_syntax",
+    "overview_typeerror",
+    "overview_filenames",
+    "overview_dollar_lines",
+    "tests_in_overview",
+    "task_type"
+  ],
+  "cost_current": {
+    "baseline_random": {
+      "mae": 204.25833333333333,
+      "r2": -0.05994390665745364,
+      "spearman": 0.03570285568291466
+    },
+    "rf_random": {
+      "n": 240,
+      "mae": 188.38225457034423,
+      "medae": 107.60027150960079,
+      "rmse": 434.59227716777724,
+      "r2": 0.05167308787787761,
+      "spearman": 0.42211004678199676,
+      "mape": 0.49002123428437666
+    },
+    "bootstrap_random": {
+      "mae_ci": [
+        145.9445838121962,
+        257.3329818036821
+      ],
+      "spearman_ci": [
+        0.317475084423442,
+        0.5197097621604868
+      ]
+    },
+    "baseline_category": {
+      "mae": 205.31666666666666,
+      "r2": -0.057356478766748875,
+      "spearman": -0.13733251482292166
+    },
+    "rf_category": {
+      "n": 240,
+      "mae": 197.2207413950505,
+      "medae": 109.16100487364753,
+      "rmse": 443.6102909590316,
+      "r2": 0.01190820897129563,
+      "spearman": 0.2891112143409169,
+      "mape": 0.5432781008778792
+    },
+    "baseline_block": {
+      "mae": 227.6875,
+      "r2": -0.09916394389191718,
+      "spearman": -0.340774394625718
+    },
+    "rf_block": {
+      "n": 240,
+      "mae": 211.09751703225115,
+      "medae": 141.0271146217955,
+      "rmse": 447.7919930956741,
+      "r2": -0.006808130065514728,
+      "spearman": 0.1485687499312124,
+      "mape": 0.6682737474428408
+    }
+  },
+  "importance": [
+    {
+      "feature": "ins_chars_raw",
+      "importance": 0.11516303692529925
+    },
+    {
+      "feature": "ins_words_raw",
+      "importance": 0.10461881132181204
+    },
+    {
+      "feature": "ins_avg_word_len",
+      "importance": 0.08541103084673612
+    },
+    {
+      "feature": "ins_kw_modify_per100",
+      "importance": 0.06332030866112967
+    },
+    {
+      "feature": "reward",
+      "importance": 0.054666840857417416
+    },
+    {
+      "feature": "ins_uppercase_ratio",
+      "importance": 0.05435681519424131
+    },
+    {
+      "feature": "overview_chars",
+      "importance": 0.04837363477295967
+    },
+    {
+      "feature": "ins_kw_inspect_per100",
+      "importance": 0.039212740777055645
+    },
+    {
+      "feature": "ws_test_bytes",
+      "importance": 0.03807177418065844
+    },
+    {
+      "feature": "ins_chars",
+      "importance": 0.03531811920857559
+    },
+    {
+      "feature": "ins_unique_words",
+      "importance": 0.025914604336072657
+    },
+    {
+      "feature": "ins_kw_math_per100",
+      "importance": 0.025588460620005478
+    },
+    {
+      "feature": "ins_numbers",
+      "importance": 0.022444776608657804
+    },
+    {
+      "feature": "ws_top_entries",
+      "importance": 0.021235994958782603
+    },
+    {
+      "feature": "ins_digits",
+      "importance": 0.0186437709990116
+    },
+    {
+      "feature": "ins_kw_compute_per100",
+      "importance": 0.018298949532563235
+    },
+    {
+      "feature": "ws_mean_file_bytes",
+      "importance": 0.017868924389338684
+    },
+    {
+      "feature": "ins_sentences",
+      "importance": 0.015819862220532
+    },
+    {
+      "feature": "ins_words",
+      "importance": 0.014868726360638865
+    },
+    {
+      "feature": "ws_max_file_bytes",
+      "importance": 0.014422616623210722
+    }
+  ],
+  "two_stage": {
+    "n": 240,
+    "mae": 228.85527712763457,
+    "r2": -0.14836810014373203,
+    "spearman": 0.1826887101759526,
+    "bootstrap_mae_ci": [
+      179.02775277255947,
+      298.0618098941332
+    ]
+  }
+}

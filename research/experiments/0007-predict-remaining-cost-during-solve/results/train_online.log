@@ -1,0 +1,93 @@
+groups: 1290; tasks: 240
+source
+exp:research/experiments/0003-reasoning-models-and-explanations/results/nn-explain              32
+exp:research/experiments/0003-reasoning-models-and-explanations/results/nn-explain-single       32
+exp:research/experiments/0003-reasoning-models-and-explanations/results/nn-plain                32
+exp:research/experiments/0003-reasoning-models-and-explanations/results/nn-single               32
+exp:research/experiments/0003-reasoning-models-and-explanations/results/nr-explain              32
+exp:research/experiments/0003-reasoning-models-and-explanations/results/nr-explain-single       32
+exp:research/experiments/0003-reasoning-models-and-explanations/results/nr-plain                32
+exp:research/experiments/0003-reasoning-models-and-explanations/results/repeats-1/nn-plain      32
+exp:research/experiments/0003-reasoning-models-and-explanations/results/repeats-1/nn-single     32
+exp:research/experiments/0003-reasoning-models-and-explanations/results/repeats-1/nr-plain      32
+exp:research/experiments/0003-reasoning-models-and-explanations/results/repeats-2/nn-plain      32
+exp:research/experiments/0003-reasoning-models-and-explanations/results/repeats-2/nn-single     32
+exp:research/experiments/0003-reasoning-models-and-explanations/results/repeats-2/nr-plain      32
+exp:research/experiments/0003-reasoning-models-and-explanations/results/repeats-3/nn-plain      32
+exp:research/experiments/0003-reasoning-models-and-explanations/results/repeats-3/nn-single     32
+exp:research/experiments/0003-reasoning-models-and-explanations/results/repeats-3/nr-plain      32
+exp:research/experiments/0003-reasoning-models-and-explanations/results/route-search-r          26
+exp:research/experiments/0004-solve-or-collect-next-turn-data/results/base-nn/run-01            32
+exp:research/experiments/0004-solve-or-collect-next-turn-data/results/base-nn/run-02            32
+exp:research/experiments/0004-solve-or-collect-next-turn-data/results/base-nn/run-03            32
+exp:research/experiments/0004-solve-or-collect-next-turn-data/results/base-nn/run-04            32
+exp:research/experiments/0004-solve-or-collect-next-turn-data/results/goal-nn/run-01            32
+exp:research/experiments/0004-solve-or-collect-next-turn-data/results/goal-nn/run-02            32
+exp:research/experiments/0004-solve-or-collect-next-turn-data/results/goal-nn/run-03            32
+exp:research/experiments/0004-solve-or-collect-next-turn-data/results/goal-nn/run-04            32
+exp:research/experiments/0005-verdict-confidence-file/results/base-nn/run-01                    32
+exp:research/experiments/0005-verdict-confidence-file/results/base-nn/run-02                    32
+exp:research/experiments/0005-verdict-confidence-file/results/verdict-hard-nn/run-01            32
+exp:research/experiments/0005-verdict-confidence-file/results/verdict-hard-nn/run-02            32
+exp:research/experiments/0005-verdict-confidence-file/results/verdict-hard-nn/run-03            32
+exp:research/experiments/0005-verdict-confidence-file/results/verdict-hard-nn/run-04            32
+exp:research/experiments/0005-verdict-confidence-file/results/verdict-nn/run-01                 32
+exp:research/experiments/0005-verdict-confidence-file/results/verdict-nn/run-02                 32
+fresh:rep100/shard0                                                                            120
+fresh:rep100/shard1                                                                            120
+
+== next turn cost ==
+-- next_input: median=1096, MAE(median)=294
+-- next_output: median=172, MAE(median)=307
+-- next_cost: median=289, MAE(median)=320
+next_input   ridge  MAE=   32.9 MAPE= 3.962 R2= 0.958 rho= 0.991
+next_input   rf     MAE=   65.6 MAPE= 4.074 R2= 0.912 rho= 0.965
+next_input   hgb    MAE=   68.1 MAPE= 3.967 R2= 0.900 rho= 0.956
+next_output  ridge  MAE=  301.1 MAPE= 4.993 R2= 0.006 rho= 0.494
+next_output  rf     MAE=  293.8 MAPE= 4.739 R2= 0.024 rho= 0.510
+next_output  hgb    MAE=  313.4 MAPE= 4.823 R2=-0.017 rho= 0.449
+next_cost    ridge  MAE=  301.2 MAPE= 2.917 R2= 0.039 rho= 0.553
+next_cost    rf     MAE=  292.6 MAPE= 3.019 R2= 0.062 rho= 0.582
+next_cost    hgb    MAE=  314.2 MAPE= 2.830 R2= 0.018 rho= 0.538
+next_input   formula MAE=   62.3
+next_cost   rule by answer_kind MAE= 319.7
+
+== remaining cost ==
+unanswered: 467
+remaining/ridge  MAE=  402.7 R2=-0.518 rho= 0.412
+remaining/rf     MAE=  303.1 R2= 0.021 rho= 0.567
+remaining/hgb    MAE=  312.8 R2=-0.011 rho= 0.540
+remaining/median MAE=  320.0 value=288
+total/hgb MAE=  133.8 R2= 0.523
+
+== correctness ==
+-- correct
+correct          logreg AUC=0.740 PR=0.751 Brier=0.216 acc=0.686
+correct          rf     AUC=0.761 PR=0.766 Brier=0.199 acc=0.715
+correct          hgb    AUC=0.666 PR=0.723 Brier=0.309 acc=0.643
+correct          rule   AUC=0.770 acc=0.786
+-- impossible_label
+impossible_label logreg AUC=0.597 PR=0.422 Brier=0.244 acc=0.656
+impossible_label rf     AUC=0.533 PR=0.416 Brier=0.223 acc=0.702
+impossible_label hgb    AUC=0.525 PR=0.321 Brier=0.334 acc=0.609
+impossible_label rule   AUC=0.577 acc=0.746
+
+== leave-one-category-out ==
+correct [{'test_category': 'coding', 'n': 324, 'auc': 0.7360007639419405}, {'test_category': 'data_analysis', 'n': 324, 'auc': 0.5599808749701172}, {'test_category': 'math', 'n': 324, 'auc': 0.6818303571428571}, {'test_category': 'search', 'n': 318, 'auc': 0.7034369885433716}]
+impossible_label [{'test_category': 'coding', 'n': 324, 'auc': 0.5264315028336916}, {'test_category': 'data_analysis', 'n': 324, 'auc': 0.44093218682821966}, {'test_category': 'math', 'n': 324, 'auc': 0.6418311510650773}, {'test_category': 'search', 'n': 318, 'auc': 0.3800555415299167}]
+
+== selection ==
+{'lambda': 0.0, 'ran': 467, 'score': 483.0, 'cost': 365504.0, 'score_per_1k': 1.3214629662055681}
+{'lambda': 0.001, 'ran': 379, 'score': 441.0, 'cost': 322597.0, 'score_per_1k': 1.3670306915439387}
+{'lambda': 0.002, 'ran': 254, 'score': 412.0, 'cost': 257037.0, 'score_per_1k': 1.6028820753432385}
+{'lambda': 0.005, 'ran': 94, 'score': 217.0, 'cost': 168364.0, 'score_per_1k': 1.2888741061034426}
+{'lambda': 0.01, 'ran': 39, 'score': 17.0, 'cost': 154690.0, 'score_per_1k': 0.10989721378240351}
+{'lambda': 0.02, 'ran': 14, 'score': 7.0, 'cost': 142749.0, 'score_per_1k': 0.04903712110067321}
+{'lambda': 0.05, 'ran': 2, 'score': 0.0, 'cost': 140078.0, 'score_per_1k': 0.0}
+{'lambda': 0.1, 'ran': 2, 'score': 0.0, 'cost': 140078.0, 'score_per_1k': 0.0}
+{'lambda': 0.2, 'ran': 0, 'score': 0.0, 'cost': 139948.0, 'score_per_1k': 0.0}
+{'lambda': 0.5, 'ran': 0, 'score': 0.0, 'cost': 139948.0, 'score_per_1k': 0.0}
+always {'lambda': 0.0, 'ran': 467, 'score': 483.0, 'cost': 365504.0, 'score_per_1k': 1.3214629662055681}
+never {'lambda': 0.0, 'ran': 0, 'score': 0.0, 'cost': 139948.0, 'score_per_1k': 0.0}
+
+wrote /Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0007-predict-remaining-cost-during-solve/results/online_report.json

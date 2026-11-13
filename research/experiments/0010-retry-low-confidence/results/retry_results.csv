@@ -1,0 +1,9 @@
+task_id,probability,old_correct,new_correct,extra_tokens
+coding_0101,0.0255,0,0,204
+coding_0221,0.0636,0,0,208
+coding_0223,0.0725,0,0,214
+coding_0217,0.0840,0,0,188
+coding_0102,0.1126,0,0,143
+data_analysis_0219,0.4740,0,0,812
+coding_0108,0.0495,0,0,176
+coding_0124,0.0535,0,0,175

@@ -1,0 +1,24 @@
+{
+  "n": 80,
+  "mae": 288.5125,
+  "spearman": 0.26891185867336986,
+  "median_actual": 269.5,
+  "median_probe": 400.0,
+  "probe_input_tokens": 38417,
+  "probe_output_tokens": 4016,
+  "probe_cost_tokens": 7893,
+  "mae_median_baseline": 212.3375,
+  "solvable_auc": 0.575,
+  "bucket_counts": {
+    "low": 80
+  },
+  "tokens_by_bucket": {
+    "low": 400.0
+  },
+  "actual_by_bucket": {
+    "low": 269.5
+  },
+  "static_spearman": 0.33553294741866274,
+  "static_mae": 204.65463201553567,
+  "n_static": 80
+}

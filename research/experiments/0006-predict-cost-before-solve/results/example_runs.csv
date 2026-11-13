@@ -1,0 +1,9 @@
+rep,shard,task_id,rel,cost,wave1_cost,wave2_cost,turns,answered_wave1,solved_flag,correct,note
+100,0,coding_0003,coding/solvable/0001,368,95,273,2,0,True,True,answer_kind=done; attempts=2; wave2=yes; promise=0.000268
+100,0,coding_0007,coding/solvable/0002,332,94,238,2,0,True,True,answer_kind=done; attempts=2; wave2=yes; promise=0.000268
+100,0,data_analysis_0002,data_analysis/solvable/0001,216,216,0,1,1,True,True,answer_kind=value; attempts=1
+100,0,data_analysis_0006,data_analysis/solvable/0002,204,204,0,1,1,True,True,answer_kind=value; attempts=1
+100,0,math_0000,math/solvable/0001,193,193,0,1,1,True,True,answer_kind=value; attempts=1
+100,0,math_0004,math/solvable/0002,104,104,0,1,1,True,True,answer_kind=value; attempts=1
+100,0,search_0001,search/solvable/0001,178,87,91,2,0,False,False,answer_kind=none; attempts=2; wave2=yes; promise=0.000122
+100,0,search_0005,search/solvable/0002,190,87,103,2,0,False,False,answer_kind=none; attempts=2; wave2=yes; promise=0.000259

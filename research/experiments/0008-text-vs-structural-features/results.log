@@ -1,0 +1,36 @@
+tasks: 240, numeric: 70
+
+== current v0003 cost ==
+random    structural     MAE=  221.8 rho=0.211 R2=-0.120
+random    tfidf_word     MAE=  219.6 rho=0.226 R2=-0.114
+random    tfidf_char     MAE=  218.6 rho=0.240 R2=-0.114
+category  structural     MAE=  592.6 rho=0.057 R2=-2.836
+category  tfidf_word     MAE=  584.8 rho=0.057 R2=-2.782
+category  tfidf_char     MAE=  582.7 rho=0.061 R2=-2.757
+block     structural     MAE=  280.0 rho=-0.049 R2=-0.336
+block     tfidf_word     MAE=  276.6 rho=-0.036 R2=-0.326
+block     tfidf_char     MAE=  277.3 rho=-0.032 R2=-0.328
+
+== v0001 cost ==
+random    structural     MAE= 1546.6 rho=0.707 R2=0.539
+random    tfidf_word     MAE= 1530.6 rho=0.717 R2=0.545
+random    tfidf_char     MAE= 1527.6 rho=0.719 R2=0.546
+category  structural     MAE= 3938.3 rho=0.046 R2=-1.477
+category  tfidf_word     MAE= 3864.4 rho=0.061 R2=-1.393
+category  tfidf_char     MAE= 3827.0 rho=0.075 R2=-1.328
+block     structural     MAE= 2664.9 rho=0.265 R2=0.134
+block     tfidf_word     MAE= 2632.5 rho=0.266 R2=0.156
+block     tfidf_char     MAE= 2660.6 rho=0.264 R2=0.146
+
+== impossible ==
+random    structural     AUC=0.972 PR=0.891
+random    tfidf_word     AUC=0.972 PR=0.893
+random    tfidf_char     AUC=0.972 PR=0.893
+category  structural     AUC=0.746 PR=0.638
+category  tfidf_word     AUC=0.741 PR=0.626
+category  tfidf_char     AUC=0.744 PR=0.636
+block     structural     AUC=0.618 PR=0.363
+block     tfidf_word     AUC=0.615 PR=0.362
+block     tfidf_char     AUC=0.613 PR=0.360
+
+wrote /Users/zbr174/dev/open_jiuwen_challenge_2026/research/experiments/0008-text-vs-structural-features/results/text_report.json

@@ -1,0 +1,226 @@
+{
+  "candidates": 88,
+  "total_actual_remaining": 31238.0,
+  "policies": {
+    "0.10": {
+      "model": {
+        "budget": 3123.8,
+        "runs": 13,
+        "score": 40.0,
+        "cost": 3057.0,
+        "score_per_1k": 13.084723585214263
+      },
+      "promise": {
+        "budget": 3123.8,
+        "runs": 9,
+        "score": 23.0,
+        "cost": 3115.0,
+        "score_per_1k": 7.38362760834671
+      },
+      "always": {
+        "budget": 3123.8,
+        "runs": 11,
+        "score": 0.0,
+        "cost": 3098.0,
+        "score_per_1k": 0.0
+      },
+      "oracle": {
+        "budget": 3123.8,
+        "runs": 14,
+        "score": 75.0,
+        "cost": 3117.0,
+        "score_per_1k": 24.06159769008662
+      },
+      "cheapest": {
+        "budget": 3123.8,
+        "runs": 11,
+        "score": 7.0,
+        "cost": 3109.0,
+        "score_per_1k": 2.251527822450949
+      },
+      "never": {
+        "budget": 3123.8,
+        "runs": 0,
+        "score": 0.0,
+        "cost": 0.0,
+        "score_per_1k": 0.0
+      }
+    },
+    "0.25": {
+      "model": {
+        "budget": 7809.5,
+        "runs": 16,
+        "score": 40.0,
+        "cost": 7805.0,
+        "score_per_1k": 5.1249199231262015
+      },
+      "promise": {
+        "budget": 7809.5,
+        "runs": 14,
+        "score": 37.0,
+        "cost": 7728.0,
+        "score_per_1k": 4.787784679089027
+      },
+      "always": {
+        "budget": 7809.5,
+        "runs": 18,
+        "score": 12.0,
+        "cost": 7757.0,
+        "score_per_1k": 1.5469898156503803
+      },
+      "oracle": {
+        "budget": 7809.5,
+        "runs": 29,
+        "score": 85.0,
+        "cost": 7760.0,
+        "score_per_1k": 10.95360824742268
+      },
+      "cheapest": {
+        "budget": 7809.5,
+        "runs": 28,
+        "score": 34.0,
+        "cost": 7760.0,
+        "score_per_1k": 4.381443298969073
+      },
+      "never": {
+        "budget": 7809.5,
+        "runs": 0,
+        "score": 0.0,
+        "cost": 0.0,
+        "score_per_1k": 0.0
+      }
+    },
+    "0.50": {
+      "model": {
+        "budget": 15619.0,
+        "runs": 39,
+        "score": 69.0,
+        "cost": 15592.0,
+        "score_per_1k": 4.425346331452027
+      },
+      "promise": {
+        "budget": 15619.0,
+        "runs": 28,
+        "score": 55.0,
+        "cost": 15549.0,
+        "score_per_1k": 3.5372049649495145
+      },
+      "always": {
+        "budget": 15619.0,
+        "runs": 44,
+        "score": 38.0,
+        "cost": 15617.0,
+        "score_per_1k": 2.4332458218607926
+      },
+      "oracle": {
+        "budget": 15619.0,
+        "runs": 61,
+        "score": 85.0,
+        "cost": 15556.0,
+        "score_per_1k": 5.464129596297249
+      },
+      "cheapest": {
+        "budget": 15619.0,
+        "runs": 53,
+        "score": 57.0,
+        "cost": 15599.0,
+        "score_per_1k": 3.6540803897685747
+      },
+      "never": {
+        "budget": 15619.0,
+        "runs": 0,
+        "score": 0.0,
+        "cost": 0.0,
+        "score_per_1k": 0.0
+      }
+    },
+    "0.75": {
+      "model": {
+        "budget": 23428.5,
+        "runs": 55,
+        "score": 79.0,
+        "cost": 23423.0,
+        "score_per_1k": 3.3727532766938477
+      },
+      "promise": {
+        "budget": 23428.5,
+        "runs": 53,
+        "score": 69.0,
+        "cost": 23389.0,
+        "score_per_1k": 2.950104750096199
+      },
+      "always": {
+        "budget": 23428.5,
+        "runs": 58,
+        "score": 59.0,
+        "cost": 23415.0,
+        "score_per_1k": 2.519752295537049
+      },
+      "oracle": {
+        "budget": 23428.5,
+        "runs": 75,
+        "score": 85.0,
+        "cost": 23359.0,
+        "score_per_1k": 3.6388544030138275
+      },
+      "cheapest": {
+        "budget": 23428.5,
+        "runs": 70,
+        "score": 62.0,
+        "cost": 23413.0,
+        "score_per_1k": 2.6481014820826037
+      },
+      "never": {
+        "budget": 23428.5,
+        "runs": 0,
+        "score": 0.0,
+        "cost": 0.0,
+        "score_per_1k": 0.0
+      }
+    },
+    "1.00": {
+      "model": {
+        "budget": 31238.0,
+        "runs": 86,
+        "score": 85.0,
+        "cost": 31238.0,
+        "score_per_1k": 2.721044881234394
+      },
+      "promise": {
+        "budget": 31238.0,
+        "runs": 86,
+        "score": 85.0,
+        "cost": 31238.0,
+        "score_per_1k": 2.721044881234394
+      },
+      "always": {
+        "budget": 31238.0,
+        "runs": 86,
+        "score": 85.0,
+        "cost": 31238.0,
+        "score_per_1k": 2.721044881234394
+      },
+      "oracle": {
+        "budget": 31238.0,
+        "runs": 86,
+        "score": 85.0,
+        "cost": 31238.0,
+        "score_per_1k": 2.721044881234394
+      },
+      "cheapest": {
+        "budget": 31238.0,
+        "runs": 86,
+        "score": 85.0,
+        "cost": 31238.0,
+        "score_per_1k": 2.721044881234394
+      },
+      "never": {
+        "budget": 31238.0,
+        "runs": 0,
+        "score": 0.0,
+        "cost": 0.0,
+        "score_per_1k": 0.0
+      }
+    }
+  }
+}

@@ -94,10 +94,26 @@ cost = output_tokens + ceil(input_tokens / 10)
 - Бюджет проверяется перед каждым ходом. Ход может превысить лимит на свою стоимость, но его результат уже сохраняется, после чего прогон останавливается.
 - Расход восстанавливается из `solutions.json` при повторном запуске процесса.
 
-**Предварительной регрессии стоимости нет.** Вторая волна ранжирует
-незавершённые задачи эвристикой по признакам первого хода; обучение
-предсказателя отложено. Агенту бюджет не сообщается, чтобы он рассуждал о
-задаче, а не о расходе. Подробности — в
+**В харнессе пока эвристика, но предиктор уже обучен в research.** Вторая
+волна ранжирует незавершённые задачи эвристикой по признакам первого хода;
+обученная модель в зачётный код не интегрирована. Эксперименты
+[0006](research/experiments/0006-predict-cost-before-solve.md) и
+[0007](research/experiments/0007-predict-remaining-cost-during-solve.md)
+показали: до решения стоимость предсказывается слабо (MAE на 4–8 % ниже
+медианы категории на текущем харнессе), а после первого хода вероятность
+правильного ответа предсказывается хорошо (ROC-AUC 0,901, Brier 0,127 на
+240 свежих задачах). Входная стоимость следующего хода предсказывается почти
+детерминированно (MAPE 4 %), выходная — нет. Артефакты лежат в
+`research/experiments/0006-predict-cost-before-solve/results/`
+(`cost_model.joblib`, `correct_model.joblib`, `predictor.json`). Текстовые
+эмбеддинги и прямой вопрос LLM о стоимости не помогли
+([0008](research/experiments/0008-text-vs-structural-features.md),
+[0009](research/experiments/0009-llm-cost-probe.md)), а наивная перепроверка
+отвеченных задач с низкой вероятностью не исправила ни одну из шести
+([0010](research/experiments/0010-retry-low-confidence.md)).
+
+Агенту бюджет не сообщается, чтобы он рассуждал о задаче, а не о расходе.
+Подробности — в
 [04_budget_and_selection.md](specification/behavior/04_budget_and_selection.md).
 
 ## Невыполнимые задачи
@@ -275,5 +291,6 @@ uv run python -m unittest discover -s test
 | Требования организаторов и примеры задач | [challenge_info/](challenge_info/) |
 | Текущее поведение и ограничения | [specification/behavior/](specification/behavior/README.md) |
 | Версии харнесса, результаты замеров и траектории | [data/](data/) |
+| Предсказание стоимости и модель | [research/experiments/0006-predict-cost-before-solve.md](research/experiments/0006-predict-cost-before-solve.md), [0007](research/experiments/0007-predict-remaining-cost-during-solve.md) |
 | Инструменты оценки и отчёты | [evaluation/README.md](evaluation/README.md) |
 | Правила разработки | [specification/constitution/](specification/constitution/README.md) |
